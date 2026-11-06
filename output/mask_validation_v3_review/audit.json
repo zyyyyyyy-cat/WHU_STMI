@@ -1,0 +1,26 @@
+{
+  "images": 300,
+  "records": 8600,
+  "unique_ids": 207,
+  "selected_masks_verified": 900,
+  "originals_dimensions_verified": 30,
+  "candidate_sets_count": 11700,
+  "archive_sha256": "f68b787bac6c479cf0d0cfe549f4d141ca30ebfbb5ec841993616e2286173f5c",
+  "geometry_change_counts": {
+    "R08_box_center": 5,
+    "R05_center_neg": 26,
+    "R12_padding_center": 42,
+    "R00_v1": 67,
+    "R01_center": 28,
+    "R13_padding_box": 31,
+    "R06_vertical_neg": 9,
+    "R07_box_only": 10,
+    "R04_compact": 14,
+    "R03_vertical": 30,
+    "R02_upper": 16,
+    "R14_IR_contrast": 2,
+    "R09_compact_box": 4
+  },
+  "png_area_matches_records": true,
+  "preview_jpegs_verified": 600
+}

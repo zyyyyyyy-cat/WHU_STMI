@@ -1,0 +1,1451 @@
+2026-11-05 09:37:29,746 transreid INFO: Saving model in the path :./logs/UAD_QG_SFM_R08_4GPU_seed1234
+2026-11-05 09:37:29,747 transreid INFO: Namespace(config_file='configs/UAD.yml', local_rank=0, opts=['MODEL.DIST_TRAIN', 'True', 'MODEL.PRETRAIN_PATH', '/project/code/data/jx_vit_base_p16_224-80ecf9dd.pth', 'DATASETS.ROOT_DIR', '/project/code/data', 'DATASETS.MASK_ROOT', '/project/code/data/WHU-MARS_masks_R08_v1', 'DATASETS.MASK_MANIFEST', '/project/code/data/WHU-MARS_masks_R08_v1/manifest.json', 'SOLVER.IMS_PER_BATCH', '256', 'SOLVER.BASE_LR', '0.032', 'SOLVER.MAX_EPOCHS', '120', 'SOLVER.SEED', '1234', 'TEST.IMS_PER_BATCH', '1024', 'OUTPUT_DIR', './logs/UAD_QG_SFM_R08_4GPU_seed1234'])
+2026-11-05 09:37:29,747 transreid INFO: DDP initialized with 4 processes; global sampler batch=256, per-GPU sampler batch=64, actual images per GPU=192
+2026-11-05 09:37:29,747 transreid INFO: Loaded configuration file configs/UAD.yml
+2026-11-05 09:37:29,747 transreid INFO: Running with config:
+DATALOADER:
+  NUM_INSTANCE: 4
+  NUM_WORKERS: 8
+  SAMPLER: PKM
+DATASETS:
+  DATASET_DIR: WHU-MARS
+  FILTER_GD: False
+  MASK_ENCODING: 0/255
+  MASK_MANIFEST: /project/code/data/WHU-MARS_masks_R08_v1/manifest.json
+  MASK_ROOT: /project/code/data/WHU-MARS_masks_R08_v1
+  MODALITIES: ('RGB', 'IR', 'Thermal')
+  NAMES: WHU-MARS
+  ROOT_DIR: /project/code/data
+INPUT:
+  PADDING: 10
+  PIXEL_MEAN: [0.5, 0.5, 0.5]
+  PIXEL_STD: [0.5, 0.5, 0.5]
+  PROB: 0.5
+  RE_PROB: 0.5
+  SIZE_TEST: [256, 128]
+  SIZE_TRAIN: [256, 128]
+MODEL:
+  ATT_DROP_RATE: 0.0
+  COS_LAYER: False
+  DEVICE: cuda
+  DEVICE_ID: 0
+  DEVIDE_LENGTH: 4
+  DIST_TRAIN: True
+  DROP_OUT: 0.0
+  DROP_PATH: 0.1
+  GPD_MOMENTUM: 0.2
+  ID_LOSS_TYPE: softmax
+  ID_LOSS_WEIGHT: 1.0
+  IF_LABELSMOOTH: off
+  IF_WITH_CENTER: no
+  JPM: False
+  LAST_STRIDE: 1
+  METRIC_LOSS_TYPE: wrt
+  NAME: transformer
+  NECK: bnneck
+  NO_MARGIN: True
+  PCA_LOSS_WEIGHT: 0.01
+  PRETRAIN_CHOICE: imagenet
+  PRETRAIN_PATH: /project/code/data/jx_vit_base_p16_224-80ecf9dd.pth
+  QG_SFM:
+    BOUND: 0.2
+    DIAGNOSTICS: True
+    ENABLED: True
+    MODE: qg
+    UNIFORM_COVERAGE: False
+  RE_ARRANGE: True
+  SHIFT_NUM: 5
+  SHUFFLE_GROUP: 2
+  SIE_CAMERA: False
+  SIE_COE: 3.0
+  SIE_VIEW: False
+  STRIDE_SIZE: [16, 16]
+  TRANSFORMER_TYPE: vit_base_in
+  TRIPLET_LOSS_WEIGHT: 1.0
+OUTPUT_DIR: ./logs/UAD_QG_SFM_R08_4GPU_seed1234
+SOLVER:
+  BASE_LR: 0.032
+  BIAS_LR_FACTOR: 2
+  CENTER_LOSS_WEIGHT: 0.0005
+  CENTER_LR: 0.5
+  CHECKPOINT_PERIOD: 120
+  COSINE_MARGIN: 0.5
+  COSINE_SCALE: 30
+  EVAL_PERIOD: 10
+  GAMMA: 0.1
+  IMS_PER_BATCH: 256
+  LARGE_FC_LR: False
+  LOG_PERIOD: 50
+  LOSS_TYPE: base+pca+gpd
+  MARGIN: 0.3
+  MAX_EPOCHS: 120
+  MOMENTUM: 0.9
+  OPTIMIZER_NAME: SGD
+  RESUME: 
+  SEED: 1234
+  STEPS: (40, 70)
+  WARMUP_EPOCHS: 5
+  WARMUP_FACTOR: 0.01
+  WARMUP_METHOD: linear
+  WEIGHT_DECAY: 0.0001
+  WEIGHT_DECAY_BIAS: 0.0001
+TEST:
+  DETAILED_DOMAIN_EVAL: False
+  DIST_MAT: dist_mat.npy
+  EVAL: False
+  FEAT_NORM: yes
+  IMS_PER_BATCH: 1024
+  NECK_FEAT: before
+  RE_RANKING: False
+  TOP_K_EVAL: 0
+  WEIGHT: 
+2026-11-05 09:38:17,986 transreid.train INFO: start training
+2026-11-05 09:38:18,063 transreid.train INFO: Using 4 GPUs for DDP training
+2026-11-05 09:38:19,429 transreid.train INFO: Feature dimension: 768; identities: 500
+2026-11-05 09:38:30,102 transreid.train WARNING: AMP skipped optimizer/prototype update: epoch=1 iteration=1 scale=65536.0 -> 32768.0
+2026-11-05 09:38:33,430 transreid.train WARNING: AMP skipped optimizer/prototype update: epoch=1 iteration=6 scale=32768.0 -> 16384.0
+2026-11-05 09:38:38,810 transreid.train WARNING: AMP skipped optimizer/prototype update: epoch=1 iteration=14 scale=16384.0 -> 8192.0
+2026-11-05 09:39:03,210 transreid.train INFO: Epoch[1] Iteration[50/114] Loss: 24.550, Acc: 0.002, Base Lr: 6.66e-03
+2026-11-05 09:39:03,210 transreid.train INFO: Epoch[1] 6.213, 12.082, 0.169, 6.253
+2026-11-05 09:39:03,211 transreid.train INFO: QG layer 01 rank0-local: raw=(0.007338, -0.004305), effective=(0.007335, -0.004305), R=0.004735
+2026-11-05 09:39:03,211 transreid.train INFO: QG layer 02 rank0-local: raw=(-0.006259, 0.010466), effective=(-0.006257, 0.010457), R=0.005271
+2026-11-05 09:39:03,212 transreid.train INFO: QG layer 03 rank0-local: raw=(-0.029412, 0.021720), effective=(-0.029202, 0.021635), R=0.015761
+2026-11-05 09:39:03,212 transreid.train INFO: QG layer 04 rank0-local: raw=(-0.006553, 0.009288), effective=(-0.006550, 0.009282), R=0.004110
+2026-11-05 09:39:03,212 transreid.train INFO: QG layer 05 rank0-local: raw=(0.000147, 0.001835), effective=(0.000147, 0.001835), R=0.001129
+2026-11-05 09:39:03,212 transreid.train INFO: QG layer 06 rank0-local: raw=(0.002355, 0.001503), effective=(0.002355, 0.001503), R=0.002317
+2026-11-05 09:39:03,212 transreid.train INFO: QG layer 07 rank0-local: raw=(0.002408, 0.015124), effective=(0.002408, 0.015096), R=0.010261
+2026-11-05 09:39:03,213 transreid.train INFO: QG layer 08 rank0-local: raw=(-0.000275, -0.004892), effective=(-0.000275, -0.004891), R=0.003176
+2026-11-05 09:39:03,213 transreid.train INFO: QG layer 09 rank0-local: raw=(0.000262, -0.006087), effective=(0.000262, -0.006085), R=0.003663
+2026-11-05 09:39:03,213 transreid.train INFO: QG layer 10 rank0-local: raw=(-0.005472, -0.013251), effective=(-0.005470, -0.013231), R=0.011079
+2026-11-05 09:39:03,213 transreid.train INFO: QG layer 11 rank0-local: raw=(-0.003545, -0.014447), effective=(-0.003545, -0.014422), R=0.010847
+2026-11-05 09:39:03,213 transreid.train INFO: QG layer 12 rank0-local: raw=(-0.002855, -0.017968), effective=(-0.002855, -0.017920), R=0.014734
+2026-11-05 09:39:38,069 transreid.train INFO: Epoch[1] Iteration[100/114] Loss: 18.733, Acc: 0.016, Base Lr: 6.66e-03
+2026-11-05 09:39:38,069 transreid.train INFO: Epoch[1] 6.187, 6.570, 0.106, 5.975
+2026-11-05 09:39:38,069 transreid.train INFO: QG layer 01 rank0-local: raw=(0.012361, -0.000322), effective=(0.012345, -0.000322), R=0.010562
+2026-11-05 09:39:38,069 transreid.train INFO: QG layer 02 rank0-local: raw=(-0.007005, 0.010588), effective=(-0.007002, 0.010578), R=0.005297
+2026-11-05 09:39:38,069 transreid.train INFO: QG layer 03 rank0-local: raw=(-0.041963, 0.019145), effective=(-0.041358, 0.019087), R=0.023655
+2026-11-05 09:39:38,069 transreid.train INFO: QG layer 04 rank0-local: raw=(-0.007033, 0.002965), effective=(-0.007030, 0.002965), R=0.003498
+2026-11-05 09:39:38,070 transreid.train INFO: QG layer 05 rank0-local: raw=(-0.004622, -0.000014), effective=(-0.004621, -0.000014), R=0.003031
+2026-11-05 09:39:38,070 transreid.train INFO: QG layer 06 rank0-local: raw=(-0.012848, -0.014542), effective=(-0.012831, -0.014516), R=0.015611
+2026-11-05 09:39:38,070 transreid.train INFO: QG layer 07 rank0-local: raw=(-0.005883, -0.000036), effective=(-0.005881, -0.000036), R=0.003271
+2026-11-05 09:39:38,070 transreid.train INFO: QG layer 08 rank0-local: raw=(-0.001901, 0.008194), effective=(-0.001901, 0.008189), R=0.004540
+2026-11-05 09:39:38,070 transreid.train INFO: QG layer 09 rank0-local: raw=(-0.002002, -0.005738), effective=(-0.002002, -0.005737), R=0.004247
+2026-11-05 09:39:38,070 transreid.train INFO: QG layer 10 rank0-local: raw=(-0.014248, -0.022813), effective=(-0.014224, -0.022714), R=0.020506
+2026-11-05 09:39:38,070 transreid.train INFO: QG layer 11 rank0-local: raw=(-0.004471, -0.013944), effective=(-0.004470, -0.013922), R=0.010619
+2026-11-05 09:39:38,070 transreid.train INFO: QG layer 12 rank0-local: raw=(0.016514, 0.003777), effective=(0.016477, 0.003777), R=0.012490
+2026-11-05 09:39:47,955 transreid.train INFO: Epoch 1 done. Time per batch: 0.760[s] Total: 86.7[s]
+2026-11-05 09:39:56,639 transreid.train INFO: Full checkpoint saved: epoch=1, successful_updates=111, AMP skips=3, scale=8192.0
+2026-11-05 09:40:34,182 transreid.train INFO: Epoch[2] Iteration[50/114] Loss: 13.033, Acc: 0.023, Base Lr: 1.30e-02
+2026-11-05 09:40:34,183 transreid.train INFO: Epoch[2] 5.996, 0.837, 0.068, 6.199
+2026-11-05 09:40:34,183 transreid.train INFO: QG layer 01 rank0-local: raw=(0.019417, 0.004684), effective=(0.019356, 0.004683), R=0.018654
+2026-11-05 09:40:34,183 transreid.train INFO: QG layer 02 rank0-local: raw=(-0.015959, 0.008403), effective=(-0.015925, 0.008398), R=0.008267
+2026-11-05 09:40:34,183 transreid.train INFO: QG layer 03 rank0-local: raw=(-0.040541, -0.002213), effective=(-0.039995, -0.002213), R=0.029135
+2026-11-05 09:40:34,183 transreid.train INFO: QG layer 04 rank0-local: raw=(0.000671, -0.014047), effective=(0.000671, -0.014024), R=0.007363
+2026-11-05 09:40:34,183 transreid.train INFO: QG layer 05 rank0-local: raw=(-0.007314, -0.004418), effective=(-0.007311, -0.004417), R=0.006468
+2026-11-05 09:40:34,183 transreid.train INFO: QG layer 06 rank0-local: raw=(-0.027685, -0.027122), effective=(-0.027509, -0.026957), R=0.030284
+2026-11-05 09:40:34,183 transreid.train INFO: QG layer 07 rank0-local: raw=(-0.008411, -0.007996), effective=(-0.008406, -0.007992), R=0.008663
+2026-11-05 09:40:34,184 transreid.train INFO: QG layer 08 rank0-local: raw=(0.005910, 0.048563), effective=(0.005909, 0.047630), R=0.032015
+2026-11-05 09:40:34,184 transreid.train INFO: QG layer 09 rank0-local: raw=(0.000128, 0.006521), effective=(0.000128, 0.006519), R=0.004025
+2026-11-05 09:40:34,184 transreid.train INFO: QG layer 10 rank0-local: raw=(-0.015654, -0.013272), effective=(-0.015622, -0.013252), R=0.016343
+2026-11-05 09:40:34,184 transreid.train INFO: QG layer 11 rank0-local: raw=(0.002408, 0.003927), effective=(0.002408, 0.003927), R=0.003674
+2026-11-05 09:40:34,184 transreid.train INFO: QG layer 12 rank0-local: raw=(0.028343, 0.001613), effective=(0.028155, 0.001613), R=0.019449
+2026-11-05 09:41:08,670 transreid.train INFO: Epoch[2] Iteration[100/114] Loss: 11.985, Acc: 0.043, Base Lr: 1.30e-02
+2026-11-05 09:41:08,670 transreid.train INFO: Epoch[2] 5.752, 0.784, 0.095, 5.447
+2026-11-05 09:41:08,670 transreid.train INFO: QG layer 01 rank0-local: raw=(0.015614, 0.020065), effective=(0.015583, 0.019998), R=0.023784
+2026-11-05 09:41:08,670 transreid.train INFO: QG layer 02 rank0-local: raw=(-0.017253, 0.015579), effective=(-0.017210, 0.015547), R=0.008907
+2026-11-05 09:41:08,670 transreid.train INFO: QG layer 03 rank0-local: raw=(-0.045326, 0.009883), effective=(-0.044566, 0.009875), R=0.027848
+2026-11-05 09:41:08,670 transreid.train INFO: QG layer 04 rank0-local: raw=(0.016043, 0.001115), effective=(0.016008, 0.001115), R=0.009533
+2026-11-05 09:41:08,670 transreid.train INFO: QG layer 05 rank0-local: raw=(0.009100, 0.041767), effective=(0.009094, 0.041170), R=0.026932
+2026-11-05 09:41:08,670 transreid.train INFO: QG layer 06 rank0-local: raw=(-0.023362, 0.007684), effective=(-0.023256, 0.007680), R=0.012323
+2026-11-05 09:41:08,671 transreid.train INFO: QG layer 07 rank0-local: raw=(-0.006327, 0.006441), effective=(-0.006325, 0.006438), R=0.003357
+2026-11-05 09:41:08,671 transreid.train INFO: QG layer 08 rank0-local: raw=(0.025491, 0.102749), effective=(0.025354, 0.094571), R=0.072301
+2026-11-05 09:41:08,671 transreid.train INFO: QG layer 09 rank0-local: raw=(0.006931, 0.027459), effective=(0.006928, 0.027288), R=0.018618
+2026-11-05 09:41:08,671 transreid.train INFO: QG layer 10 rank0-local: raw=(-0.013419, 0.005008), effective=(-0.013399, 0.005007), R=0.006222
+2026-11-05 09:41:08,671 transreid.train INFO: QG layer 11 rank0-local: raw=(0.019028, 0.038287), effective=(0.018971, 0.037826), R=0.033084
+2026-11-05 09:41:08,671 transreid.train INFO: QG layer 12 rank0-local: raw=(0.040064, 0.003541), effective=(0.039536, 0.003541), R=0.029035
+2026-11-05 09:41:18,319 transreid.train INFO: Epoch 2 done. Time per batch: 0.716[s] Total: 81.7[s]
+2026-11-05 09:41:26,360 transreid.train INFO: Full checkpoint saved: epoch=2, successful_updates=225, AMP skips=3, scale=8192.0
+2026-11-05 09:42:03,946 transreid.train INFO: Epoch[3] Iteration[50/114] Loss: 11.230, Acc: 0.044, Base Lr: 1.93e-02
+2026-11-05 09:42:03,946 transreid.train INFO: Epoch[3] 5.432, 0.735, 0.176, 5.062
+2026-11-05 09:42:03,946 transreid.train INFO: QG layer 01 rank0-local: raw=(0.012153, 0.012754), effective=(0.012138, 0.012736), R=0.016707
+2026-11-05 09:42:03,946 transreid.train INFO: QG layer 02 rank0-local: raw=(-0.020225, 0.010059), effective=(-0.020157, 0.010050), R=0.010881
+2026-11-05 09:42:03,946 transreid.train INFO: QG layer 03 rank0-local: raw=(-0.047906, -0.000468), effective=(-0.047010, -0.000468), R=0.033030
+2026-11-05 09:42:03,947 transreid.train INFO: QG layer 04 rank0-local: raw=(0.022017, 0.002336), effective=(0.021929, 0.002335), R=0.013411
+2026-11-05 09:42:03,947 transreid.train INFO: QG layer 05 rank0-local: raw=(0.010111, 0.065248), effective=(0.010102, 0.063028), R=0.040081
+2026-11-05 09:42:03,947 transreid.train INFO: QG layer 06 rank0-local: raw=(-0.039246, 0.017943), effective=(-0.038750, 0.017895), R=0.018881
+2026-11-05 09:42:03,947 transreid.train INFO: QG layer 07 rank0-local: raw=(-0.016190, 0.017182), effective=(-0.016154, 0.017140), R=0.008666
+2026-11-05 09:42:03,947 transreid.train INFO: QG layer 08 rank0-local: raw=(0.032085, 0.148773), effective=(0.031812, 0.126295), R=0.093290
+2026-11-05 09:42:03,947 transreid.train INFO: QG layer 09 rank0-local: raw=(0.006091, 0.048580), effective=(0.006090, 0.047647), R=0.030697
+2026-11-05 09:42:03,947 transreid.train INFO: QG layer 10 rank0-local: raw=(-0.017101, 0.020850), effective=(-0.017059, 0.020775), R=0.010567
+2026-11-05 09:42:03,947 transreid.train INFO: QG layer 11 rank0-local: raw=(0.033218, 0.070336), effective=(0.032916, 0.067573), R=0.058242
+2026-11-05 09:42:03,947 transreid.train INFO: QG layer 12 rank0-local: raw=(0.053706, 0.004320), effective=(0.052451, 0.004320), R=0.036417
+2026-11-05 09:42:38,422 transreid.train INFO: Epoch[3] Iteration[100/114] Loss: 10.094, Acc: 0.094, Base Lr: 1.93e-02
+2026-11-05 09:42:38,422 transreid.train INFO: Epoch[3] 5.094, 0.693, 0.210, 4.304
+2026-11-05 09:42:38,422 transreid.train INFO: QG layer 01 rank0-local: raw=(-0.004222, 0.020953), effective=(-0.004222, 0.020877), R=0.011337
+2026-11-05 09:42:38,422 transreid.train INFO: QG layer 02 rank0-local: raw=(-0.017195, 0.014094), effective=(-0.017153, 0.014070), R=0.009075
+2026-11-05 09:42:38,422 transreid.train INFO: QG layer 03 rank0-local: raw=(-0.047430, 0.009591), effective=(-0.046561, 0.009584), R=0.030188
+2026-11-05 09:42:38,423 transreid.train INFO: QG layer 04 rank0-local: raw=(0.030600, 0.019587), effective=(0.030363, 0.019525), R=0.025737
+2026-11-05 09:42:38,423 transreid.train INFO: QG layer 05 rank0-local: raw=(0.013240, 0.103655), effective=(0.013221, 0.095273), R=0.061012
+2026-11-05 09:42:38,423 transreid.train INFO: QG layer 06 rank0-local: raw=(-0.046348, 0.027835), effective=(-0.045536, 0.027656), R=0.022181
+2026-11-05 09:42:38,423 transreid.train INFO: QG layer 07 rank0-local: raw=(-0.019144, 0.056839), effective=(-0.019086, 0.055356), R=0.031148
+2026-11-05 09:42:38,423 transreid.train INFO: QG layer 08 rank0-local: raw=(0.040600, 0.181574), effective=(0.040052, 0.144022), R=0.115146
+2026-11-05 09:42:38,423 transreid.train INFO: QG layer 09 rank0-local: raw=(0.009875, 0.084456), effective=(0.009867, 0.079770), R=0.052899
+2026-11-05 09:42:38,424 transreid.train INFO: QG layer 10 rank0-local: raw=(-0.017467, 0.047838), effective=(-0.017423, 0.046946), R=0.026518
+2026-11-05 09:42:38,424 transreid.train INFO: QG layer 11 rank0-local: raw=(0.044481, 0.089970), effective=(0.043762, 0.084355), R=0.074763
+2026-11-05 09:42:38,424 transreid.train INFO: QG layer 12 rank0-local: raw=(0.069683, 0.001648), effective=(0.066994, 0.001648), R=0.046545
+2026-11-05 09:42:47,998 transreid.train INFO: Epoch 3 done. Time per batch: 0.716[s] Total: 81.6[s]
+2026-11-05 09:42:56,144 transreid.train INFO: Full checkpoint saved: epoch=3, successful_updates=339, AMP skips=3, scale=8192.0
+2026-11-05 09:43:33,844 transreid.train INFO: Epoch[4] Iteration[50/115] Loss: 9.735, Acc: 0.090, Base Lr: 2.57e-02
+2026-11-05 09:43:33,845 transreid.train INFO: Epoch[4] 4.966, 0.685, 0.264, 4.081
+2026-11-05 09:43:33,845 transreid.train INFO: QG layer 01 rank0-local: raw=(-0.021196, 0.018528), effective=(-0.021117, 0.018475), R=0.012641
+2026-11-05 09:43:33,845 transreid.train INFO: QG layer 02 rank0-local: raw=(-0.026924, 0.020884), effective=(-0.026763, 0.020808), R=0.013925
+2026-11-05 09:43:33,845 transreid.train INFO: QG layer 03 rank0-local: raw=(-0.044997, 0.012395), effective=(-0.044253, 0.012379), R=0.026557
+2026-11-05 09:43:33,845 transreid.train INFO: QG layer 04 rank0-local: raw=(0.024369, 0.007411), effective=(0.024249, 0.007408), R=0.016721
+2026-11-05 09:43:33,846 transreid.train INFO: QG layer 05 rank0-local: raw=(-0.006192, 0.094447), effective=(-0.006190, 0.088001), R=0.048033
+2026-11-05 09:43:33,846 transreid.train INFO: QG layer 06 rank0-local: raw=(-0.069109, 0.015748), effective=(-0.066483, 0.015715), R=0.035924
+2026-11-05 09:43:33,846 transreid.train INFO: QG layer 07 rank0-local: raw=(-0.036563, 0.050920), effective=(-0.036161, 0.049847), R=0.024679
+2026-11-05 09:43:33,846 transreid.train INFO: QG layer 08 rank0-local: raw=(0.025146, 0.198463), effective=(0.025014, 0.151670), R=0.108785
+2026-11-05 09:43:33,846 transreid.train INFO: QG layer 09 rank0-local: raw=(0.001231, 0.107400), effective=(0.001231, 0.098143), R=0.061406
+2026-11-05 09:43:33,846 transreid.train INFO: QG layer 10 rank0-local: raw=(-0.034485, 0.063887), effective=(-0.034148, 0.061799), R=0.032811
+2026-11-05 09:43:33,847 transreid.train INFO: QG layer 11 rank0-local: raw=(0.054595, 0.112517), effective=(0.053278, 0.101978), R=0.090035
+2026-11-05 09:43:33,847 transreid.train INFO: QG layer 12 rank0-local: raw=(0.082764, -0.008674), effective=(0.078342, -0.008668), R=0.047574
+2026-11-05 09:44:08,449 transreid.train INFO: Epoch[4] Iteration[100/115] Loss: 8.622, Acc: 0.162, Base Lr: 2.57e-02
+2026-11-05 09:44:08,449 transreid.train INFO: Epoch[4] 4.509, 0.646, 0.275, 3.465
+2026-11-05 09:44:08,449 transreid.train INFO: QG layer 01 rank0-local: raw=(-0.034511, 0.026565), effective=(-0.034173, 0.026410), R=0.020308
+2026-11-05 09:44:08,449 transreid.train INFO: QG layer 02 rank0-local: raw=(-0.029183, 0.014900), effective=(-0.028978, 0.014872), R=0.015721
+2026-11-05 09:44:08,449 transreid.train INFO: QG layer 03 rank0-local: raw=(-0.054608, 0.028194), effective=(-0.053291, 0.028008), R=0.029200
+2026-11-05 09:44:08,449 transreid.train INFO: QG layer 04 rank0-local: raw=(0.024133, 0.031272), effective=(0.024016, 0.031020), R=0.027027
+2026-11-05 09:44:08,449 transreid.train INFO: QG layer 05 rank0-local: raw=(-0.007723, 0.122188), effective=(-0.007719, 0.108958), R=0.058755
+2026-11-05 09:44:08,450 transreid.train INFO: QG layer 06 rank0-local: raw=(-0.071903, 0.032658), effective=(-0.068958, 0.032370), R=0.033879
+2026-11-05 09:44:08,450 transreid.train INFO: QG layer 07 rank0-local: raw=(-0.039929, 0.069244), effective=(-0.039407, 0.066604), R=0.033659
+2026-11-05 09:44:08,450 transreid.train INFO: QG layer 08 rank0-local: raw=(0.029404, 0.212029), effective=(0.029194, 0.157144), R=0.117446
+2026-11-05 09:44:08,450 transreid.train INFO: QG layer 09 rank0-local: raw=(-0.002110, 0.116268), effective=(-0.002110, 0.104728), R=0.063669
+2026-11-05 09:44:08,450 transreid.train INFO: QG layer 10 rank0-local: raw=(-0.037528, 0.093807), effective=(-0.037094, 0.087484), R=0.048110
+2026-11-05 09:44:08,450 transreid.train INFO: QG layer 11 rank0-local: raw=(0.059762, 0.114529), effective=(0.058044, 0.103460), R=0.091349
+2026-11-05 09:44:08,450 transreid.train INFO: QG layer 12 rank0-local: raw=(0.097673, -0.003980), effective=(0.090584, -0.003979), R=0.060626
+2026-11-05 09:44:18,630 transreid.train INFO: Epoch 4 done. Time per batch: 0.717[s] Total: 82.5[s]
+2026-11-05 09:44:27,062 transreid.train INFO: Full checkpoint saved: epoch=4, successful_updates=454, AMP skips=3, scale=8192.0
+2026-11-05 09:45:04,137 transreid.train INFO: Epoch[5] Iteration[50/114] Loss: 8.467, Acc: 0.157, Base Lr: 3.19e-02
+2026-11-05 09:45:04,137 transreid.train INFO: Epoch[5] 4.403, 0.663, 0.291, 3.398
+2026-11-05 09:45:04,137 transreid.train INFO: QG layer 01 rank0-local: raw=(-0.043362, 0.038318), effective=(-0.042695, 0.037856), R=0.026001
+2026-11-05 09:45:04,137 transreid.train INFO: QG layer 02 rank0-local: raw=(-0.029294, 0.002302), effective=(-0.029086, 0.002302), R=0.020395
+2026-11-05 09:45:04,137 transreid.train INFO: QG layer 03 rank0-local: raw=(-0.058768, 0.023956), effective=(-0.057133, 0.023842), R=0.033543
+2026-11-05 09:45:04,137 transreid.train INFO: QG layer 04 rank0-local: raw=(0.002761, 0.014757), effective=(0.002761, 0.014731), R=0.009093
+2026-11-05 09:45:04,138 transreid.train INFO: QG layer 05 rank0-local: raw=(-0.024999, 0.116184), effective=(-0.024870, 0.104667), R=0.050974
+2026-11-05 09:45:04,138 transreid.train INFO: QG layer 06 rank0-local: raw=(-0.095732, 0.011327), effective=(-0.089034, 0.011315), R=0.051465
+2026-11-05 09:45:04,138 transreid.train INFO: QG layer 07 rank0-local: raw=(-0.064545, 0.061344), effective=(-0.062394, 0.059490), R=0.032044
+2026-11-05 09:45:04,138 transreid.train INFO: QG layer 08 rank0-local: raw=(-0.004572, 0.213703), effective=(-0.004571, 0.157780), R=0.100535
+2026-11-05 09:45:04,138 transreid.train INFO: QG layer 09 rank0-local: raw=(-0.024086, 0.123520), effective=(-0.023971, 0.109891), R=0.061194
+2026-11-05 09:45:04,138 transreid.train INFO: QG layer 10 rank0-local: raw=(-0.057275, 0.108030), effective=(-0.055759, 0.098620), R=0.051724
+2026-11-05 09:45:04,138 transreid.train INFO: QG layer 11 rank0-local: raw=(0.063697, 0.130393), effective=(0.061627, 0.114598), R=0.103123
+2026-11-05 09:45:04,138 transreid.train INFO: QG layer 12 rank0-local: raw=(0.112916, -0.013867), effective=(0.102274, -0.013845), R=0.063215
+2026-11-05 09:45:38,691 transreid.train INFO: Epoch[5] Iteration[100/114] Loss: 7.379, Acc: 0.264, Base Lr: 3.19e-02
+2026-11-05 09:45:38,691 transreid.train INFO: Epoch[5] 3.874, 0.623, 0.287, 2.880
+2026-11-05 09:45:38,691 transreid.train INFO: QG layer 01 rank0-local: raw=(-0.056000, 0.055498), effective=(-0.054581, 0.054116), R=0.031886
+2026-11-05 09:45:38,691 transreid.train INFO: QG layer 02 rank0-local: raw=(-0.037695, 0.024456), effective=(-0.037255, 0.024335), R=0.019660
+2026-11-05 09:45:38,691 transreid.train INFO: QG layer 03 rank0-local: raw=(-0.059054, 0.023740), effective=(-0.057396, 0.023629), R=0.033669
+2026-11-05 09:45:38,692 transreid.train INFO: QG layer 04 rank0-local: raw=(0.006135, 0.026285), effective=(0.006133, 0.026135), R=0.016477
+2026-11-05 09:45:38,692 transreid.train INFO: QG layer 05 rank0-local: raw=(-0.018480, 0.126012), effective=(-0.018428, 0.111619), R=0.057049
+2026-11-05 09:45:38,692 transreid.train INFO: QG layer 06 rank0-local: raw=(-0.089883, 0.055303), effective=(-0.084284, 0.053936), R=0.041014
+2026-11-05 09:45:38,692 transreid.train INFO: QG layer 07 rank0-local: raw=(-0.067670, 0.085544), effective=(-0.065201, 0.080683), R=0.040451
+2026-11-05 09:45:38,692 transreid.train INFO: QG layer 08 rank0-local: raw=(-0.001129, 0.213198), effective=(-0.001129, 0.157589), R=0.105649
+2026-11-05 09:45:38,692 transreid.train INFO: QG layer 09 rank0-local: raw=(-0.022480, 0.139887), effective=(-0.022386, 0.120802), R=0.069969
+2026-11-05 09:45:38,692 transreid.train INFO: QG layer 10 rank0-local: raw=(-0.057435, 0.127521), effective=(-0.055907, 0.112653), R=0.060781
+2026-11-05 09:45:38,692 transreid.train INFO: QG layer 11 rank0-local: raw=(0.064060, 0.123054), effective=(0.061955, 0.109565), R=0.097181
+2026-11-05 09:45:38,692 transreid.train INFO: QG layer 12 rank0-local: raw=(0.118049, -0.018053), effective=(0.106014, -0.018004), R=0.065673
+2026-11-05 09:45:48,250 transreid.train INFO: Epoch 5 done. Time per batch: 0.712[s] Total: 81.2[s]
+2026-11-05 09:45:56,560 transreid.train INFO: Full checkpoint saved: epoch=5, successful_updates=568, AMP skips=3, scale=8192.0
+2026-11-05 09:46:33,823 transreid.train INFO: Epoch[6] Iteration[50/114] Loss: 7.248, Acc: 0.249, Base Lr: 3.18e-02
+2026-11-05 09:46:33,823 transreid.train INFO: Epoch[6] 3.844, 0.604, 0.311, 2.797
+2026-11-05 09:46:33,824 transreid.train INFO: QG layer 01 rank0-local: raw=(-0.066997, 0.049965), effective=(-0.064598, 0.048950), R=0.039032
+2026-11-05 09:46:33,824 transreid.train INFO: QG layer 02 rank0-local: raw=(-0.043652, 0.027516), effective=(-0.042972, 0.027344), R=0.022924
+2026-11-05 09:46:33,824 transreid.train INFO: QG layer 03 rank0-local: raw=(-0.061490, 0.012139), effective=(-0.059623, 0.012124), R=0.038262
+2026-11-05 09:46:33,824 transreid.train INFO: QG layer 04 rank0-local: raw=(-0.011671, 0.024002), effective=(-0.011658, 0.023887), R=0.010302
+2026-11-05 09:46:33,824 transreid.train INFO: QG layer 05 rank0-local: raw=(-0.033482, 0.100338), effective=(-0.033173, 0.092689), R=0.042482
+2026-11-05 09:46:33,825 transreid.train INFO: QG layer 06 rank0-local: raw=(-0.109702, 0.017960), effective=(-0.099881, 0.017911), R=0.057116
+2026-11-05 09:46:33,825 transreid.train INFO: QG layer 07 rank0-local: raw=(-0.087815, 0.074630), effective=(-0.082576, 0.071349), R=0.040984
+2026-11-05 09:46:33,825 transreid.train INFO: QG layer 08 rank0-local: raw=(-0.024997, 0.201193), effective=(-0.024868, 0.152818), R=0.092548
+2026-11-05 09:46:33,825 transreid.train INFO: QG layer 09 rank0-local: raw=(-0.044140, 0.132898), effective=(-0.043437, 0.116269), R=0.060902
+2026-11-05 09:46:33,825 transreid.train INFO: QG layer 10 rank0-local: raw=(-0.074649, 0.125535), effective=(-0.071366, 0.111290), R=0.058244
+2026-11-05 09:46:33,825 transreid.train INFO: QG layer 11 rank0-local: raw=(0.058834, 0.116520), effective=(0.057193, 0.104910), R=0.093113
+2026-11-05 09:46:33,826 transreid.train INFO: QG layer 12 rank0-local: raw=(0.122052, -0.035888), effective=(0.108862, -0.035508), R=0.058015
+2026-11-05 09:47:07,932 transreid.train INFO: Epoch[6] Iteration[100/114] Loss: 6.364, Acc: 0.343, Base Lr: 3.18e-02
+2026-11-05 09:47:07,932 transreid.train INFO: Epoch[6] 3.357, 0.578, 0.299, 2.425
+2026-11-05 09:47:07,932 transreid.train INFO: QG layer 01 rank0-local: raw=(-0.075070, 0.054657), effective=(-0.071732, 0.053336), R=0.044545
+2026-11-05 09:47:07,932 transreid.train INFO: QG layer 02 rank0-local: raw=(-0.048783, 0.036770), effective=(-0.047838, 0.036361), R=0.025663
+2026-11-05 09:47:07,933 transreid.train INFO: QG layer 03 rank0-local: raw=(-0.061190, 0.028366), effective=(-0.059350, 0.028178), R=0.034447
+2026-11-05 09:47:07,933 transreid.train INFO: QG layer 04 rank0-local: raw=(-0.011852, 0.047248), effective=(-0.011838, 0.046388), R=0.021915
+2026-11-05 09:47:07,933 transreid.train INFO: QG layer 05 rank0-local: raw=(-0.028454, 0.116645), effective=(-0.028263, 0.105001), R=0.051583
+2026-11-05 09:47:07,933 transreid.train INFO: QG layer 06 rank0-local: raw=(-0.106097, 0.034460), effective=(-0.097150, 0.034123), R=0.053057
+2026-11-05 09:47:07,933 transreid.train INFO: QG layer 07 rank0-local: raw=(-0.090367, 0.083790), effective=(-0.084682, 0.079209), R=0.044476
+2026-11-05 09:47:07,933 transreid.train INFO: QG layer 08 rank0-local: raw=(-0.023465, 0.183949), effective=(-0.023358, 0.145156), R=0.090445
+2026-11-05 09:47:07,933 transreid.train INFO: QG layer 09 rank0-local: raw=(-0.043227, 0.133300), effective=(-0.042567, 0.116534), R=0.062129
+2026-11-05 09:47:07,933 transreid.train INFO: QG layer 10 rank0-local: raw=(-0.077475, 0.133800), effective=(-0.073819, 0.116864), R=0.061705
+2026-11-05 09:47:07,933 transreid.train INFO: QG layer 11 rank0-local: raw=(0.062227, 0.116240), effective=(0.060294, 0.104707), R=0.093236
+2026-11-05 09:47:07,933 transreid.train INFO: QG layer 12 rank0-local: raw=(0.129449, -0.026108), effective=(0.113962, -0.025961), R=0.067084
+2026-11-05 09:47:17,356 transreid.train INFO: Epoch 6 done. Time per batch: 0.709[s] Total: 80.8[s]
+2026-11-05 09:47:23,593 transreid.train INFO: Full checkpoint saved: epoch=6, successful_updates=682, AMP skips=3, scale=8192.0
+2026-11-05 09:48:00,106 transreid.train INFO: Epoch[7] Iteration[50/114] Loss: 6.369, Acc: 0.315, Base Lr: 3.17e-02
+2026-11-05 09:48:00,106 transreid.train INFO: Epoch[7] 3.358, 0.582, 0.323, 2.425
+2026-11-05 09:48:00,107 transreid.train INFO: QG layer 01 rank0-local: raw=(-0.080725, 0.047282), effective=(-0.076609, 0.046420), R=0.049431
+2026-11-05 09:48:00,107 transreid.train INFO: QG layer 02 rank0-local: raw=(-0.063872, 0.009733), effective=(-0.061785, 0.009725), R=0.042838
+2026-11-05 09:48:00,107 transreid.train INFO: QG layer 03 rank0-local: raw=(-0.067709, 0.023364), effective=(-0.065236, 0.023258), R=0.040087
+2026-11-05 09:48:00,107 transreid.train INFO: QG layer 04 rank0-local: raw=(-0.018344, 0.028658), effective=(-0.018293, 0.028463), R=0.012371
+2026-11-05 09:48:00,107 transreid.train INFO: QG layer 05 rank0-local: raw=(-0.041498, 0.114217), effective=(-0.040913, 0.103231), R=0.047674
+2026-11-05 09:48:00,108 transreid.train INFO: QG layer 06 rank0-local: raw=(-0.123669, 0.020107), effective=(-0.109995, 0.020039), R=0.065152
+2026-11-05 09:48:00,108 transreid.train INFO: QG layer 07 rank0-local: raw=(-0.101250, 0.083819), effective=(-0.093404, 0.079234), R=0.047015
+2026-11-05 09:48:00,108 transreid.train INFO: QG layer 08 rank0-local: raw=(-0.037212, 0.181840), effective=(-0.036788, 0.144150), R=0.083812
+2026-11-05 09:48:00,108 transreid.train INFO: QG layer 09 rank0-local: raw=(-0.055148, 0.141433), effective=(-0.053791, 0.121779), R=0.063934
+2026-11-05 09:48:00,108 transreid.train INFO: QG layer 10 rank0-local: raw=(-0.088018, 0.144093), effective=(-0.082744, 0.123440), R=0.065818
+2026-11-05 09:48:00,108 transreid.train INFO: QG layer 11 rank0-local: raw=(0.061980, 0.111814), effective=(0.060069, 0.101457), R=0.090574
+2026-11-05 09:48:00,108 transreid.train INFO: QG layer 12 rank0-local: raw=(0.129821, -0.047979), effective=(0.114214, -0.047079), R=0.060444
+2026-11-05 09:48:34,709 transreid.train INFO: Epoch[7] Iteration[100/114] Loss: 5.587, Acc: 0.418, Base Lr: 3.17e-02
+2026-11-05 09:48:34,709 transreid.train INFO: Epoch[7] 2.903, 0.556, 0.306, 2.125
+2026-11-05 09:48:34,709 transreid.train INFO: QG layer 01 rank0-local: raw=(-0.083106, 0.065373), effective=(-0.078632, 0.063140), R=0.046763
+2026-11-05 09:48:34,710 transreid.train INFO: QG layer 02 rank0-local: raw=(-0.066066, 0.027471), effective=(-0.063764, 0.027299), R=0.036752
+2026-11-05 09:48:34,710 transreid.train INFO: QG layer 03 rank0-local: raw=(-0.071315, 0.053605), effective=(-0.068439, 0.052357), R=0.036574
+2026-11-05 09:48:34,710 transreid.train INFO: QG layer 04 rank0-local: raw=(-0.015377, 0.046368), effective=(-0.015347, 0.045555), R=0.020180
+2026-11-05 09:48:34,710 transreid.train INFO: QG layer 05 rank0-local: raw=(-0.040438, 0.120894), effective=(-0.039896, 0.108044), R=0.049683
+2026-11-05 09:48:34,710 transreid.train INFO: QG layer 06 rank0-local: raw=(-0.116454, 0.022492), effective=(-0.104863, 0.022398), R=0.061354
+2026-11-05 09:48:34,710 transreid.train INFO: QG layer 07 rank0-local: raw=(-0.103072, 0.082368), effective=(-0.094822, 0.078007), R=0.046757
+2026-11-05 09:48:34,710 transreid.train INFO: QG layer 08 rank0-local: raw=(-0.034076, 0.167562), effective=(-0.033750, 0.136930), R=0.080505
+2026-11-05 09:48:34,711 transreid.train INFO: QG layer 09 rank0-local: raw=(-0.053657, 0.135974), effective=(-0.052406, 0.118287), R=0.062482
+2026-11-05 09:48:34,711 transreid.train INFO: QG layer 10 rank0-local: raw=(-0.092140, 0.144412), effective=(-0.086131, 0.123636), R=0.065723
+2026-11-05 09:48:34,711 transreid.train INFO: QG layer 11 rank0-local: raw=(0.060991, 0.106595), effective=(0.059168, 0.097530), R=0.087281
+2026-11-05 09:48:34,711 transreid.train INFO: QG layer 12 rank0-local: raw=(0.128129, -0.045913), effective=(0.113067, -0.045123), R=0.061374
+2026-11-05 09:48:44,341 transreid.train INFO: Epoch 7 done. Time per batch: 0.708[s] Total: 80.7[s]
+2026-11-05 09:48:51,420 transreid.train INFO: Full checkpoint saved: epoch=7, successful_updates=796, AMP skips=3, scale=8192.0
+2026-11-05 09:49:29,733 transreid.train INFO: Epoch[8] Iteration[50/114] Loss: 5.689, Acc: 0.385, Base Lr: 3.17e-02
+2026-11-05 09:49:29,733 transreid.train INFO: Epoch[8] 2.994, 0.554, 0.325, 2.138
+2026-11-05 09:49:29,733 transreid.train INFO: QG layer 01 rank0-local: raw=(-0.095226, 0.055098), effective=(-0.088628, 0.053745), R=0.055428
+2026-11-05 09:49:29,734 transreid.train INFO: QG layer 02 rank0-local: raw=(-0.081514, 0.018781), effective=(-0.077281, 0.018726), R=0.049399
+2026-11-05 09:49:29,734 transreid.train INFO: QG layer 03 rank0-local: raw=(-0.079483, 0.042104), effective=(-0.075547, 0.041493), R=0.042380
+2026-11-05 09:49:29,734 transreid.train INFO: QG layer 04 rank0-local: raw=(-0.030212, 0.025453), effective=(-0.029984, 0.025317), R=0.014120
+2026-11-05 09:49:29,734 transreid.train INFO: QG layer 05 rank0-local: raw=(-0.051055, 0.101258), effective=(-0.049974, 0.093410), R=0.041400
+2026-11-05 09:49:29,734 transreid.train INFO: QG layer 06 rank0-local: raw=(-0.128173, 0.012178), effective=(-0.113098, 0.012163), R=0.069519
+2026-11-05 09:49:29,735 transreid.train INFO: QG layer 07 rank0-local: raw=(-0.106260, 0.061257), effective=(-0.097275, 0.059410), R=0.046636
+2026-11-05 09:49:29,735 transreid.train INFO: QG layer 08 rank0-local: raw=(-0.045685, 0.146737), effective=(-0.044906, 0.125063), R=0.069513
+2026-11-05 09:49:29,735 transreid.train INFO: QG layer 09 rank0-local: raw=(-0.062075, 0.135418), effective=(-0.060155, 0.117925), R=0.060874
+2026-11-05 09:49:29,735 transreid.train INFO: QG layer 10 rank0-local: raw=(-0.096648, 0.144050), effective=(-0.089767, 0.123413), R=0.065715
+2026-11-05 09:49:29,735 transreid.train INFO: QG layer 11 rank0-local: raw=(0.056991, 0.093590), effective=(0.055497, 0.087308), R=0.081661
+2026-11-05 09:49:29,735 transreid.train INFO: QG layer 12 rank0-local: raw=(0.127237, -0.054153), effective=(0.112459, -0.052867), R=0.058189
+2026-11-05 09:50:04,111 transreid.train INFO: Epoch[8] Iteration[100/114] Loss: 4.921, Acc: 0.491, Base Lr: 3.17e-02
+2026-11-05 09:50:04,111 transreid.train INFO: Epoch[8] 2.523, 0.530, 0.311, 1.866
+2026-11-05 09:50:04,111 transreid.train INFO: QG layer 01 rank0-local: raw=(-0.098732, 0.079966), effective=(-0.091423, 0.075961), R=0.054481
+2026-11-05 09:50:04,112 transreid.train INFO: QG layer 02 rank0-local: raw=(-0.084303, 0.031122), effective=(-0.079641, 0.030873), R=0.046585
+2026-11-05 09:50:04,112 transreid.train INFO: QG layer 03 rank0-local: raw=(-0.079134, 0.051676), effective=(-0.075247, 0.050555), R=0.040103
+2026-11-05 09:50:04,112 transreid.train INFO: QG layer 04 rank0-local: raw=(-0.025468, 0.033842), effective=(-0.025332, 0.033522), R=0.014879
+2026-11-05 09:50:04,112 transreid.train INFO: QG layer 05 rank0-local: raw=(-0.056877, 0.115860), effective=(-0.055392, 0.104431), R=0.046354
+2026-11-05 09:50:04,112 transreid.train INFO: QG layer 06 rank0-local: raw=(-0.125845, 0.023222), effective=(-0.111504, 0.023118), R=0.064744
+2026-11-05 09:50:04,112 transreid.train INFO: QG layer 07 rank0-local: raw=(-0.100647, 0.084412), effective=(-0.092932, 0.079733), R=0.046689
+2026-11-05 09:50:04,112 transreid.train INFO: QG layer 08 rank0-local: raw=(-0.046621, 0.140614), effective=(-0.045794, 0.121262), R=0.068028
+2026-11-05 09:50:04,112 transreid.train INFO: QG layer 09 rank0-local: raw=(-0.059740, 0.130375), effective=(-0.058025, 0.114586), R=0.058751
+2026-11-05 09:50:04,112 transreid.train INFO: QG layer 10 rank0-local: raw=(-0.104498, 0.133612), effective=(-0.095924, 0.116740), R=0.062782
+2026-11-05 09:50:04,113 transreid.train INFO: QG layer 11 rank0-local: raw=(0.058496, 0.090136), effective=(0.056883, 0.084492), R=0.076707
+2026-11-05 09:50:04,113 transreid.train INFO: QG layer 12 rank0-local: raw=(0.132855, -0.032373), effective=(0.116240, -0.032093), R=0.066809
+2026-11-05 09:50:13,542 transreid.train INFO: Epoch 8 done. Time per batch: 0.720[s] Total: 82.1[s]
+2026-11-05 09:50:20,556 transreid.train INFO: Full checkpoint saved: epoch=8, successful_updates=910, AMP skips=3, scale=8192.0
+2026-11-05 09:50:57,363 transreid.train INFO: Epoch[9] Iteration[50/114] Loss: 4.981, Acc: 0.457, Base Lr: 3.16e-02
+2026-11-05 09:50:57,364 transreid.train INFO: Epoch[9] 2.562, 0.523, 0.327, 1.893
+2026-11-05 09:50:57,364 transreid.train INFO: QG layer 01 rank0-local: raw=(-0.107009, 0.066140), effective=(-0.097846, 0.063830), R=0.060764
+2026-11-05 09:50:57,364 transreid.train INFO: QG layer 02 rank0-local: raw=(-0.092486, 0.030969), effective=(-0.086413, 0.030724), R=0.050811
+2026-11-05 09:50:57,364 transreid.train INFO: QG layer 03 rank0-local: raw=(-0.072444, 0.036070), effective=(-0.069434, 0.035684), R=0.038472
+2026-11-05 09:50:57,364 transreid.train INFO: QG layer 04 rank0-local: raw=(-0.033662, 0.042513), effective=(-0.033348, 0.041884), R=0.018410
+2026-11-05 09:50:57,364 transreid.train INFO: QG layer 05 rank0-local: raw=(-0.069704, 0.107914), effective=(-0.067013, 0.098532), R=0.043791
+2026-11-05 09:50:57,365 transreid.train INFO: QG layer 06 rank0-local: raw=(-0.139295, 0.023852), effective=(-0.120425, 0.023739), R=0.068028
+2026-11-05 09:50:57,365 transreid.train INFO: QG layer 07 rank0-local: raw=(-0.105991, 0.074580), effective=(-0.097069, 0.071305), R=0.046322
+2026-11-05 09:50:57,365 transreid.train INFO: QG layer 08 rank0-local: raw=(-0.057245, 0.128664), effective=(-0.055731, 0.113431), R=0.060648
+2026-11-05 09:50:57,365 transreid.train INFO: QG layer 09 rank0-local: raw=(-0.067892, 0.138031), effective=(-0.065399, 0.119617), R=0.060504
+2026-11-05 09:50:57,365 transreid.train INFO: QG layer 10 rank0-local: raw=(-0.109524, 0.130465), effective=(-0.099747, 0.114646), R=0.062817
+2026-11-05 09:50:57,365 transreid.train INFO: QG layer 11 rank0-local: raw=(0.058111, 0.087810), effective=(0.056529, 0.082571), R=0.076914
+2026-11-05 09:50:57,365 transreid.train INFO: QG layer 12 rank0-local: raw=(0.131245, -0.051458), effective=(0.115169, -0.050352), R=0.056880
+2026-11-05 09:51:31,868 transreid.train INFO: Epoch[9] Iteration[100/114] Loss: 4.342, Acc: 0.554, Base Lr: 3.16e-02
+2026-11-05 09:51:31,868 transreid.train INFO: Epoch[9] 2.169, 0.503, 0.310, 1.666
+2026-11-05 09:51:31,869 transreid.train INFO: QG layer 01 rank0-local: raw=(-0.110558, 0.066031), effective=(-0.100521, 0.063732), R=0.063888
+2026-11-05 09:51:31,869 transreid.train INFO: QG layer 02 rank0-local: raw=(-0.098886, 0.020501), effective=(-0.091545, 0.020430), R=0.059288
+2026-11-05 09:51:31,869 transreid.train INFO: QG layer 03 rank0-local: raw=(-0.066455, 0.057421), effective=(-0.064113, 0.055894), R=0.034077
+2026-11-05 09:51:31,869 transreid.train INFO: QG layer 04 rank0-local: raw=(-0.021013, 0.057018), effective=(-0.020936, 0.055522), R=0.024592
+2026-11-05 09:51:31,869 transreid.train INFO: QG layer 05 rank0-local: raw=(-0.061854, 0.133966), effective=(-0.059955, 0.116974), R=0.052164
+2026-11-05 09:51:31,869 transreid.train INFO: QG layer 06 rank0-local: raw=(-0.138074, 0.012672), effective=(-0.119644, 0.012655), R=0.073970
+2026-11-05 09:51:31,869 transreid.train INFO: QG layer 07 rank0-local: raw=(-0.106886, 0.083438), effective=(-0.097752, 0.078912), R=0.048536
+2026-11-05 09:51:31,869 transreid.train INFO: QG layer 08 rank0-local: raw=(-0.053904, 0.126578), effective=(-0.052635, 0.112008), R=0.060600
+2026-11-05 09:51:31,869 transreid.train INFO: QG layer 09 rank0-local: raw=(-0.064115, 0.131569), effective=(-0.062006, 0.115386), R=0.059516
+2026-11-05 09:51:31,869 transreid.train INFO: QG layer 10 rank0-local: raw=(-0.109864, 0.144609), effective=(-0.100002, 0.123758), R=0.066405
+2026-11-05 09:51:31,870 transreid.train INFO: QG layer 11 rank0-local: raw=(0.059978, 0.086804), effective=(0.058243, 0.081735), R=0.075540
+2026-11-05 09:51:31,870 transreid.train INFO: QG layer 12 rank0-local: raw=(0.131127, -0.043302), effective=(0.115090, -0.042637), R=0.061439
+2026-11-05 09:51:41,467 transreid.train INFO: Epoch 9 done. Time per batch: 0.710[s] Total: 80.9[s]
+2026-11-05 09:51:48,709 transreid.train INFO: Full checkpoint saved: epoch=9, successful_updates=1024, AMP skips=3, scale=8192.0
+2026-11-05 09:52:26,322 transreid.train INFO: Epoch[10] Iteration[50/114] Loss: 4.568, Acc: 0.507, Base Lr: 3.15e-02
+2026-11-05 09:52:26,323 transreid.train INFO: Epoch[10] 2.325, 0.514, 0.321, 1.725
+2026-11-05 09:52:26,323 transreid.train INFO: QG layer 01 rank0-local: raw=(-0.113491, 0.075028), effective=(-0.102698, 0.071696), R=0.062758
+2026-11-05 09:52:26,323 transreid.train INFO: QG layer 02 rank0-local: raw=(-0.101808, 0.029253), effective=(-0.093839, 0.029046), R=0.055689
+2026-11-05 09:52:26,323 transreid.train INFO: QG layer 03 rank0-local: raw=(-0.067407, 0.050948), effective=(-0.064966, 0.049874), R=0.034228
+2026-11-05 09:52:26,323 transreid.train INFO: QG layer 04 rank0-local: raw=(-0.030673, 0.047617), effective=(-0.030435, 0.046737), R=0.019827
+2026-11-05 09:52:26,323 transreid.train INFO: QG layer 05 rank0-local: raw=(-0.076688, 0.119856), effective=(-0.073138, 0.107308), R=0.047460
+2026-11-05 09:52:26,323 transreid.train INFO: QG layer 06 rank0-local: raw=(-0.141438, 0.022360), effective=(-0.121782, 0.022268), R=0.069090
+2026-11-05 09:52:26,324 transreid.train INFO: QG layer 07 rank0-local: raw=(-0.114418, 0.075972), effective=(-0.103378, 0.072517), R=0.049053
+2026-11-05 09:52:26,324 transreid.train INFO: QG layer 08 rank0-local: raw=(-0.062619, 0.128559), effective=(-0.060650, 0.113360), R=0.059421
+2026-11-05 09:52:26,324 transreid.train INFO: QG layer 09 rank0-local: raw=(-0.077502, 0.133107), effective=(-0.073842, 0.116407), R=0.057853
+2026-11-05 09:52:26,324 transreid.train INFO: QG layer 10 rank0-local: raw=(-0.116468, 0.134066), effective=(-0.104873, 0.117039), R=0.064122
+2026-11-05 09:52:26,324 transreid.train INFO: QG layer 11 rank0-local: raw=(0.053597, 0.078644), effective=(0.052350, 0.074827), R=0.068316
+2026-11-05 09:52:26,324 transreid.train INFO: QG layer 12 rank0-local: raw=(0.129356, -0.055431), effective=(0.113900, -0.054054), R=0.055420
+2026-11-05 09:53:00,670 transreid.train INFO: Epoch[10] Iteration[100/114] Loss: 3.927, Acc: 0.603, Base Lr: 3.15e-02
+2026-11-05 09:53:00,670 transreid.train INFO: Epoch[10] 1.932, 0.488, 0.309, 1.504
+2026-11-05 09:53:00,670 transreid.train INFO: QG layer 01 rank0-local: raw=(-0.115201, 0.073393), effective=(-0.103951, 0.070267), R=0.062729
+2026-11-05 09:53:00,670 transreid.train INFO: QG layer 02 rank0-local: raw=(-0.104045, 0.027964), effective=(-0.095575, 0.027783), R=0.057822
+2026-11-05 09:53:00,670 transreid.train INFO: QG layer 03 rank0-local: raw=(-0.073294, 0.051471), effective=(-0.070180, 0.050364), R=0.037077
+2026-11-05 09:53:00,670 transreid.train INFO: QG layer 04 rank0-local: raw=(-0.026201, 0.054528), effective=(-0.026052, 0.053216), R=0.022714
+2026-11-05 09:53:00,670 transreid.train INFO: QG layer 05 rank0-local: raw=(-0.077074, 0.126156), effective=(-0.073473, 0.111718), R=0.050082
+2026-11-05 09:53:00,670 transreid.train INFO: QG layer 06 rank0-local: raw=(-0.134570, 0.035032), effective=(-0.117370, 0.034678), R=0.063952
+2026-11-05 09:53:00,671 transreid.train INFO: QG layer 07 rank0-local: raw=(-0.111751, 0.064746), effective=(-0.101410, 0.062575), R=0.048616
+2026-11-05 09:53:00,671 transreid.train INFO: QG layer 08 rank0-local: raw=(-0.057330, 0.122282), effective=(-0.055809, 0.109024), R=0.057773
+2026-11-05 09:53:00,671 transreid.train INFO: QG layer 09 rank0-local: raw=(-0.072308, 0.127490), effective=(-0.069314, 0.112632), R=0.056787
+2026-11-05 09:53:00,671 transreid.train INFO: QG layer 10 rank0-local: raw=(-0.114189, 0.131660), effective=(-0.103211, 0.115446), R=0.064082
+2026-11-05 09:53:00,671 transreid.train INFO: QG layer 11 rank0-local: raw=(0.056056, 0.071849), effective=(0.054633, 0.068910), R=0.066158
+2026-11-05 09:53:00,671 transreid.train INFO: QG layer 12 rank0-local: raw=(0.126717, -0.054723), effective=(0.112103, -0.053397), R=0.056434
+2026-11-05 09:53:10,376 transreid.train INFO: Epoch 10 done. Time per batch: 0.716[s] Total: 81.7[s]
+2026-11-05 09:54:24,290 transreid.train INFO: => Split mode 1: query 2135, total query 2135
+2026-11-05 09:54:27,667 transreid.train INFO: The test feature is normalized
+2026-11-05 09:54:27,760 transreid.train INFO: => Computing DistMat in q-chunks (chunk=4000)
+2026-11-05 09:55:48,805 transreid.train INFO: Starting modality-pair specific evaluation. Query mods: [1, 2, 3], Gallery mods: [1, 2, 3]
+2026-11-05 09:55:56,746 transreid.train INFO:   Pair (Q:1, G:1) -> Rank-1: 26.23%, mAP: 16.30%, mINP: 2.79%
+2026-11-05 09:56:04,643 transreid.train INFO:   Pair (Q:1, G:2) -> Rank-1: 14.66%, mAP: 8.75%, mINP: 1.24%
+2026-11-05 09:56:12,500 transreid.train INFO:   Pair (Q:1, G:3) -> Rank-1: 4.22%, mAP: 2.87%, mINP: 0.57%
+2026-11-05 09:56:20,332 transreid.train INFO:   Pair (Q:2, G:1) -> Rank-1: 12.79%, mAP: 8.50%, mINP: 1.49%
+2026-11-05 09:56:28,288 transreid.train INFO:   Pair (Q:2, G:2) -> Rank-1: 16.07%, mAP: 9.61%, mINP: 1.41%
+2026-11-05 09:56:36,109 transreid.train INFO:   Pair (Q:2, G:3) -> Rank-1: 3.65%, mAP: 2.53%, mINP: 0.57%
+2026-11-05 09:56:43,992 transreid.train INFO:   Pair (Q:3, G:1) -> Rank-1: 3.51%, mAP: 2.71%, mINP: 0.67%
+2026-11-05 09:56:51,910 transreid.train INFO:   Pair (Q:3, G:2) -> Rank-1: 3.42%, mAP: 2.48%, mINP: 0.58%
+2026-11-05 09:56:59,690 transreid.train INFO:   Pair (Q:3, G:3) -> Rank-1: 9.84%, mAP: 6.66%, mINP: 1.09%
+2026-11-05 09:56:59,690 transreid.train INFO: VI-ReID results (Table 5 protocol):
+2026-11-05 09:56:59,690 transreid.train INFO:   Setting   Rank-1     mAP    mINP
+2026-11-05 09:56:59,690 transreid.train INFO:   NIR->RGB    12.79%   8.50%   1.49%
+2026-11-05 09:56:59,690 transreid.train INFO:   TIR->RGB     3.51%   2.71%   0.67%
+2026-11-05 09:56:59,690 transreid.train INFO: Modality-pair results (Table 6 protocol):
+2026-11-05 09:56:59,691 transreid.train INFO:   Query Gallery  Rank-1     mAP    mINP
+2026-11-05 09:56:59,691 transreid.train INFO:     RGB     RGB  26.23%  16.30%   2.79%
+2026-11-05 09:56:59,691 transreid.train INFO:     RGB     NIR  14.66%   8.75%   1.24%
+2026-11-05 09:56:59,691 transreid.train INFO:     RGB     TIR   4.22%   2.87%   0.57%
+2026-11-05 09:56:59,691 transreid.train INFO:     NIR     RGB  12.79%   8.50%   1.49%
+2026-11-05 09:56:59,691 transreid.train INFO:     NIR     NIR  16.07%   9.61%   1.41%
+2026-11-05 09:56:59,691 transreid.train INFO:     NIR     TIR   3.65%   2.53%   0.57%
+2026-11-05 09:56:59,691 transreid.train INFO:     TIR     RGB   3.51%   2.71%   0.67%
+2026-11-05 09:56:59,691 transreid.train INFO:     TIR     NIR   3.42%   2.48%   0.58%
+2026-11-05 09:56:59,691 transreid.train INFO:     TIR     TIR   9.84%   6.66%   1.09%
+2026-11-05 09:56:59,691 transreid.train INFO: AG-ReID results (Table 4 protocol; all modalities):
+2026-11-05 09:57:12,013 transreid.train INFO:   A->G -> mAP: 7.96%, Rank-1: 23.70%, Rank-10: 50.15%
+2026-11-05 09:57:24,425 transreid.train INFO:   G->A -> mAP: 9.73%, Rank-1: 25.52%, Rank-10: 50.62%
+2026-11-05 09:57:24,464 transreid.train INFO: Validation Results - Epoch: 10
+2026-11-05 09:57:24,465 transreid.train INFO: mAP: 5.84%
+2026-11-05 09:57:24,465 transreid.train INFO: CMC curve, Rank-1 : 17.41%
+2026-11-05 09:57:24,465 transreid.train INFO: CMC curve, Rank-5 : 30.52%
+2026-11-05 09:57:24,465 transreid.train INFO: CMC curve, Rank-10: 38.70%
+2026-11-05 09:57:32,214 transreid.train INFO: Full checkpoint saved: epoch=10, successful_updates=1138, AMP skips=3, scale=8192.0
+2026-11-05 09:58:10,816 transreid.train INFO: Epoch[11] Iteration[50/114] Loss: 4.032, Acc: 0.568, Base Lr: 3.13e-02
+2026-11-05 09:58:10,818 transreid.train INFO: Epoch[11] 2.003, 0.487, 0.322, 1.538
+2026-11-05 09:58:10,818 transreid.train INFO: QG layer 01 rank0-local: raw=(-0.120116, 0.091197), effective=(-0.107492, 0.085361), R=0.061601
+2026-11-05 09:58:10,818 transreid.train INFO: QG layer 02 rank0-local: raw=(-0.109065, 0.010124), effective=(-0.099402, 0.010116), R=0.066295
+2026-11-05 09:58:10,818 transreid.train INFO: QG layer 03 rank0-local: raw=(-0.072623, 0.065918), effective=(-0.069591, 0.063631), R=0.036081
+2026-11-05 09:58:10,819 transreid.train INFO: QG layer 04 rank0-local: raw=(-0.037641, 0.048156), effective=(-0.037203, 0.047247), R=0.020543
+2026-11-05 09:58:10,819 transreid.train INFO: QG layer 05 rank0-local: raw=(-0.087046, 0.118021), effective=(-0.081937, 0.105994), R=0.047975
+2026-11-05 09:58:10,819 transreid.train INFO: QG layer 06 rank0-local: raw=(-0.143318, 0.017914), effective=(-0.122958, 0.017867), R=0.071196
+2026-11-05 09:58:10,819 transreid.train INFO: QG layer 07 rank0-local: raw=(-0.109573, 0.074540), effective=(-0.099783, 0.071270), R=0.047058
+2026-11-05 09:58:10,819 transreid.train INFO: QG layer 08 rank0-local: raw=(-0.063383, 0.127176), effective=(-0.061343, 0.112418), R=0.058579
+2026-11-05 09:58:10,819 transreid.train INFO: QG layer 09 rank0-local: raw=(-0.077489, 0.125061), effective=(-0.073831, 0.110962), R=0.055540
+2026-11-05 09:58:10,819 transreid.train INFO: QG layer 10 rank0-local: raw=(-0.116457, 0.138669), effective=(-0.104865, 0.120026), R=0.065609
+2026-11-05 09:58:10,820 transreid.train INFO: QG layer 11 rank0-local: raw=(0.052181, 0.067594), effective=(0.051028, 0.065133), R=0.062299
+2026-11-05 09:58:10,820 transreid.train INFO: QG layer 12 rank0-local: raw=(0.120410, -0.063930), effective=(0.107701, -0.061838), R=0.049100
+2026-11-05 09:58:44,952 transreid.train INFO: Epoch[11] Iteration[100/114] Loss: 3.516, Acc: 0.647, Base Lr: 3.13e-02
+2026-11-05 09:58:44,953 transreid.train INFO: Epoch[11] 1.688, 0.468, 0.307, 1.357
+2026-11-05 09:58:44,953 transreid.train INFO: QG layer 01 rank0-local: raw=(-0.128012, 0.100927), effective=(-0.112988, 0.093151), R=0.066987
+2026-11-05 09:58:44,953 transreid.train INFO: QG layer 02 rank0-local: raw=(-0.113888, 0.015364), effective=(-0.102990, 0.015334), R=0.071033
+2026-11-05 09:58:44,953 transreid.train INFO: QG layer 03 rank0-local: raw=(-0.068528, 0.052323), effective=(-0.065967, 0.051161), R=0.035488
+2026-11-05 09:58:44,953 transreid.train INFO: QG layer 04 rank0-local: raw=(-0.030401, 0.042340), effective=(-0.030169, 0.041718), R=0.018127
+2026-11-05 09:58:44,953 transreid.train INFO: QG layer 05 rank0-local: raw=(-0.087648, 0.120841), effective=(-0.082437, 0.108007), R=0.049946
+2026-11-05 09:58:44,953 transreid.train INFO: QG layer 06 rank0-local: raw=(-0.147886, 0.018355), effective=(-0.125760, 0.018304), R=0.075628
+2026-11-05 09:58:44,953 transreid.train INFO: QG layer 07 rank0-local: raw=(-0.106622, 0.067653), effective=(-0.097551, 0.065185), R=0.047599
+2026-11-05 09:58:44,953 transreid.train INFO: QG layer 08 rank0-local: raw=(-0.066750, 0.119981), effective=(-0.064378, 0.107397), R=0.056309
+2026-11-05 09:58:44,954 transreid.train INFO: QG layer 09 rank0-local: raw=(-0.071592, 0.128882), effective=(-0.068683, 0.113579), R=0.058327
+2026-11-05 09:58:44,954 transreid.train INFO: QG layer 10 rank0-local: raw=(-0.120081, 0.129008), effective=(-0.107468, 0.113664), R=0.066274
+2026-11-05 09:58:44,954 transreid.train INFO: QG layer 11 rank0-local: raw=(0.054496, 0.065143), effective=(0.053186, 0.062933), R=0.065651
+2026-11-05 09:58:44,954 transreid.train INFO: QG layer 12 rank0-local: raw=(0.119570, -0.055883), effective=(0.107104, -0.054473), R=0.054474
+2026-11-05 09:58:54,729 transreid.train INFO: Epoch 11 done. Time per batch: 0.724[s] Total: 82.5[s]
+2026-11-05 09:59:03,423 transreid.train INFO: Full checkpoint saved: epoch=11, successful_updates=1252, AMP skips=3, scale=8192.0
+2026-11-05 09:59:41,653 transreid.train INFO: Epoch[12] Iteration[50/115] Loss: 3.664, Acc: 0.614, Base Lr: 3.12e-02
+2026-11-05 09:59:41,653 transreid.train INFO: Epoch[12] 1.776, 0.466, 0.318, 1.419
+2026-11-05 09:59:41,654 transreid.train INFO: QG layer 01 rank0-local: raw=(-0.136537, 0.100525), effective=(-0.118653, 0.092836), R=0.071921
+2026-11-05 09:59:41,654 transreid.train INFO: QG layer 02 rank0-local: raw=(-0.113636, 0.022040), effective=(-0.102805, 0.021951), R=0.066741
+2026-11-05 09:59:41,654 transreid.train INFO: QG layer 03 rank0-local: raw=(-0.065715, 0.044320), effective=(-0.063448, 0.043608), R=0.033882
+2026-11-05 09:59:41,654 transreid.train INFO: QG layer 04 rank0-local: raw=(-0.027518, 0.039446), effective=(-0.027346, 0.038942), R=0.016737
+2026-11-05 09:59:41,654 transreid.train INFO: QG layer 05 rank0-local: raw=(-0.080748, 0.132789), effective=(-0.076629, 0.116197), R=0.052030
+2026-11-05 09:59:41,654 transreid.train INFO: QG layer 06 rank0-local: raw=(-0.154849, 0.013455), effective=(-0.129878, 0.013435), R=0.078655
+2026-11-05 09:59:41,654 transreid.train INFO: QG layer 07 rank0-local: raw=(-0.110616, 0.069524), effective=(-0.100565, 0.066853), R=0.048048
+2026-11-05 09:59:41,654 transreid.train INFO: QG layer 08 rank0-local: raw=(-0.070828, 0.109675), effective=(-0.068008, 0.099860), R=0.052054
+2026-11-05 09:59:41,655 transreid.train INFO: QG layer 09 rank0-local: raw=(-0.075489, 0.138148), effective=(-0.072097, 0.119692), R=0.060136
+2026-11-05 09:59:41,655 transreid.train INFO: QG layer 10 rank0-local: raw=(-0.120542, 0.129171), effective=(-0.107795, 0.113775), R=0.064786
+2026-11-05 09:59:41,655 transreid.train INFO: QG layer 11 rank0-local: raw=(0.053654, 0.068228), effective=(0.052403, 0.065699), R=0.064713
+2026-11-05 09:59:41,655 transreid.train INFO: QG layer 12 rank0-local: raw=(0.114717, -0.062180), effective=(0.103598, -0.060251), R=0.049228
+2026-11-05 10:00:16,070 transreid.train INFO: Epoch[12] Iteration[100/115] Loss: 3.231, Acc: 0.678, Base Lr: 3.12e-02
+2026-11-05 10:00:16,070 transreid.train INFO: Epoch[12] 1.524, 0.450, 0.307, 1.255
+2026-11-05 10:00:16,070 transreid.train INFO: QG layer 01 rank0-local: raw=(-0.140614, 0.102829), effective=(-0.121263, 0.094634), R=0.075267
+2026-11-05 10:00:16,071 transreid.train INFO: QG layer 02 rank0-local: raw=(-0.112532, 0.030146), effective=(-0.101990, 0.029920), R=0.062742
+2026-11-05 10:00:16,071 transreid.train INFO: QG layer 03 rank0-local: raw=(-0.067558, 0.050844), effective=(-0.065101, 0.049777), R=0.034792
+2026-11-05 10:00:16,071 transreid.train INFO: QG layer 04 rank0-local: raw=(-0.032598, 0.058778), effective=(-0.032312, 0.057142), R=0.024690
+2026-11-05 10:00:16,071 transreid.train INFO: QG layer 05 rank0-local: raw=(-0.084063, 0.131001), effective=(-0.079439, 0.115006), R=0.052175
+2026-11-05 10:00:16,071 transreid.train INFO: QG layer 06 rank0-local: raw=(-0.157780, 0.015859), effective=(-0.131557, 0.015826), R=0.081755
+2026-11-05 10:00:16,071 transreid.train INFO: QG layer 07 rank0-local: raw=(-0.117411, 0.057299), effective=(-0.105555, 0.055781), R=0.052359
+2026-11-05 10:00:16,071 transreid.train INFO: QG layer 08 rank0-local: raw=(-0.071683, 0.111872), effective=(-0.068763, 0.101501), R=0.054426
+2026-11-05 10:00:16,071 transreid.train INFO: QG layer 09 rank0-local: raw=(-0.075649, 0.117564), effective=(-0.072237, 0.105666), R=0.054082
+2026-11-05 10:00:16,072 transreid.train INFO: QG layer 10 rank0-local: raw=(-0.120926, 0.136809), effective=(-0.108067, 0.118829), R=0.066499
+2026-11-05 10:00:16,072 transreid.train INFO: QG layer 11 rank0-local: raw=(0.053305, 0.063130), effective=(0.052078, 0.061114), R=0.062141
+2026-11-05 10:00:16,072 transreid.train INFO: QG layer 12 rank0-local: raw=(0.113780, -0.053955), effective=(0.102910, -0.052683), R=0.051078
+2026-11-05 10:00:26,626 transreid.train INFO: Epoch 12 done. Time per batch: 0.724[s] Total: 83.2[s]
+2026-11-05 10:00:35,474 transreid.train INFO: Full checkpoint saved: epoch=12, successful_updates=1367, AMP skips=3, scale=8192.0
+2026-11-05 10:01:13,752 transreid.train INFO: Epoch[13] Iteration[50/114] Loss: 3.569, Acc: 0.642, Base Lr: 3.11e-02
+2026-11-05 10:01:13,753 transreid.train INFO: Epoch[13] 1.656, 0.465, 0.314, 1.445
+2026-11-05 10:01:13,753 transreid.train INFO: QG layer 01 rank0-local: raw=(-0.143483, 0.103890), effective=(-0.123061, 0.095455), R=0.075983
+2026-11-05 10:01:13,753 transreid.train INFO: QG layer 02 rank0-local: raw=(-0.109911, 0.022569), effective=(-0.100037, 0.022474), R=0.065338
+2026-11-05 10:01:13,753 transreid.train INFO: QG layer 03 rank0-local: raw=(-0.071209, 0.050175), effective=(-0.068345, 0.049148), R=0.037058
+2026-11-05 10:01:13,753 transreid.train INFO: QG layer 04 rank0-local: raw=(-0.045018, 0.052322), effective=(-0.044273, 0.051160), R=0.023766
+2026-11-05 10:01:13,753 transreid.train INFO: QG layer 05 rank0-local: raw=(-0.093671, 0.123753), effective=(-0.087374, 0.110053), R=0.051663
+2026-11-05 10:01:13,754 transreid.train INFO: QG layer 06 rank0-local: raw=(-0.161360, 0.019892), effective=(-0.133564, 0.019826), R=0.081785
+2026-11-05 10:01:13,754 transreid.train INFO: QG layer 07 rank0-local: raw=(-0.117708, 0.052119), effective=(-0.105769, 0.050970), R=0.053774
+2026-11-05 10:01:13,754 transreid.train INFO: QG layer 08 rank0-local: raw=(-0.081327, 0.116474), effective=(-0.077122, 0.104877), R=0.055251
+2026-11-05 10:01:13,754 transreid.train INFO: QG layer 09 rank0-local: raw=(-0.078894, 0.126209), effective=(-0.075041, 0.111754), R=0.056092
+2026-11-05 10:01:13,754 transreid.train INFO: QG layer 10 rank0-local: raw=(-0.123142, 0.143370), effective=(-0.109627, 0.122991), R=0.069039
+2026-11-05 10:01:13,754 transreid.train INFO: QG layer 11 rank0-local: raw=(0.053802, 0.069601), effective=(0.052541, 0.066921), R=0.067503
+2026-11-05 10:01:13,754 transreid.train INFO: QG layer 12 rank0-local: raw=(0.113856, -0.054383), effective=(0.102966, -0.053082), R=0.052024
+2026-11-05 10:01:48,134 transreid.train INFO: Epoch[13] Iteration[100/114] Loss: 3.110, Acc: 0.700, Base Lr: 3.11e-02
+2026-11-05 10:01:48,134 transreid.train INFO: Epoch[13] 1.417, 0.447, 0.308, 1.242
+2026-11-05 10:01:48,134 transreid.train INFO: QG layer 01 rank0-local: raw=(-0.147333, 0.111718), effective=(-0.125425, 0.101386), R=0.075986
+2026-11-05 10:01:48,134 transreid.train INFO: QG layer 02 rank0-local: raw=(-0.115463, 0.030057), effective=(-0.104142, 0.029832), R=0.063819
+2026-11-05 10:01:48,135 transreid.train INFO: QG layer 03 rank0-local: raw=(-0.064737, 0.050607), effective=(-0.062567, 0.049554), R=0.032938
+2026-11-05 10:01:48,135 transreid.train INFO: QG layer 04 rank0-local: raw=(-0.055741, 0.055127), effective=(-0.054342, 0.053772), R=0.026483
+2026-11-05 10:01:48,135 transreid.train INFO: QG layer 05 rank0-local: raw=(-0.086007, 0.122536), effective=(-0.081070, 0.109202), R=0.050069
+2026-11-05 10:01:48,135 transreid.train INFO: QG layer 06 rank0-local: raw=(-0.166822, 0.030551), effective=(-0.136535, 0.030316), R=0.078424
+2026-11-05 10:01:48,135 transreid.train INFO: QG layer 07 rank0-local: raw=(-0.114689, 0.070858), effective=(-0.103577, 0.068035), R=0.050165
+2026-11-05 10:01:48,135 transreid.train INFO: QG layer 08 rank0-local: raw=(-0.075919, 0.110393), effective=(-0.072472, 0.100398), R=0.052895
+2026-11-05 10:01:48,135 transreid.train INFO: QG layer 09 rank0-local: raw=(-0.076610, 0.129131), effective=(-0.073071, 0.113747), R=0.057657
+2026-11-05 10:01:48,135 transreid.train INFO: QG layer 10 rank0-local: raw=(-0.124127, 0.134646), effective=(-0.110314, 0.117420), R=0.066969
+2026-11-05 10:01:48,135 transreid.train INFO: QG layer 11 rank0-local: raw=(0.056487, 0.066570), effective=(0.055032, 0.064215), R=0.064716
+2026-11-05 10:01:48,136 transreid.train INFO: QG layer 12 rank0-local: raw=(0.111323, -0.055435), effective=(0.101092, -0.054058), R=0.049611
+2026-11-05 10:01:57,916 transreid.train INFO: Epoch 13 done. Time per batch: 0.723[s] Total: 82.4[s]
+2026-11-05 10:02:07,181 transreid.train INFO: Full checkpoint saved: epoch=13, successful_updates=1481, AMP skips=3, scale=8192.0
+2026-11-05 10:02:46,008 transreid.train INFO: Epoch[14] Iteration[50/114] Loss: 3.095, Acc: 0.681, Base Lr: 3.09e-02
+2026-11-05 10:02:46,008 transreid.train INFO: Epoch[14] 1.457, 0.433, 0.314, 1.202
+2026-11-05 10:02:46,008 transreid.train INFO: QG layer 01 rank0-local: raw=(-0.150029, 0.103391), effective=(-0.127047, 0.095070), R=0.076498
+2026-11-05 10:02:46,008 transreid.train INFO: QG layer 02 rank0-local: raw=(-0.113015, 0.032256), effective=(-0.102346, 0.031979), R=0.060102
+2026-11-05 10:02:46,008 transreid.train INFO: QG layer 03 rank0-local: raw=(-0.067367, 0.054721), effective=(-0.064930, 0.053395), R=0.033238
+2026-11-05 10:02:46,008 transreid.train INFO: QG layer 04 rank0-local: raw=(-0.047460, 0.053221), effective=(-0.046588, 0.051999), R=0.023563
+2026-11-05 10:02:46,008 transreid.train INFO: QG layer 05 rank0-local: raw=(-0.100544, 0.124704), effective=(-0.092851, 0.110715), R=0.050885
+2026-11-05 10:02:46,009 transreid.train INFO: QG layer 06 rank0-local: raw=(-0.172505, 0.028732), effective=(-0.139511, 0.028536), R=0.078566
+2026-11-05 10:02:46,009 transreid.train INFO: QG layer 07 rank0-local: raw=(-0.116705, 0.075659), effective=(-0.105045, 0.072245), R=0.049780
+2026-11-05 10:02:46,009 transreid.train INFO: QG layer 08 rank0-local: raw=(-0.084950, 0.103089), effective=(-0.080185, 0.094836), R=0.050231
+2026-11-05 10:02:46,009 transreid.train INFO: QG layer 09 rank0-local: raw=(-0.083573, 0.129220), effective=(-0.079026, 0.113808), R=0.057083
+2026-11-05 10:02:46,009 transreid.train INFO: QG layer 10 rank0-local: raw=(-0.126866, 0.131300), effective=(-0.112205, 0.115206), R=0.065819
+2026-11-05 10:02:46,009 transreid.train INFO: QG layer 11 rank0-local: raw=(0.048831, 0.048024), effective=(0.047883, 0.047122), R=0.049577
+2026-11-05 10:02:46,009 transreid.train INFO: QG layer 12 rank0-local: raw=(0.111865, -0.059932), effective=(0.101495, -0.058200), R=0.047514
+2026-11-05 10:03:20,470 transreid.train INFO: Epoch[14] Iteration[100/114] Loss: 2.750, Acc: 0.731, Base Lr: 3.09e-02
+2026-11-05 10:03:20,470 transreid.train INFO: Epoch[14] 1.255, 0.421, 0.305, 1.070
+2026-11-05 10:03:20,470 transreid.train INFO: QG layer 01 rank0-local: raw=(-0.165910, 0.104804), effective=(-0.136047, 0.096159), R=0.086028
+2026-11-05 10:03:20,470 transreid.train INFO: QG layer 02 rank0-local: raw=(-0.122786, 0.028632), effective=(-0.109378, 0.028438), R=0.068876
+2026-11-05 10:03:20,470 transreid.train INFO: QG layer 03 rank0-local: raw=(-0.064235, 0.065068), effective=(-0.062114, 0.062866), R=0.033887
+2026-11-05 10:03:20,470 transreid.train INFO: QG layer 04 rank0-local: raw=(-0.050633, 0.049993), effective=(-0.049578, 0.048977), R=0.024526
+2026-11-05 10:03:20,470 transreid.train INFO: QG layer 05 rank0-local: raw=(-0.096988, 0.130520), effective=(-0.090038, 0.114684), R=0.053774
+2026-11-05 10:03:20,471 transreid.train INFO: QG layer 06 rank0-local: raw=(-0.173189, 0.013858), effective=(-0.139862, 0.013836), R=0.089302
+2026-11-05 10:03:20,471 transreid.train INFO: QG layer 07 rank0-local: raw=(-0.117940, 0.076382), effective=(-0.105936, 0.072873), R=0.051535
+2026-11-05 10:03:20,471 transreid.train INFO: QG layer 08 rank0-local: raw=(-0.087094, 0.112533), effective=(-0.081976, 0.101990), R=0.054624
+2026-11-05 10:03:20,471 transreid.train INFO: QG layer 09 rank0-local: raw=(-0.083515, 0.136124), effective=(-0.078977, 0.118385), R=0.060022
+2026-11-05 10:03:20,471 transreid.train INFO: QG layer 10 rank0-local: raw=(-0.127906, 0.122375), effective=(-0.112916, 0.109089), R=0.065543
+2026-11-05 10:03:20,471 transreid.train INFO: QG layer 11 rank0-local: raw=(0.054431, 0.057232), effective=(0.053126, 0.055719), R=0.059799
+2026-11-05 10:03:20,471 transreid.train INFO: QG layer 12 rank0-local: raw=(0.110473, -0.053009), effective=(0.100458, -0.051801), R=0.049505
+2026-11-05 10:03:30,252 transreid.train INFO: Epoch 14 done. Time per batch: 0.729[s] Total: 83.1[s]
+2026-11-05 10:03:39,028 transreid.train INFO: Full checkpoint saved: epoch=14, successful_updates=1595, AMP skips=3, scale=8192.0
+2026-11-05 10:04:17,321 transreid.train INFO: Epoch[15] Iteration[50/115] Loss: 2.814, Acc: 0.721, Base Lr: 3.08e-02
+2026-11-05 10:04:17,321 transreid.train INFO: Epoch[15] 1.292, 0.421, 0.314, 1.099
+2026-11-05 10:04:17,322 transreid.train INFO: QG layer 01 rank0-local: raw=(-0.166600, 0.116385), effective=(-0.136417, 0.104812), R=0.083953
+2026-11-05 10:04:17,322 transreid.train INFO: QG layer 02 rank0-local: raw=(-0.126179, 0.015891), effective=(-0.111734, 0.015857), R=0.077403
+2026-11-05 10:04:17,322 transreid.train INFO: QG layer 03 rank0-local: raw=(-0.067777, 0.047157), effective=(-0.065296, 0.046302), R=0.036055
+2026-11-05 10:04:17,322 transreid.train INFO: QG layer 04 rank0-local: raw=(-0.050312, 0.055427), effective=(-0.049277, 0.054050), R=0.025966
+2026-11-05 10:04:17,322 transreid.train INFO: QG layer 05 rank0-local: raw=(-0.099117, 0.119188), effective=(-0.091728, 0.106831), R=0.052556
+2026-11-05 10:04:17,322 transreid.train INFO: QG layer 06 rank0-local: raw=(-0.181110, 0.015039), effective=(-0.143798, 0.015011), R=0.089309
+2026-11-05 10:04:17,322 transreid.train INFO: QG layer 07 rank0-local: raw=(-0.118600, 0.057977), effective=(-0.106410, 0.056406), R=0.053033
+2026-11-05 10:04:17,322 transreid.train INFO: QG layer 08 rank0-local: raw=(-0.093456, 0.114095), effective=(-0.087199, 0.103141), R=0.055903
+2026-11-05 10:04:17,323 transreid.train INFO: QG layer 09 rank0-local: raw=(-0.087586, 0.136665), effective=(-0.082386, 0.118736), R=0.060555
+2026-11-05 10:04:17,323 transreid.train INFO: QG layer 10 rank0-local: raw=(-0.130883, 0.122957), effective=(-0.114927, 0.109497), R=0.067219
+2026-11-05 10:04:17,323 transreid.train INFO: QG layer 11 rank0-local: raw=(0.048357, 0.052472), effective=(0.047437, 0.051300), R=0.054776
+2026-11-05 10:04:17,323 transreid.train INFO: QG layer 12 rank0-local: raw=(0.109308, -0.049795), effective=(0.099585, -0.048791), R=0.051291
+2026-11-05 10:04:51,549 transreid.train INFO: Epoch[15] Iteration[100/115] Loss: 2.500, Acc: 0.765, Base Lr: 3.08e-02
+2026-11-05 10:04:51,549 transreid.train INFO: Epoch[15] 1.112, 0.410, 0.304, 0.975
+2026-11-05 10:04:51,549 transreid.train INFO: QG layer 01 rank0-local: raw=(-0.172263, 0.121625), effective=(-0.139387, 0.108561), R=0.080896
+2026-11-05 10:04:51,550 transreid.train INFO: QG layer 02 rank0-local: raw=(-0.127802, 0.027620), effective=(-0.112845, 0.027446), R=0.071202
+2026-11-05 10:04:51,550 transreid.train INFO: QG layer 03 rank0-local: raw=(-0.065354, 0.049053), effective=(-0.063124, 0.048092), R=0.033466
+2026-11-05 10:04:51,550 transreid.train INFO: QG layer 04 rank0-local: raw=(-0.049196, 0.048876), effective=(-0.048227, 0.047926), R=0.023385
+2026-11-05 10:04:51,550 transreid.train INFO: QG layer 05 rank0-local: raw=(-0.105224, 0.133389), effective=(-0.096482, 0.116594), R=0.055243
+2026-11-05 10:04:51,550 transreid.train INFO: QG layer 06 rank0-local: raw=(-0.179112, 0.010001), effective=(-0.142826, 0.009992), R=0.091131
+2026-11-05 10:04:51,550 transreid.train INFO: QG layer 07 rank0-local: raw=(-0.116031, 0.077982), effective=(-0.104555, 0.074256), R=0.050955
+2026-11-05 10:04:51,550 transreid.train INFO: QG layer 08 rank0-local: raw=(-0.095322, 0.113022), effective=(-0.088705, 0.102352), R=0.056029
+2026-11-05 10:04:51,550 transreid.train INFO: QG layer 09 rank0-local: raw=(-0.086871, 0.130658), effective=(-0.081791, 0.114776), R=0.059026
+2026-11-05 10:04:51,550 transreid.train INFO: QG layer 10 rank0-local: raw=(-0.133454, 0.121580), effective=(-0.116637, 0.108529), R=0.066551
+2026-11-05 10:04:51,551 transreid.train INFO: QG layer 11 rank0-local: raw=(0.048383, 0.050402), effective=(0.047461, 0.049361), R=0.052386
+2026-11-05 10:04:51,551 transreid.train INFO: QG layer 12 rank0-local: raw=(0.106080, -0.053044), effective=(0.097137, -0.051835), R=0.046612
+2026-11-05 10:05:02,157 transreid.train INFO: Epoch 15 done. Time per batch: 0.723[s] Total: 83.1[s]
+2026-11-05 10:05:09,589 transreid.train INFO: Full checkpoint saved: epoch=15, successful_updates=1710, AMP skips=3, scale=8192.0
+2026-11-05 10:05:48,282 transreid.train INFO: Epoch[16] Iteration[50/115] Loss: 2.807, Acc: 0.731, Base Lr: 3.06e-02
+2026-11-05 10:05:48,282 transreid.train INFO: Epoch[16] 1.241, 0.424, 0.312, 1.139
+2026-11-05 10:05:48,282 transreid.train INFO: QG layer 01 rank0-local: raw=(-0.177918, 0.117300), effective=(-0.142238, 0.105475), R=0.084685
+2026-11-05 10:05:48,282 transreid.train INFO: QG layer 02 rank0-local: raw=(-0.137602, 0.013886), effective=(-0.119341, 0.013864), R=0.082124
+2026-11-05 10:05:48,282 transreid.train INFO: QG layer 03 rank0-local: raw=(-0.061172, 0.052576), effective=(-0.059334, 0.051397), R=0.031273
+2026-11-05 10:05:48,283 transreid.train INFO: QG layer 04 rank0-local: raw=(-0.055298, 0.035578), effective=(-0.053930, 0.035208), R=0.024744
+2026-11-05 10:05:48,283 transreid.train INFO: QG layer 05 rank0-local: raw=(-0.101443, 0.114087), effective=(-0.093555, 0.103135), R=0.050765
+2026-11-05 10:05:48,283 transreid.train INFO: QG layer 06 rank0-local: raw=(-0.186882, 0.010064), effective=(-0.146528, 0.010056), R=0.091322
+2026-11-05 10:05:48,283 transreid.train INFO: QG layer 07 rank0-local: raw=(-0.121735, 0.063234), effective=(-0.108639, 0.061208), R=0.053079
+2026-11-05 10:05:48,283 transreid.train INFO: QG layer 08 rank0-local: raw=(-0.101690, 0.098161), effective=(-0.093748, 0.090971), R=0.052770
+2026-11-05 10:05:48,283 transreid.train INFO: QG layer 09 rank0-local: raw=(-0.092441, 0.138332), effective=(-0.086376, 0.119809), R=0.061204
+2026-11-05 10:05:48,283 transreid.train INFO: QG layer 10 rank0-local: raw=(-0.134589, 0.129188), effective=(-0.117383, 0.113786), R=0.069014
+2026-11-05 10:05:48,283 transreid.train INFO: QG layer 11 rank0-local: raw=(0.044702, 0.042496), effective=(0.043972, 0.041868), R=0.046632
+2026-11-05 10:05:48,283 transreid.train INFO: QG layer 12 rank0-local: raw=(0.102844, -0.060874), effective=(0.094645, -0.059061), R=0.045401
+2026-11-05 10:06:22,780 transreid.train INFO: Epoch[16] Iteration[100/115] Loss: 2.463, Acc: 0.773, Base Lr: 3.06e-02
+2026-11-05 10:06:22,780 transreid.train INFO: Epoch[16] 1.065, 0.408, 0.302, 0.987
+2026-11-05 10:06:22,780 transreid.train INFO: QG layer 01 rank0-local: raw=(-0.180052, 0.108443), effective=(-0.143285, 0.098932), R=0.088168
+2026-11-05 10:06:22,781 transreid.train INFO: QG layer 02 rank0-local: raw=(-0.138938, 0.032876), effective=(-0.120198, 0.032583), R=0.077142
+2026-11-05 10:06:22,781 transreid.train INFO: QG layer 03 rank0-local: raw=(-0.062822, 0.063315), effective=(-0.060835, 0.061281), R=0.033544
+2026-11-05 10:06:22,781 transreid.train INFO: QG layer 04 rank0-local: raw=(-0.044586, 0.059966), effective=(-0.043861, 0.058231), R=0.025775
+2026-11-05 10:06:22,781 transreid.train INFO: QG layer 05 rank0-local: raw=(-0.106862, 0.114942), effective=(-0.097734, 0.103762), R=0.053072
+2026-11-05 10:06:22,781 transreid.train INFO: QG layer 06 rank0-local: raw=(-0.188178, 0.024840), effective=(-0.147126, 0.024713), R=0.091401
+2026-11-05 10:06:22,781 transreid.train INFO: QG layer 07 rank0-local: raw=(-0.126603, 0.070760), effective=(-0.112025, 0.067948), R=0.056223
+2026-11-05 10:06:22,781 transreid.train INFO: QG layer 08 rank0-local: raw=(-0.096857, 0.112879), effective=(-0.089934, 0.102246), R=0.056942
+2026-11-05 10:06:22,781 transreid.train INFO: QG layer 09 rank0-local: raw=(-0.095816, 0.115570), effective=(-0.089102, 0.104220), R=0.055525
+2026-11-05 10:06:22,781 transreid.train INFO: QG layer 10 rank0-local: raw=(-0.136042, 0.123088), effective=(-0.118331, 0.109589), R=0.068996
+2026-11-05 10:06:22,782 transreid.train INFO: QG layer 11 rank0-local: raw=(0.047825, 0.046284), effective=(0.046934, 0.045475), R=0.051242
+2026-11-05 10:06:22,782 transreid.train INFO: QG layer 12 rank0-local: raw=(0.101190, -0.059876), effective=(0.093356, -0.058149), R=0.046558
+2026-11-05 10:06:33,285 transreid.train INFO: Epoch 16 done. Time per batch: 0.728[s] Total: 83.7[s]
+2026-11-05 10:06:47,794 transreid.train INFO: Full checkpoint saved: epoch=16, successful_updates=1825, AMP skips=3, scale=8192.0
+2026-11-05 10:07:26,575 transreid.train INFO: Epoch[17] Iteration[50/114] Loss: 2.583, Acc: 0.752, Base Lr: 3.04e-02
+2026-11-05 10:07:26,576 transreid.train INFO: Epoch[17] 1.142, 0.410, 0.311, 1.028
+2026-11-05 10:07:26,576 transreid.train INFO: QG layer 01 rank0-local: raw=(-0.182987, 0.123552), effective=(-0.144698, 0.109913), R=0.087570
+2026-11-05 10:07:26,576 transreid.train INFO: QG layer 02 rank0-local: raw=(-0.134332, 0.029990), effective=(-0.117214, 0.029768), R=0.072406
+2026-11-05 10:07:26,576 transreid.train INFO: QG layer 03 rank0-local: raw=(-0.065505, 0.060611), effective=(-0.063259, 0.058821), R=0.033207
+2026-11-05 10:07:26,576 transreid.train INFO: QG layer 04 rank0-local: raw=(-0.058065, 0.058048), effective=(-0.056487, 0.056471), R=0.027817
+2026-11-05 10:07:26,576 transreid.train INFO: QG layer 05 rank0-local: raw=(-0.105516, 0.119754), effective=(-0.096706, 0.107235), R=0.052468
+2026-11-05 10:07:26,576 transreid.train INFO: QG layer 06 rank0-local: raw=(-0.196272, 0.009395), effective=(-0.150731, 0.009388), R=0.092497
+2026-11-05 10:07:26,577 transreid.train INFO: QG layer 07 rank0-local: raw=(-0.130767, 0.069291), effective=(-0.114849, 0.066646), R=0.055048
+2026-11-05 10:07:26,577 transreid.train INFO: QG layer 08 rank0-local: raw=(-0.109186, 0.108383), effective=(-0.099493, 0.098887), R=0.055552
+2026-11-05 10:07:26,577 transreid.train INFO: QG layer 09 rank0-local: raw=(-0.096772, 0.140404), effective=(-0.089866, 0.121129), R=0.060447
+2026-11-05 10:07:26,577 transreid.train INFO: QG layer 10 rank0-local: raw=(-0.139827, 0.120261), effective=(-0.120764, 0.107596), R=0.069443
+2026-11-05 10:07:26,577 transreid.train INFO: QG layer 11 rank0-local: raw=(0.044909, 0.044688), effective=(0.044169, 0.043959), R=0.049425
+2026-11-05 10:07:26,577 transreid.train INFO: QG layer 12 rank0-local: raw=(0.100482, -0.055082), effective=(0.092802, -0.053730), R=0.045786
+2026-11-05 10:08:00,834 transreid.train INFO: Epoch[17] Iteration[100/114] Loss: 2.282, Acc: 0.791, Base Lr: 3.04e-02
+2026-11-05 10:08:00,835 transreid.train INFO: Epoch[17] 0.983, 0.394, 0.300, 0.903
+2026-11-05 10:08:00,835 transreid.train INFO: QG layer 01 rank0-local: raw=(-0.188607, 0.135552), effective=(-0.147323, 0.118012), R=0.087185
+2026-11-05 10:08:00,835 transreid.train INFO: QG layer 02 rank0-local: raw=(-0.134080, 0.044011), effective=(-0.117049, 0.043314), R=0.067721
+2026-11-05 10:08:00,835 transreid.train INFO: QG layer 03 rank0-local: raw=(-0.054245, 0.052595), effective=(-0.052953, 0.051416), R=0.027832
+2026-11-05 10:08:00,835 transreid.train INFO: QG layer 04 rank0-local: raw=(-0.054174, 0.050460), effective=(-0.052886, 0.049416), R=0.024869
+2026-11-05 10:08:00,835 transreid.train INFO: QG layer 05 rank0-local: raw=(-0.105021, 0.136187), effective=(-0.096326, 0.118425), R=0.054871
+2026-11-05 10:08:00,835 transreid.train INFO: QG layer 06 rank0-local: raw=(-0.196440, 0.011429), effective=(-0.150803, 0.011417), R=0.092277
+2026-11-05 10:08:00,835 transreid.train INFO: QG layer 07 rank0-local: raw=(-0.133172, 0.058741), effective=(-0.116450, 0.057108), R=0.056918
+2026-11-05 10:08:00,836 transreid.train INFO: QG layer 08 rank0-local: raw=(-0.111683, 0.106682), effective=(-0.101360, 0.097597), R=0.055950
+2026-11-05 10:08:00,836 transreid.train INFO: QG layer 09 rank0-local: raw=(-0.094877, 0.136542), effective=(-0.088347, 0.118656), R=0.059472
+2026-11-05 10:08:00,836 transreid.train INFO: QG layer 10 rank0-local: raw=(-0.138413, 0.120718), effective=(-0.119861, 0.107920), R=0.068998
+2026-11-05 10:08:00,836 transreid.train INFO: QG layer 11 rank0-local: raw=(0.042783, 0.043815), effective=(0.042142, 0.043127), R=0.047059
+2026-11-05 10:08:00,836 transreid.train INFO: QG layer 12 rank0-local: raw=(0.100571, -0.053353), effective=(0.092872, -0.052122), R=0.045657
+2026-11-05 10:08:10,702 transreid.train INFO: Epoch 17 done. Time per batch: 0.727[s] Total: 82.9[s]
+2026-11-05 10:08:18,190 transreid.train INFO: Full checkpoint saved: epoch=17, successful_updates=1939, AMP skips=3, scale=8192.0
+2026-11-05 10:08:57,206 transreid.train INFO: Epoch[18] Iteration[50/114] Loss: 2.401, Acc: 0.774, Base Lr: 3.03e-02
+2026-11-05 10:08:57,206 transreid.train INFO: Epoch[18] 1.050, 0.405, 0.312, 0.943
+2026-11-05 10:08:57,206 transreid.train INFO: QG layer 01 rank0-local: raw=(-0.191526, 0.137134), effective=(-0.148643, 0.119039), R=0.088397
+2026-11-05 10:08:57,207 transreid.train INFO: QG layer 02 rank0-local: raw=(-0.135784, 0.025710), effective=(-0.118163, 0.025569), R=0.074906
+2026-11-05 10:08:57,207 transreid.train INFO: QG layer 03 rank0-local: raw=(-0.062063, 0.056974), effective=(-0.060145, 0.055481), R=0.031586
+2026-11-05 10:08:57,207 transreid.train INFO: QG layer 04 rank0-local: raw=(-0.061530, 0.058798), effective=(-0.059659, 0.057160), R=0.028602
+2026-11-05 10:08:57,207 transreid.train INFO: QG layer 05 rank0-local: raw=(-0.111176, 0.118857), effective=(-0.100983, 0.106594), R=0.052526
+2026-11-05 10:08:57,207 transreid.train INFO: QG layer 06 rank0-local: raw=(-0.201934, 0.014802), effective=(-0.153125, 0.014775), R=0.094778
+2026-11-05 10:08:57,207 transreid.train INFO: QG layer 07 rank0-local: raw=(-0.136399, 0.061193), effective=(-0.118563, 0.059352), R=0.057942
+2026-11-05 10:08:57,207 transreid.train INFO: QG layer 08 rank0-local: raw=(-0.113426, 0.103743), effective=(-0.102650, 0.095341), R=0.056315
+2026-11-05 10:08:57,207 transreid.train INFO: QG layer 09 rank0-local: raw=(-0.099885, 0.140414), effective=(-0.092333, 0.121136), R=0.061639
+2026-11-05 10:08:57,208 transreid.train INFO: QG layer 10 rank0-local: raw=(-0.139586, 0.112803), effective=(-0.120610, 0.102190), R=0.068451
+2026-11-05 10:08:57,208 transreid.train INFO: QG layer 11 rank0-local: raw=(0.041435, 0.044365), effective=(0.040852, 0.043652), R=0.046082
+2026-11-05 10:08:57,208 transreid.train INFO: QG layer 12 rank0-local: raw=(0.093110, -0.063514), effective=(0.086919, -0.061462), R=0.042195
+2026-11-05 10:09:31,597 transreid.train INFO: Epoch[18] Iteration[100/114] Loss: 2.088, Acc: 0.812, Base Lr: 3.03e-02
+2026-11-05 10:09:31,597 transreid.train INFO: Epoch[18] 0.885, 0.383, 0.297, 0.816
+2026-11-05 10:09:31,597 transreid.train INFO: QG layer 01 rank0-local: raw=(-0.192767, 0.142009), effective=(-0.149197, 0.122141), R=0.086760
+2026-11-05 10:09:31,598 transreid.train INFO: QG layer 02 rank0-local: raw=(-0.144317, 0.026516), effective=(-0.123578, 0.026361), R=0.078430
+2026-11-05 10:09:31,598 transreid.train INFO: QG layer 03 rank0-local: raw=(-0.065471, 0.053919), effective=(-0.063228, 0.052650), R=0.032817
+2026-11-05 10:09:31,598 transreid.train INFO: QG layer 04 rank0-local: raw=(-0.056118, 0.065762), effective=(-0.054690, 0.063490), R=0.028483
+2026-11-05 10:09:31,598 transreid.train INFO: QG layer 05 rank0-local: raw=(-0.109105, 0.139368), effective=(-0.099432, 0.120472), R=0.055668
+2026-11-05 10:09:31,598 transreid.train INFO: QG layer 06 rank0-local: raw=(-0.202090, 0.024933), effective=(-0.153189, 0.024805), R=0.091407
+2026-11-05 10:09:31,598 transreid.train INFO: QG layer 07 rank0-local: raw=(-0.138896, 0.053419), effective=(-0.120170, 0.052184), R=0.060309
+2026-11-05 10:09:31,598 transreid.train INFO: QG layer 08 rank0-local: raw=(-0.116753, 0.103423), effective=(-0.105079, 0.095094), R=0.056679
+2026-11-05 10:09:31,598 transreid.train INFO: QG layer 09 rank0-local: raw=(-0.103242, 0.139128), effective=(-0.094954, 0.120319), R=0.061294
+2026-11-05 10:09:31,598 transreid.train INFO: QG layer 10 rank0-local: raw=(-0.140667, 0.122216), effective=(-0.121296, 0.108977), R=0.068187
+2026-11-05 10:09:31,598 transreid.train INFO: QG layer 11 rank0-local: raw=(0.048422, 0.052070), effective=(0.047497, 0.050925), R=0.052015
+2026-11-05 10:09:31,599 transreid.train INFO: QG layer 12 rank0-local: raw=(0.097254, -0.048070), effective=(0.090250, -0.047166), R=0.044279
+2026-11-05 10:09:41,440 transreid.train INFO: Epoch 18 done. Time per batch: 0.730[s] Total: 83.3[s]
+2026-11-05 10:09:50,759 transreid.train INFO: Full checkpoint saved: epoch=18, successful_updates=2053, AMP skips=3, scale=16384.0
+2026-11-05 10:10:29,116 transreid.train INFO: Epoch[19] Iteration[50/114] Loss: 2.181, Acc: 0.798, Base Lr: 3.01e-02
+2026-11-05 10:10:29,116 transreid.train INFO: Epoch[19] 0.940, 0.385, 0.313, 0.853
+2026-11-05 10:10:29,116 transreid.train INFO: QG layer 01 rank0-local: raw=(-0.196299, 0.138303), effective=(-0.150742, 0.119791), R=0.090034
+2026-11-05 10:10:29,117 transreid.train INFO: QG layer 02 rank0-local: raw=(-0.148616, 0.017100), effective=(-0.126201, 0.017059), R=0.082597
+2026-11-05 10:10:29,117 transreid.train INFO: QG layer 03 rank0-local: raw=(-0.067171, 0.051786), effective=(-0.064754, 0.050659), R=0.033263
+2026-11-05 10:10:29,117 transreid.train INFO: QG layer 04 rank0-local: raw=(-0.050941, 0.061931), effective=(-0.049867, 0.060025), R=0.026692
+2026-11-05 10:10:29,117 transreid.train INFO: QG layer 05 rank0-local: raw=(-0.106624, 0.126434), effective=(-0.097553, 0.111909), R=0.053054
+2026-11-05 10:10:29,117 transreid.train INFO: QG layer 06 rank0-local: raw=(-0.205983, 0.008973), effective=(-0.154775, 0.008967), R=0.092483
+2026-11-05 10:10:29,117 transreid.train INFO: QG layer 07 rank0-local: raw=(-0.142182, 0.051738), effective=(-0.122250, 0.050614), R=0.059815
+2026-11-05 10:10:29,117 transreid.train INFO: QG layer 08 rank0-local: raw=(-0.120957, 0.105345), effective=(-0.108089, 0.096575), R=0.057238
+2026-11-05 10:10:29,117 transreid.train INFO: QG layer 09 rank0-local: raw=(-0.105895, 0.131935), effective=(-0.096996, 0.115630), R=0.058981
+2026-11-05 10:10:29,118 transreid.train INFO: QG layer 10 rank0-local: raw=(-0.143712, 0.112741), effective=(-0.123204, 0.102144), R=0.068219
+2026-11-05 10:10:29,118 transreid.train INFO: QG layer 11 rank0-local: raw=(0.045840, 0.037549), effective=(0.045054, 0.037114), R=0.042959
+2026-11-05 10:10:29,118 transreid.train INFO: QG layer 12 rank0-local: raw=(0.093705, -0.055770), effective=(0.087402, -0.054368), R=0.040970
+2026-11-05 10:11:03,626 transreid.train INFO: Epoch[19] Iteration[100/114] Loss: 1.930, Acc: 0.825, Base Lr: 3.01e-02
+2026-11-05 10:11:03,626 transreid.train INFO: Epoch[19] 0.814, 0.365, 0.300, 0.747
+2026-11-05 10:11:03,627 transreid.train INFO: QG layer 01 rank0-local: raw=(-0.199092, 0.147335), effective=(-0.151936, 0.125427), R=0.090485
+2026-11-05 10:11:03,627 transreid.train INFO: QG layer 02 rank0-local: raw=(-0.150657, 0.039011), effective=(-0.127421, 0.038523), R=0.076244
+2026-11-05 10:11:03,627 transreid.train INFO: QG layer 03 rank0-local: raw=(-0.061322, 0.065167), effective=(-0.059470, 0.062954), R=0.032209
+2026-11-05 10:11:03,627 transreid.train INFO: QG layer 04 rank0-local: raw=(-0.051167, 0.049279), effective=(-0.050079, 0.048306), R=0.024308
+2026-11-05 10:11:03,627 transreid.train INFO: QG layer 05 rank0-local: raw=(-0.110227, 0.125716), effective=(-0.100274, 0.111415), R=0.054235
+2026-11-05 10:11:03,627 transreid.train INFO: QG layer 06 rank0-local: raw=(-0.207537, 0.005826), effective=(-0.155394, 0.005824), R=0.098159
+2026-11-05 10:11:03,627 transreid.train INFO: QG layer 07 rank0-local: raw=(-0.138783, 0.059490), effective=(-0.120098, 0.057795), R=0.059363
+2026-11-05 10:11:03,627 transreid.train INFO: QG layer 08 rank0-local: raw=(-0.125357, 0.100918), effective=(-0.111167, 0.093144), R=0.059045
+2026-11-05 10:11:03,627 transreid.train INFO: QG layer 09 rank0-local: raw=(-0.106192, 0.131192), effective=(-0.097223, 0.115134), R=0.060665
+2026-11-05 10:11:03,628 transreid.train INFO: QG layer 10 rank0-local: raw=(-0.141248, 0.118640), effective=(-0.121663, 0.106438), R=0.069523
+2026-11-05 10:11:03,628 transreid.train INFO: QG layer 11 rank0-local: raw=(0.042421, 0.035686), effective=(0.041797, 0.035312), R=0.041863
+2026-11-05 10:11:03,628 transreid.train INFO: QG layer 12 rank0-local: raw=(0.091274, -0.058379), effective=(0.085424, -0.056776), R=0.041715
+2026-11-05 10:11:13,411 transreid.train INFO: Epoch 19 done. Time per batch: 0.725[s] Total: 82.7[s]
+2026-11-05 10:11:24,740 transreid.train INFO: Full checkpoint saved: epoch=19, successful_updates=2167, AMP skips=3, scale=16384.0
+2026-11-05 10:12:03,471 transreid.train INFO: Epoch[20] Iteration[50/114] Loss: 1.974, Acc: 0.822, Base Lr: 2.99e-02
+2026-11-05 10:12:03,471 transreid.train INFO: Epoch[20] 0.842, 0.369, 0.310, 0.761
+2026-11-05 10:12:03,471 transreid.train INFO: QG layer 01 rank0-local: raw=(-0.206095, 0.151306), effective=(-0.154820, 0.127806), R=0.089350
+2026-11-05 10:12:03,472 transreid.train INFO: QG layer 02 rank0-local: raw=(-0.151856, 0.020669), effective=(-0.128131, 0.020596), R=0.081844
+2026-11-05 10:12:03,472 transreid.train INFO: QG layer 03 rank0-local: raw=(-0.063431, 0.050745), effective=(-0.061386, 0.049683), R=0.031134
+2026-11-05 10:12:03,472 transreid.train INFO: QG layer 04 rank0-local: raw=(-0.054801, 0.034755), effective=(-0.053470, 0.034410), R=0.023707
+2026-11-05 10:12:03,472 transreid.train INFO: QG layer 05 rank0-local: raw=(-0.111779, 0.114674), effective=(-0.101431, 0.103566), R=0.051476
+2026-11-05 10:12:03,472 transreid.train INFO: QG layer 06 rank0-local: raw=(-0.211473, 0.011347), effective=(-0.156931, 0.011335), R=0.094385
+2026-11-05 10:12:03,472 transreid.train INFO: QG layer 07 rank0-local: raw=(-0.142399, 0.061911), effective=(-0.122385, 0.060006), R=0.058721
+2026-11-05 10:12:03,472 transreid.train INFO: QG layer 08 rank0-local: raw=(-0.133910, 0.097796), effective=(-0.116937, 0.090682), R=0.059106
+2026-11-05 10:12:03,472 transreid.train INFO: QG layer 09 rank0-local: raw=(-0.109083, 0.114980), effective=(-0.099415, 0.103790), R=0.055173
+2026-11-05 10:12:03,472 transreid.train INFO: QG layer 10 rank0-local: raw=(-0.147995, 0.107622), effective=(-0.125826, 0.098312), R=0.068994
+2026-11-05 10:12:03,473 transreid.train INFO: QG layer 11 rank0-local: raw=(0.042589, 0.036815), effective=(0.041956, 0.036405), R=0.041355
+2026-11-05 10:12:03,473 transreid.train INFO: QG layer 12 rank0-local: raw=(0.087143, -0.064541), effective=(0.082018, -0.062390), R=0.040028
+2026-11-05 10:12:38,071 transreid.train INFO: Epoch[20] Iteration[100/114] Loss: 1.825, Acc: 0.839, Base Lr: 2.99e-02
+2026-11-05 10:12:38,071 transreid.train INFO: Epoch[20] 0.759, 0.360, 0.301, 0.703
+2026-11-05 10:12:38,071 transreid.train INFO: QG layer 01 rank0-local: raw=(-0.207673, 0.152048), effective=(-0.155448, 0.128244), R=0.092500
+2026-11-05 10:12:38,071 transreid.train INFO: QG layer 02 rank0-local: raw=(-0.150132, 0.030494), effective=(-0.127108, 0.030260), R=0.079925
+2026-11-05 10:12:38,072 transreid.train INFO: QG layer 03 rank0-local: raw=(-0.063879, 0.068833), effective=(-0.061792, 0.066238), R=0.033766
+2026-11-05 10:12:38,072 transreid.train INFO: QG layer 04 rank0-local: raw=(-0.056222, 0.059646), effective=(-0.054787, 0.057938), R=0.027527
+2026-11-05 10:12:38,072 transreid.train INFO: QG layer 05 rank0-local: raw=(-0.118223, 0.124442), effective=(-0.106139, 0.110533), R=0.055745
+2026-11-05 10:12:38,072 transreid.train INFO: QG layer 06 rank0-local: raw=(-0.211273, 0.016194), effective=(-0.156854, 0.016158), R=0.097229
+2026-11-05 10:12:38,072 transreid.train INFO: QG layer 07 rank0-local: raw=(-0.144910, 0.060126), effective=(-0.123944, 0.058378), R=0.062008
+2026-11-05 10:12:38,072 transreid.train INFO: QG layer 08 rank0-local: raw=(-0.132958, 0.117068), effective=(-0.116308, 0.105307), R=0.064157
+2026-11-05 10:12:38,072 transreid.train INFO: QG layer 09 rank0-local: raw=(-0.109384, 0.134884), effective=(-0.099642, 0.117576), R=0.061576
+2026-11-05 10:12:38,072 transreid.train INFO: QG layer 10 rank0-local: raw=(-0.145246, 0.111773), effective=(-0.124150, 0.101427), R=0.069099
+2026-11-05 10:12:38,073 transreid.train INFO: QG layer 11 rank0-local: raw=(0.041919, 0.046648), effective=(0.041316, 0.045820), R=0.046077
+2026-11-05 10:12:38,073 transreid.train INFO: QG layer 12 rank0-local: raw=(0.087238, -0.057418), effective=(0.082096, -0.055891), R=0.040086
+2026-11-05 10:12:47,994 transreid.train INFO: Epoch 20 done. Time per batch: 0.730[s] Total: 83.3[s]
+2026-11-05 10:14:03,614 transreid.train INFO: => Split mode 1: query 2135, total query 2135
+2026-11-05 10:14:06,251 transreid.train INFO: The test feature is normalized
+2026-11-05 10:14:06,334 transreid.train INFO: => Computing DistMat in q-chunks (chunk=4000)
+2026-11-05 10:15:24,679 transreid.train INFO: Starting modality-pair specific evaluation. Query mods: [1, 2, 3], Gallery mods: [1, 2, 3]
+2026-11-05 10:15:32,686 transreid.train INFO:   Pair (Q:1, G:1) -> Rank-1: 33.30%, mAP: 20.69%, mINP: 3.71%
+2026-11-05 10:15:40,582 transreid.train INFO:   Pair (Q:1, G:2) -> Rank-1: 18.50%, mAP: 11.40%, mINP: 1.46%
+2026-11-05 10:15:48,651 transreid.train INFO:   Pair (Q:1, G:3) -> Rank-1: 5.20%, mAP: 3.79%, mINP: 0.67%
+2026-11-05 10:15:56,860 transreid.train INFO:   Pair (Q:2, G:1) -> Rank-1: 18.50%, mAP: 11.49%, mINP: 1.87%
+2026-11-05 10:16:04,809 transreid.train INFO:   Pair (Q:2, G:2) -> Rank-1: 22.30%, mAP: 12.63%, mINP: 1.58%
+2026-11-05 10:16:12,685 transreid.train INFO:   Pair (Q:2, G:3) -> Rank-1: 5.11%, mAP: 3.40%, mINP: 0.68%
+2026-11-05 10:16:20,639 transreid.train INFO:   Pair (Q:3, G:1) -> Rank-1: 4.36%, mAP: 3.55%, mINP: 0.74%
+2026-11-05 10:16:29,007 transreid.train INFO:   Pair (Q:3, G:2) -> Rank-1: 4.92%, mAP: 3.19%, mINP: 0.61%
+2026-11-05 10:16:36,918 transreid.train INFO:   Pair (Q:3, G:3) -> Rank-1: 14.52%, mAP: 9.54%, mINP: 1.45%
+2026-11-05 10:16:36,918 transreid.train INFO: VI-ReID results (Table 5 protocol):
+2026-11-05 10:16:36,918 transreid.train INFO:   Setting   Rank-1     mAP    mINP
+2026-11-05 10:16:36,918 transreid.train INFO:   NIR->RGB    18.50%  11.49%   1.87%
+2026-11-05 10:16:36,919 transreid.train INFO:   TIR->RGB     4.36%   3.55%   0.74%
+2026-11-05 10:16:36,919 transreid.train INFO: Modality-pair results (Table 6 protocol):
+2026-11-05 10:16:36,919 transreid.train INFO:   Query Gallery  Rank-1     mAP    mINP
+2026-11-05 10:16:36,919 transreid.train INFO:     RGB     RGB  33.30%  20.69%   3.71%
+2026-11-05 10:16:36,919 transreid.train INFO:     RGB     NIR  18.50%  11.40%   1.46%
+2026-11-05 10:16:36,919 transreid.train INFO:     RGB     TIR   5.20%   3.79%   0.67%
+2026-11-05 10:16:36,919 transreid.train INFO:     NIR     RGB  18.50%  11.49%   1.87%
+2026-11-05 10:16:36,919 transreid.train INFO:     NIR     NIR  22.30%  12.63%   1.58%
+2026-11-05 10:16:36,919 transreid.train INFO:     NIR     TIR   5.11%   3.40%   0.68%
+2026-11-05 10:16:36,919 transreid.train INFO:     TIR     RGB   4.36%   3.55%   0.74%
+2026-11-05 10:16:36,919 transreid.train INFO:     TIR     NIR   4.92%   3.19%   0.61%
+2026-11-05 10:16:36,919 transreid.train INFO:     TIR     TIR  14.52%   9.54%   1.45%
+2026-11-05 10:16:36,920 transreid.train INFO: AG-ReID results (Table 4 protocol; all modalities):
+2026-11-05 10:16:49,683 transreid.train INFO:   A->G -> mAP: 9.74%, Rank-1: 29.70%, Rank-10: 55.11%
+2026-11-05 10:17:02,196 transreid.train INFO:   G->A -> mAP: 11.56%, Rank-1: 28.36%, Rank-10: 54.35%
+2026-11-05 10:17:02,207 transreid.train INFO: Validation Results - Epoch: 20
+2026-11-05 10:17:02,207 transreid.train INFO: mAP: 7.83%
+2026-11-05 10:17:02,208 transreid.train INFO: CMC curve, Rank-1 : 22.98%
+2026-11-05 10:17:02,208 transreid.train INFO: CMC curve, Rank-5 : 37.42%
+2026-11-05 10:17:02,208 transreid.train INFO: CMC curve, Rank-10: 45.36%
+2026-11-05 10:17:10,186 transreid.train INFO: Full checkpoint saved: epoch=20, successful_updates=2281, AMP skips=3, scale=16384.0
+2026-11-05 10:17:50,244 transreid.train INFO: Epoch[21] Iteration[50/114] Loss: 2.008, Acc: 0.821, Base Lr: 2.96e-02
+2026-11-05 10:17:50,244 transreid.train INFO: Epoch[21] 0.833, 0.373, 0.306, 0.799
+2026-11-05 10:17:50,244 transreid.train INFO: QG layer 01 rank0-local: raw=(-0.207936, 0.153768), effective=(-0.155552, 0.129251), R=0.091723
+2026-11-05 10:17:50,244 transreid.train INFO: QG layer 02 rank0-local: raw=(-0.154525, 0.027434), effective=(-0.129691, 0.027263), R=0.082214
+2026-11-05 10:17:50,245 transreid.train INFO: QG layer 03 rank0-local: raw=(-0.065748, 0.048485), effective=(-0.063478, 0.047557), R=0.032631
+2026-11-05 10:17:50,245 transreid.train INFO: QG layer 04 rank0-local: raw=(-0.059776, 0.053733), effective=(-0.058057, 0.052476), R=0.027441
+2026-11-05 10:17:50,245 transreid.train INFO: QG layer 05 rank0-local: raw=(-0.116366, 0.107075), effective=(-0.104799, 0.097896), R=0.052251
+2026-11-05 10:17:50,245 transreid.train INFO: QG layer 06 rank0-local: raw=(-0.215736, 0.009739), effective=(-0.158542, 0.009731), R=0.098516
+2026-11-05 10:17:50,245 transreid.train INFO: QG layer 07 rank0-local: raw=(-0.150041, 0.056063), effective=(-0.127054, 0.054639), R=0.063596
+2026-11-05 10:17:50,245 transreid.train INFO: QG layer 08 rank0-local: raw=(-0.139509, 0.101193), effective=(-0.120561, 0.093359), R=0.061800
+2026-11-05 10:17:50,245 transreid.train INFO: QG layer 09 rank0-local: raw=(-0.114841, 0.139395), effective=(-0.103688, 0.120489), R=0.062409
+2026-11-05 10:17:50,245 transreid.train INFO: QG layer 10 rank0-local: raw=(-0.149136, 0.105771), effective=(-0.126513, 0.096901), R=0.070493
+2026-11-05 10:17:50,246 transreid.train INFO: QG layer 11 rank0-local: raw=(0.041064, 0.044487), effective=(0.040496, 0.043768), R=0.045339
+2026-11-05 10:17:50,246 transreid.train INFO: QG layer 12 rank0-local: raw=(0.088273, -0.058436), effective=(0.082955, -0.056828), R=0.040328
+2026-11-05 10:18:24,644 transreid.train INFO: Epoch[21] Iteration[100/114] Loss: 1.778, Acc: 0.844, Base Lr: 2.96e-02
+2026-11-05 10:18:24,644 transreid.train INFO: Epoch[21] 0.724, 0.356, 0.300, 0.694
+2026-11-05 10:18:24,644 transreid.train INFO: QG layer 01 rank0-local: raw=(-0.211198, 0.153537), effective=(-0.156825, 0.129116), R=0.092277
+2026-11-05 10:18:24,644 transreid.train INFO: QG layer 02 rank0-local: raw=(-0.156870, 0.037135), effective=(-0.131039, 0.036714), R=0.079489
+2026-11-05 10:18:24,645 transreid.train INFO: QG layer 03 rank0-local: raw=(-0.058931, 0.055064), effective=(-0.057283, 0.053713), R=0.030052
+2026-11-05 10:18:24,645 transreid.train INFO: QG layer 04 rank0-local: raw=(-0.058429, 0.053289), effective=(-0.056822, 0.052063), R=0.026886
+2026-11-05 10:18:24,645 transreid.train INFO: QG layer 05 rank0-local: raw=(-0.120393, 0.125878), effective=(-0.107689, 0.111526), R=0.056055
+2026-11-05 10:18:24,645 transreid.train INFO: QG layer 06 rank0-local: raw=(-0.217086, 0.002303), effective=(-0.159041, 0.002303), R=0.102119
+2026-11-05 10:18:24,645 transreid.train INFO: QG layer 07 rank0-local: raw=(-0.155716, 0.068128), effective=(-0.130378, 0.065610), R=0.064104
+2026-11-05 10:18:24,645 transreid.train INFO: QG layer 08 rank0-local: raw=(-0.142241, 0.113190), effective=(-0.122286, 0.102476), R=0.064237
+2026-11-05 10:18:24,645 transreid.train INFO: QG layer 09 rank0-local: raw=(-0.114499, 0.132650), effective=(-0.103438, 0.116104), R=0.060920
+2026-11-05 10:18:24,645 transreid.train INFO: QG layer 10 rank0-local: raw=(-0.149900, 0.118308), effective=(-0.126970, 0.106201), R=0.070728
+2026-11-05 10:18:24,645 transreid.train INFO: QG layer 11 rank0-local: raw=(0.040781, 0.041647), effective=(0.040225, 0.041056), R=0.043997
+2026-11-05 10:18:24,646 transreid.train INFO: QG layer 12 rank0-local: raw=(0.087018, -0.053269), effective=(0.081913, -0.052044), R=0.039407
+2026-11-05 10:18:34,874 transreid.train INFO: Epoch 21 done. Time per batch: 0.743[s] Total: 84.7[s]
+2026-11-05 10:18:44,853 transreid.train INFO: Full checkpoint saved: epoch=21, successful_updates=2395, AMP skips=3, scale=16384.0
+2026-11-05 10:19:24,683 transreid.train INFO: Epoch[22] Iteration[50/114] Loss: 1.858, Acc: 0.835, Base Lr: 2.94e-02
+2026-11-05 10:19:24,683 transreid.train INFO: Epoch[22] 0.749, 0.351, 0.301, 0.755
+2026-11-05 10:19:24,684 transreid.train INFO: QG layer 01 rank0-local: raw=(-0.214010, 0.159503), effective=(-0.157896, 0.132529), R=0.091373
+2026-11-05 10:19:24,684 transreid.train INFO: QG layer 02 rank0-local: raw=(-0.160025, 0.009435), effective=(-0.132821, 0.009428), R=0.092000
+2026-11-05 10:19:24,684 transreid.train INFO: QG layer 03 rank0-local: raw=(-0.055358, 0.062661), effective=(-0.053986, 0.060688), R=0.029575
+2026-11-05 10:19:24,684 transreid.train INFO: QG layer 04 rank0-local: raw=(-0.066481, 0.050938), effective=(-0.064136, 0.049865), R=0.029098
+2026-11-05 10:19:24,684 transreid.train INFO: QG layer 05 rank0-local: raw=(-0.120206, 0.115147), effective=(-0.107557, 0.103912), R=0.054293
+2026-11-05 10:19:24,685 transreid.train INFO: QG layer 06 rank0-local: raw=(-0.218928, 0.010384), effective=(-0.159713, 0.010375), R=0.097268
+2026-11-05 10:19:24,685 transreid.train INFO: QG layer 07 rank0-local: raw=(-0.161679, 0.058602), effective=(-0.133741, 0.056981), R=0.066265
+2026-11-05 10:19:24,685 transreid.train INFO: QG layer 08 rank0-local: raw=(-0.147236, 0.105046), effective=(-0.125367, 0.096345), R=0.064312
+2026-11-05 10:19:24,685 transreid.train INFO: QG layer 09 rank0-local: raw=(-0.116265, 0.129910), effective=(-0.104726, 0.114274), R=0.060287
+2026-11-05 10:19:24,685 transreid.train INFO: QG layer 10 rank0-local: raw=(-0.153436, 0.108917), effective=(-0.129058, 0.099290), R=0.071115
+2026-11-05 10:19:24,685 transreid.train INFO: QG layer 11 rank0-local: raw=(0.038035, 0.035446), effective=(0.037583, 0.035079), R=0.038726
+2026-11-05 10:19:24,685 transreid.train INFO: QG layer 12 rank0-local: raw=(0.087984, -0.055940), effective=(0.082716, -0.054526), R=0.039877
+2026-11-05 10:19:59,437 transreid.train INFO: Epoch[22] Iteration[100/114] Loss: 1.659, Acc: 0.855, Base Lr: 2.94e-02
+2026-11-05 10:19:59,437 transreid.train INFO: Epoch[22] 0.662, 0.338, 0.290, 0.656
+2026-11-05 10:19:59,437 transreid.train INFO: QG layer 01 rank0-local: raw=(-0.217211, 0.159185), effective=(-0.159087, 0.132350), R=0.092859
+2026-11-05 10:19:59,437 transreid.train INFO: QG layer 02 rank0-local: raw=(-0.164443, 0.035479), effective=(-0.135255, 0.035111), R=0.084050
+2026-11-05 10:19:59,437 transreid.train INFO: QG layer 03 rank0-local: raw=(-0.060395, 0.057920), effective=(-0.058623, 0.056353), R=0.030998
+2026-11-05 10:19:59,437 transreid.train INFO: QG layer 04 rank0-local: raw=(-0.061610, 0.054400), effective=(-0.059732, 0.053097), R=0.028118
+2026-11-05 10:19:59,437 transreid.train INFO: QG layer 05 rank0-local: raw=(-0.118018, 0.125202), effective=(-0.105992, 0.111060), R=0.055698
+2026-11-05 10:19:59,438 transreid.train INFO: QG layer 06 rank0-local: raw=(-0.220268, 0.002019), effective=(-0.160196, 0.002019), R=0.106551
+2026-11-05 10:19:59,438 transreid.train INFO: QG layer 07 rank0-local: raw=(-0.165789, 0.068318), effective=(-0.135982, 0.065780), R=0.068441
+2026-11-05 10:19:59,438 transreid.train INFO: QG layer 08 rank0-local: raw=(-0.146092, 0.115724), effective=(-0.124669, 0.104332), R=0.066877
+2026-11-05 10:19:59,438 transreid.train INFO: QG layer 09 rank0-local: raw=(-0.117744, 0.133998), effective=(-0.105795, 0.116995), R=0.062128
+2026-11-05 10:19:59,438 transreid.train INFO: QG layer 10 rank0-local: raw=(-0.151180, 0.125575), effective=(-0.127731, 0.111318), R=0.072024
+2026-11-05 10:19:59,438 transreid.train INFO: QG layer 11 rank0-local: raw=(0.041357, 0.037361), effective=(0.040777, 0.036932), R=0.042019
+2026-11-05 10:19:59,438 transreid.train INFO: QG layer 12 rank0-local: raw=(0.084349, -0.062788), effective=(0.079680, -0.060803), R=0.039543
+2026-11-05 10:20:09,602 transreid.train INFO: Epoch 22 done. Time per batch: 0.743[s] Total: 84.7[s]
+2026-11-05 10:20:17,456 transreid.train INFO: Full checkpoint saved: epoch=22, successful_updates=2509, AMP skips=3, scale=16384.0
+2026-11-05 10:20:57,323 transreid.train INFO: Epoch[23] Iteration[50/114] Loss: 1.744, Acc: 0.849, Base Lr: 2.92e-02
+2026-11-05 10:20:57,324 transreid.train INFO: Epoch[23] 0.703, 0.343, 0.299, 0.695
+2026-11-05 10:20:57,324 transreid.train INFO: QG layer 01 rank0-local: raw=(-0.217010, 0.160521), effective=(-0.159013, 0.133098), R=0.095175
+2026-11-05 10:20:57,324 transreid.train INFO: QG layer 02 rank0-local: raw=(-0.166328, 0.013372), effective=(-0.136271, 0.013352), R=0.091618
+2026-11-05 10:20:57,324 transreid.train INFO: QG layer 03 rank0-local: raw=(-0.065906, 0.061622), effective=(-0.063620, 0.059743), R=0.033204
+2026-11-05 10:20:57,324 transreid.train INFO: QG layer 04 rank0-local: raw=(-0.064458, 0.050922), effective=(-0.062315, 0.049850), R=0.028596
+2026-11-05 10:20:57,324 transreid.train INFO: QG layer 05 rank0-local: raw=(-0.115607, 0.114216), effective=(-0.104247, 0.103230), R=0.052890
+2026-11-05 10:20:57,325 transreid.train INFO: QG layer 06 rank0-local: raw=(-0.225250, 0.005020), effective=(-0.161946, 0.005019), R=0.100981
+2026-11-05 10:20:57,325 transreid.train INFO: QG layer 07 rank0-local: raw=(-0.169006, 0.054355), effective=(-0.137693, 0.053055), R=0.069055
+2026-11-05 10:20:57,325 transreid.train INFO: QG layer 08 rank0-local: raw=(-0.149771, 0.112934), effective=(-0.126893, 0.102287), R=0.065518
+2026-11-05 10:20:57,325 transreid.train INFO: QG layer 09 rank0-local: raw=(-0.118159, 0.137493), effective=(-0.106093, 0.119270), R=0.062922
+2026-11-05 10:20:57,325 transreid.train INFO: QG layer 10 rank0-local: raw=(-0.157671, 0.113696), effective=(-0.131495, 0.102848), R=0.072526
+2026-11-05 10:20:57,325 transreid.train INFO: QG layer 11 rank0-local: raw=(0.036740, 0.042801), effective=(0.036333, 0.042159), R=0.041641
+2026-11-05 10:20:57,325 transreid.train INFO: QG layer 12 rank0-local: raw=(0.086172, -0.055751), effective=(0.081208, -0.054350), R=0.038707
+2026-11-05 10:21:31,636 transreid.train INFO: Epoch[23] Iteration[100/114] Loss: 1.553, Acc: 0.869, Base Lr: 2.92e-02
+2026-11-05 10:21:31,636 transreid.train INFO: Epoch[23] 0.617, 0.330, 0.290, 0.603
+2026-11-05 10:21:31,636 transreid.train INFO: QG layer 01 rank0-local: raw=(-0.219560, 0.163379), effective=(-0.159941, 0.134675), R=0.094927
+2026-11-05 10:21:31,636 transreid.train INFO: QG layer 02 rank0-local: raw=(-0.170536, 0.028941), effective=(-0.138494, 0.028741), R=0.088165
+2026-11-05 10:21:31,637 transreid.train INFO: QG layer 03 rank0-local: raw=(-0.068024, 0.065981), effective=(-0.065517, 0.063687), R=0.034840
+2026-11-05 10:21:31,637 transreid.train INFO: QG layer 04 rank0-local: raw=(-0.057862, 0.041811), effective=(-0.056300, 0.041212), R=0.026055
+2026-11-05 10:21:31,637 transreid.train INFO: QG layer 05 rank0-local: raw=(-0.120618, 0.120421), effective=(-0.107849, 0.107709), R=0.056106
+2026-11-05 10:21:31,637 transreid.train INFO: QG layer 06 rank0-local: raw=(-0.226637, 0.006305), effective=(-0.162421, 0.006303), R=0.104603
+2026-11-05 10:21:31,637 transreid.train INFO: QG layer 07 rank0-local: raw=(-0.169682, 0.064861), effective=(-0.138047, 0.062679), R=0.070564
+2026-11-05 10:21:31,637 transreid.train INFO: QG layer 08 rank0-local: raw=(-0.152276, 0.106701), effective=(-0.128378, 0.097611), R=0.066649
+2026-11-05 10:21:31,637 transreid.train INFO: QG layer 09 rank0-local: raw=(-0.122444, 0.136305), effective=(-0.109138, 0.118502), R=0.063406
+2026-11-05 10:21:31,637 transreid.train INFO: QG layer 10 rank0-local: raw=(-0.157021, 0.110835), effective=(-0.131125, 0.100728), R=0.073030
+2026-11-05 10:21:31,637 transreid.train INFO: QG layer 11 rank0-local: raw=(0.039374, 0.044807), effective=(0.038873, 0.044072), R=0.045269
+2026-11-05 10:21:31,638 transreid.train INFO: QG layer 12 rank0-local: raw=(0.083208, -0.058909), effective=(0.078718, -0.057263), R=0.038452
+2026-11-05 10:21:41,653 transreid.train INFO: Epoch 23 done. Time per batch: 0.739[s] Total: 84.2[s]
+2026-11-05 10:21:49,448 transreid.train INFO: Full checkpoint saved: epoch=23, successful_updates=2623, AMP skips=3, scale=16384.0
+2026-11-05 10:22:29,171 transreid.train INFO: Epoch[24] Iteration[50/114] Loss: 1.644, Acc: 0.854, Base Lr: 2.90e-02
+2026-11-05 10:22:29,172 transreid.train INFO: Epoch[24] 0.670, 0.341, 0.304, 0.630
+2026-11-05 10:22:29,172 transreid.train INFO: QG layer 01 rank0-local: raw=(-0.221799, 0.165878), effective=(-0.160741, 0.136029), R=0.094964
+2026-11-05 10:22:29,172 transreid.train INFO: QG layer 02 rank0-local: raw=(-0.171323, 0.023772), effective=(-0.138902, 0.023661), R=0.092530
+2026-11-05 10:22:29,172 transreid.train INFO: QG layer 03 rank0-local: raw=(-0.059315, 0.074877), effective=(-0.057635, 0.071564), R=0.033845
+2026-11-05 10:22:29,172 transreid.train INFO: QG layer 04 rank0-local: raw=(-0.066871, 0.049177), effective=(-0.064486, 0.048210), R=0.030419
+2026-11-05 10:22:29,172 transreid.train INFO: QG layer 05 rank0-local: raw=(-0.118874, 0.118993), effective=(-0.106606, 0.106691), R=0.055734
+2026-11-05 10:22:29,172 transreid.train INFO: QG layer 06 rank0-local: raw=(-0.230076, 0.010666), effective=(-0.163576, 0.010656), R=0.103451
+2026-11-05 10:22:29,172 transreid.train INFO: QG layer 07 rank0-local: raw=(-0.173628, 0.047895), effective=(-0.140086, 0.047000), R=0.075011
+2026-11-05 10:22:29,173 transreid.train INFO: QG layer 08 rank0-local: raw=(-0.154944, 0.105628), effective=(-0.129933, 0.096792), R=0.068044
+2026-11-05 10:22:29,173 transreid.train INFO: QG layer 09 rank0-local: raw=(-0.126873, 0.128232), effective=(-0.112210, 0.113138), R=0.062967
+2026-11-05 10:22:29,173 transreid.train INFO: QG layer 10 rank0-local: raw=(-0.162796, 0.095339), effective=(-0.134356, 0.088718), R=0.076720
+2026-11-05 10:22:29,173 transreid.train INFO: QG layer 11 rank0-local: raw=(0.035038, 0.037224), effective=(0.034684, 0.036800), R=0.040103
+2026-11-05 10:22:29,173 transreid.train INFO: QG layer 12 rank0-local: raw=(0.078130, -0.061978), effective=(0.074384, -0.060067), R=0.038679
+2026-11-05 10:23:03,662 transreid.train INFO: Epoch[24] Iteration[100/114] Loss: 1.491, Acc: 0.871, Base Lr: 2.90e-02
+2026-11-05 10:23:03,662 transreid.train INFO: Epoch[24] 0.594, 0.329, 0.295, 0.564
+2026-11-05 10:23:03,663 transreid.train INFO: QG layer 01 rank0-local: raw=(-0.224436, 0.165743), effective=(-0.161665, 0.135957), R=0.094194
+2026-11-05 10:23:03,663 transreid.train INFO: QG layer 02 rank0-local: raw=(-0.172894, 0.033065), effective=(-0.139711, 0.032767), R=0.087893
+2026-11-05 10:23:03,663 transreid.train INFO: QG layer 03 rank0-local: raw=(-0.067320, 0.070550), effective=(-0.064888, 0.067762), R=0.035191
+2026-11-05 10:23:03,663 transreid.train INFO: QG layer 04 rank0-local: raw=(-0.065613, 0.047454), effective=(-0.063357, 0.046583), R=0.029184
+2026-11-05 10:23:03,663 transreid.train INFO: QG layer 05 rank0-local: raw=(-0.116634, 0.125898), effective=(-0.104993, 0.111540), R=0.055874
+2026-11-05 10:23:03,663 transreid.train INFO: QG layer 06 rank0-local: raw=(-0.230115, 0.008757), effective=(-0.163589, 0.008752), R=0.104019
+2026-11-05 10:23:03,663 transreid.train INFO: QG layer 07 rank0-local: raw=(-0.173938, 0.074911), effective=(-0.140243, 0.071594), R=0.069417
+2026-11-05 10:23:03,663 transreid.train INFO: QG layer 08 rank0-local: raw=(-0.153105, 0.101919), effective=(-0.128864, 0.093926), R=0.066170
+2026-11-05 10:23:03,663 transreid.train INFO: QG layer 09 rank0-local: raw=(-0.124471, 0.130379), effective=(-0.110553, 0.114589), R=0.062262
+2026-11-05 10:23:03,664 transreid.train INFO: QG layer 10 rank0-local: raw=(-0.162638, 0.105731), effective=(-0.134269, 0.096871), R=0.073862
+2026-11-05 10:23:03,664 transreid.train INFO: QG layer 11 rank0-local: raw=(0.035259, 0.030504), effective=(0.034898, 0.030270), R=0.035645
+2026-11-05 10:23:03,664 transreid.train INFO: QG layer 12 rank0-local: raw=(0.075861, -0.065466), effective=(0.072420, -0.063224), R=0.037674
+2026-11-05 10:23:13,653 transreid.train INFO: Epoch 24 done. Time per batch: 0.739[s] Total: 84.2[s]
+2026-11-05 10:23:21,571 transreid.train INFO: Full checkpoint saved: epoch=24, successful_updates=2737, AMP skips=3, scale=16384.0
+2026-11-05 10:24:01,205 transreid.train INFO: Epoch[25] Iteration[50/114] Loss: 1.624, Acc: 0.859, Base Lr: 2.87e-02
+2026-11-05 10:24:01,205 transreid.train INFO: Epoch[25] 0.658, 0.332, 0.303, 0.631
+2026-11-05 10:24:01,205 transreid.train INFO: QG layer 01 rank0-local: raw=(-0.222150, 0.161883), effective=(-0.160866, 0.133854), R=0.097218
+2026-11-05 10:24:01,205 transreid.train INFO: QG layer 02 rank0-local: raw=(-0.173146, 0.042775), effective=(-0.139840, 0.042134), R=0.085516
+2026-11-05 10:24:01,206 transreid.train INFO: QG layer 03 rank0-local: raw=(-0.065656, 0.051890), effective=(-0.063395, 0.050756), R=0.033395
+2026-11-05 10:24:01,206 transreid.train INFO: QG layer 04 rank0-local: raw=(-0.073957, 0.038321), effective=(-0.070761, 0.037859), R=0.033504
+2026-11-05 10:24:01,206 transreid.train INFO: QG layer 05 rank0-local: raw=(-0.121069, 0.115173), effective=(-0.108168, 0.103930), R=0.055108
+2026-11-05 10:24:01,206 transreid.train INFO: QG layer 06 rank0-local: raw=(-0.236644, 0.004831), effective=(-0.165693, 0.004831), R=0.104891
+2026-11-05 10:24:01,206 transreid.train INFO: QG layer 07 rank0-local: raw=(-0.177299, 0.050406), effective=(-0.141932, 0.049365), R=0.074431
+2026-11-05 10:24:01,206 transreid.train INFO: QG layer 08 rank0-local: raw=(-0.157438, 0.102232), effective=(-0.131363, 0.094170), R=0.067331
+2026-11-05 10:24:01,206 transreid.train INFO: QG layer 09 rank0-local: raw=(-0.128225, 0.144217), effective=(-0.113133, 0.123516), R=0.065781
+2026-11-05 10:24:01,206 transreid.train INFO: QG layer 10 rank0-local: raw=(-0.167332, 0.096731), effective=(-0.136807, 0.089833), R=0.077629
+2026-11-05 10:24:01,207 transreid.train INFO: QG layer 11 rank0-local: raw=(0.029867, 0.021935), effective=(0.029647, 0.021848), R=0.028049
+2026-11-05 10:24:01,207 transreid.train INFO: QG layer 12 rank0-local: raw=(0.077629, -0.058653), effective=(0.073952, -0.057027), R=0.037058
+2026-11-05 10:24:35,547 transreid.train INFO: Epoch[25] Iteration[100/114] Loss: 1.425, Acc: 0.879, Base Lr: 2.87e-02
+2026-11-05 10:24:35,547 transreid.train INFO: Epoch[25] 0.562, 0.314, 0.293, 0.546
+2026-11-05 10:24:35,547 transreid.train INFO: QG layer 01 rank0-local: raw=(-0.226340, 0.162648), effective=(-0.162320, 0.134275), R=0.095816
+2026-11-05 10:24:35,548 transreid.train INFO: QG layer 02 rank0-local: raw=(-0.176431, 0.028782), effective=(-0.141499, 0.028585), R=0.091453
+2026-11-05 10:24:35,548 transreid.train INFO: QG layer 03 rank0-local: raw=(-0.061880, 0.054146), effective=(-0.059978, 0.052860), R=0.031767
+2026-11-05 10:24:35,548 transreid.train INFO: QG layer 04 rank0-local: raw=(-0.068671, 0.059292), effective=(-0.066094, 0.057614), R=0.031240
+2026-11-05 10:24:35,548 transreid.train INFO: QG layer 05 rank0-local: raw=(-0.118533, 0.124011), effective=(-0.106362, 0.110233), R=0.056105
+2026-11-05 10:24:35,548 transreid.train INFO: QG layer 06 rank0-local: raw=(-0.237885, 0.014023), effective=(-0.166080, 0.014000), R=0.103154
+2026-11-05 10:24:35,548 transreid.train INFO: QG layer 07 rank0-local: raw=(-0.177715, 0.057777), effective=(-0.142138, 0.056222), R=0.073486
+2026-11-05 10:24:35,548 transreid.train INFO: QG layer 08 rank0-local: raw=(-0.160486, 0.108387), effective=(-0.133078, 0.098890), R=0.069383
+2026-11-05 10:24:35,548 transreid.train INFO: QG layer 09 rank0-local: raw=(-0.131025, 0.132919), effective=(-0.115022, 0.116283), R=0.064765
+2026-11-05 10:24:35,548 transreid.train INFO: QG layer 10 rank0-local: raw=(-0.165547, 0.106476), effective=(-0.135851, 0.097440), R=0.077693
+2026-11-05 10:24:35,548 transreid.train INFO: QG layer 11 rank0-local: raw=(0.034842, 0.037616), effective=(0.034494, 0.037178), R=0.039368
+2026-11-05 10:24:35,549 transreid.train INFO: QG layer 12 rank0-local: raw=(0.076155, -0.052233), effective=(0.072676, -0.051077), R=0.036861
+2026-11-05 10:24:45,519 transreid.train INFO: Epoch 25 done. Time per batch: 0.736[s] Total: 83.9[s]
+2026-11-05 10:24:53,267 transreid.train INFO: Full checkpoint saved: epoch=25, successful_updates=2851, AMP skips=3, scale=16384.0
+2026-11-05 10:25:33,059 transreid.train INFO: Epoch[26] Iteration[50/115] Loss: 1.558, Acc: 0.863, Base Lr: 2.84e-02
+2026-11-05 10:25:33,060 transreid.train INFO: Epoch[26] 0.629, 0.332, 0.301, 0.593
+2026-11-05 10:25:33,060 transreid.train INFO: QG layer 01 rank0-local: raw=(-0.227558, 0.166111), effective=(-0.162734, 0.136155), R=0.096944
+2026-11-05 10:25:33,060 transreid.train INFO: QG layer 02 rank0-local: raw=(-0.176108, 0.018127), effective=(-0.141338, 0.018077), R=0.096412
+2026-11-05 10:25:33,060 transreid.train INFO: QG layer 03 rank0-local: raw=(-0.063825, 0.068654), effective=(-0.061743, 0.066079), R=0.033752
+2026-11-05 10:25:33,060 transreid.train INFO: QG layer 04 rank0-local: raw=(-0.075607, 0.049710), effective=(-0.072200, 0.048711), R=0.033702
+2026-11-05 10:25:33,060 transreid.train INFO: QG layer 05 rank0-local: raw=(-0.116321, 0.116998), effective=(-0.104766, 0.105256), R=0.054067
+2026-11-05 10:25:33,061 transreid.train INFO: QG layer 06 rank0-local: raw=(-0.240805, 0.006807), effective=(-0.166976, 0.006805), R=0.105418
+2026-11-05 10:25:33,061 transreid.train INFO: QG layer 07 rank0-local: raw=(-0.179821, 0.050919), effective=(-0.143172, 0.049847), R=0.073879
+2026-11-05 10:25:33,061 transreid.train INFO: QG layer 08 rank0-local: raw=(-0.166518, 0.110512), effective=(-0.136373, 0.100487), R=0.069603
+2026-11-05 10:25:33,061 transreid.train INFO: QG layer 09 rank0-local: raw=(-0.133451, 0.125286), effective=(-0.116634, 0.111118), R=0.062570
+2026-11-05 10:25:33,061 transreid.train INFO: QG layer 10 rank0-local: raw=(-0.167142, 0.113891), effective=(-0.136706, 0.102992), R=0.076399
+2026-11-05 10:25:33,061 transreid.train INFO: QG layer 11 rank0-local: raw=(0.027296, 0.021502), effective=(0.027128, 0.021420), R=0.026121
+2026-11-05 10:25:33,061 transreid.train INFO: QG layer 12 rank0-local: raw=(0.077747, -0.049031), effective=(0.074054, -0.048072), R=0.036707
+2026-11-05 10:26:07,611 transreid.train INFO: Epoch[26] Iteration[100/115] Loss: 1.385, Acc: 0.882, Base Lr: 2.84e-02
+2026-11-05 10:26:07,611 transreid.train INFO: Epoch[26] 0.545, 0.311, 0.291, 0.525
+2026-11-05 10:26:07,612 transreid.train INFO: QG layer 01 rank0-local: raw=(-0.228555, 0.164210), effective=(-0.163069, 0.135128), R=0.098099
+2026-11-05 10:26:07,612 transreid.train INFO: QG layer 02 rank0-local: raw=(-0.182148, 0.023568), effective=(-0.144297, 0.023460), R=0.097113
+2026-11-05 10:26:07,612 transreid.train INFO: QG layer 03 rank0-local: raw=(-0.066520, 0.057577), effective=(-0.064171, 0.056038), R=0.034234
+2026-11-05 10:26:07,612 transreid.train INFO: QG layer 04 rank0-local: raw=(-0.070905, 0.048207), effective=(-0.068076, 0.047294), R=0.031904
+2026-11-05 10:26:07,612 transreid.train INFO: QG layer 05 rank0-local: raw=(-0.120024, 0.124485), effective=(-0.107427, 0.110563), R=0.057552
+2026-11-05 10:26:07,612 transreid.train INFO: QG layer 06 rank0-local: raw=(-0.238551, 0.007270), effective=(-0.166286, 0.007266), R=0.109983
+2026-11-05 10:26:07,612 transreid.train INFO: QG layer 07 rank0-local: raw=(-0.180794, 0.064236), effective=(-0.143645, 0.062115), R=0.074396
+2026-11-05 10:26:07,612 transreid.train INFO: QG layer 08 rank0-local: raw=(-0.167542, 0.106943), effective=(-0.136919, 0.097795), R=0.072501
+2026-11-05 10:26:07,612 transreid.train INFO: QG layer 09 rank0-local: raw=(-0.134017, 0.124155), effective=(-0.117007, 0.110334), R=0.063717
+2026-11-05 10:26:07,613 transreid.train INFO: QG layer 10 rank0-local: raw=(-0.167251, 0.111308), effective=(-0.136764, 0.101081), R=0.079039
+2026-11-05 10:26:07,613 transreid.train INFO: QG layer 11 rank0-local: raw=(0.031100, 0.034190), effective=(0.030852, 0.033861), R=0.036585
+2026-11-05 10:26:07,613 transreid.train INFO: QG layer 12 rank0-local: raw=(0.077322, -0.049182), effective=(0.073687, -0.048214), R=0.037967
+2026-11-05 10:26:18,226 transreid.train INFO: Epoch 26 done. Time per batch: 0.739[s] Total: 85.0[s]
+2026-11-05 10:26:25,453 transreid.train INFO: Full checkpoint saved: epoch=26, successful_updates=2966, AMP skips=3, scale=16384.0
+2026-11-05 10:27:05,157 transreid.train INFO: Epoch[27] Iteration[50/114] Loss: 1.505, Acc: 0.869, Base Lr: 2.82e-02
+2026-11-05 10:27:05,158 transreid.train INFO: Epoch[27] 0.602, 0.324, 0.299, 0.576
+2026-11-05 10:27:05,158 transreid.train INFO: QG layer 01 rank0-local: raw=(-0.231390, 0.176049), effective=(-0.164009, 0.141309), R=0.101763
+2026-11-05 10:27:05,158 transreid.train INFO: QG layer 02 rank0-local: raw=(-0.185948, 0.024878), effective=(-0.146094, 0.024751), R=0.095897
+2026-11-05 10:27:05,158 transreid.train INFO: QG layer 03 rank0-local: raw=(-0.066760, 0.071270), effective=(-0.064386, 0.068399), R=0.035046
+2026-11-05 10:27:05,158 transreid.train INFO: QG layer 04 rank0-local: raw=(-0.072212, 0.053338), effective=(-0.069229, 0.052108), R=0.031931
+2026-11-05 10:27:05,158 transreid.train INFO: QG layer 05 rank0-local: raw=(-0.124297, 0.112798), effective=(-0.110432, 0.102186), R=0.055470
+2026-11-05 10:27:05,159 transreid.train INFO: QG layer 06 rank0-local: raw=(-0.243720, 0.022655), effective=(-0.167848, 0.022558), R=0.099670
+2026-11-05 10:27:05,159 transreid.train INFO: QG layer 07 rank0-local: raw=(-0.185321, 0.052259), effective=(-0.145802, 0.051102), R=0.076202
+2026-11-05 10:27:05,159 transreid.train INFO: QG layer 08 rank0-local: raw=(-0.170247, 0.103316), effective=(-0.138343, 0.095011), R=0.071067
+2026-11-05 10:27:05,159 transreid.train INFO: QG layer 09 rank0-local: raw=(-0.137217, 0.120330), effective=(-0.119092, 0.107644), R=0.064482
+2026-11-05 10:27:05,159 transreid.train INFO: QG layer 10 rank0-local: raw=(-0.171231, 0.102096), effective=(-0.138854, 0.094064), R=0.079795
+2026-11-05 10:27:05,159 transreid.train INFO: QG layer 11 rank0-local: raw=(0.029617, 0.026261), effective=(0.029402, 0.026111), R=0.030904
+2026-11-05 10:27:05,159 transreid.train INFO: QG layer 12 rank0-local: raw=(0.072653, -0.054793), effective=(0.069618, -0.053462), R=0.034748
+2026-11-05 10:27:39,672 transreid.train INFO: Epoch[27] Iteration[100/114] Loss: 1.345, Acc: 0.888, Base Lr: 2.82e-02
+2026-11-05 10:27:39,673 transreid.train INFO: Epoch[27] 0.523, 0.310, 0.290, 0.510
+2026-11-05 10:27:39,673 transreid.train INFO: QG layer 01 rank0-local: raw=(-0.231970, 0.171547), effective=(-0.164198, 0.139018), R=0.097511
+2026-11-05 10:27:39,673 transreid.train INFO: QG layer 02 rank0-local: raw=(-0.187540, 0.045587), effective=(-0.146833, 0.044814), R=0.089256
+2026-11-05 10:27:39,673 transreid.train INFO: QG layer 03 rank0-local: raw=(-0.070548, 0.054032), effective=(-0.067760, 0.052754), R=0.035649
+2026-11-05 10:27:39,673 transreid.train INFO: QG layer 04 rank0-local: raw=(-0.074422, 0.059486), effective=(-0.071168, 0.057792), R=0.033342
+2026-11-05 10:27:39,673 transreid.train INFO: QG layer 05 rank0-local: raw=(-0.129137, 0.113246), effective=(-0.113752, 0.102517), R=0.056953
+2026-11-05 10:27:39,673 transreid.train INFO: QG layer 06 rank0-local: raw=(-0.246055, -0.002733), effective=(-0.168532, -0.002733), R=0.112306
+2026-11-05 10:27:39,674 transreid.train INFO: QG layer 07 rank0-local: raw=(-0.185749, 0.069710), effective=(-0.146001, 0.067018), R=0.073468
+2026-11-05 10:27:39,674 transreid.train INFO: QG layer 08 rank0-local: raw=(-0.172629, 0.101325), effective=(-0.139575, 0.093462), R=0.071612
+2026-11-05 10:27:39,674 transreid.train INFO: QG layer 09 rank0-local: raw=(-0.137366, 0.120635), effective=(-0.119188, 0.107861), R=0.062358
+2026-11-05 10:27:39,674 transreid.train INFO: QG layer 10 rank0-local: raw=(-0.171515, 0.107726), effective=(-0.139001, 0.098390), R=0.077371
+2026-11-05 10:27:39,674 transreid.train INFO: QG layer 11 rank0-local: raw=(0.031185, 0.032808), effective=(0.030934, 0.032517), R=0.034924
+2026-11-05 10:27:39,674 transreid.train INFO: QG layer 12 rank0-local: raw=(0.066672, -0.063858), effective=(0.064307, -0.061773), R=0.035313
+2026-11-05 10:27:49,528 transreid.train INFO: Epoch 27 done. Time per batch: 0.737[s] Total: 84.1[s]
+2026-11-05 10:27:56,796 transreid.train INFO: Full checkpoint saved: epoch=27, successful_updates=3080, AMP skips=3, scale=16384.0
+2026-11-05 10:28:36,967 transreid.train INFO: Epoch[28] Iteration[50/114] Loss: 1.350, Acc: 0.884, Base Lr: 2.79e-02
+2026-11-05 10:28:36,967 transreid.train INFO: Epoch[28] 0.526, 0.304, 0.291, 0.517
+2026-11-05 10:28:36,967 transreid.train INFO: QG layer 01 rank0-local: raw=(-0.233849, 0.165309), effective=(-0.164806, 0.135723), R=0.092554
+2026-11-05 10:28:36,967 transreid.train INFO: QG layer 02 rank0-local: raw=(-0.189810, 0.032837), effective=(-0.147871, 0.032545), R=0.092113
+2026-11-05 10:28:36,967 transreid.train INFO: QG layer 03 rank0-local: raw=(-0.069820, 0.078440), effective=(-0.067115, 0.074651), R=0.036597
+2026-11-05 10:28:36,968 transreid.train INFO: QG layer 04 rank0-local: raw=(-0.081232, 0.055270), effective=(-0.077042, 0.053905), R=0.034551
+2026-11-05 10:28:36,968 transreid.train INFO: QG layer 05 rank0-local: raw=(-0.129986, 0.120749), effective=(-0.114325, 0.107942), R=0.056696
+2026-11-05 10:28:36,968 transreid.train INFO: QG layer 06 rank0-local: raw=(-0.249025, 0.016297), effective=(-0.169382, 0.016261), R=0.100923
+2026-11-05 10:28:36,968 transreid.train INFO: QG layer 07 rank0-local: raw=(-0.187609, 0.056460), effective=(-0.146864, 0.055006), R=0.073166
+2026-11-05 10:28:36,968 transreid.train INFO: QG layer 08 rank0-local: raw=(-0.177386, 0.099483), effective=(-0.141975, 0.092017), R=0.070778
+2026-11-05 10:28:36,968 transreid.train INFO: QG layer 09 rank0-local: raw=(-0.139516, 0.124545), effective=(-0.120566, 0.110605), R=0.063529
+2026-11-05 10:28:36,968 transreid.train INFO: QG layer 10 rank0-local: raw=(-0.175791, 0.103650), effective=(-0.141179, 0.095269), R=0.076388
+2026-11-05 10:28:36,968 transreid.train INFO: QG layer 11 rank0-local: raw=(0.025398, 0.029207), effective=(0.025262, 0.029001), R=0.029039
+2026-11-05 10:28:36,968 transreid.train INFO: QG layer 12 rank0-local: raw=(0.069241, -0.052896), effective=(0.066601, -0.051696), R=0.032183
+2026-11-05 10:29:11,433 transreid.train INFO: Epoch[28] Iteration[100/114] Loss: 1.232, Acc: 0.897, Base Lr: 2.79e-02
+2026-11-05 10:29:11,433 transreid.train INFO: Epoch[28] 0.471, 0.294, 0.283, 0.464
+2026-11-05 10:29:11,433 transreid.train INFO: QG layer 01 rank0-local: raw=(-0.234037, 0.170486), effective=(-0.164866, 0.138467), R=0.096971
+2026-11-05 10:29:11,433 transreid.train INFO: QG layer 02 rank0-local: raw=(-0.191979, 0.036149), effective=(-0.148846, 0.035760), R=0.092370
+2026-11-05 10:29:11,433 transreid.train INFO: QG layer 03 rank0-local: raw=(-0.067442, 0.074999), effective=(-0.064997, 0.071671), R=0.035537
+2026-11-05 10:29:11,433 transreid.train INFO: QG layer 04 rank0-local: raw=(-0.079268, 0.072803), effective=(-0.075363, 0.069749), R=0.035884
+2026-11-05 10:29:11,433 transreid.train INFO: QG layer 05 rank0-local: raw=(-0.131703, 0.122664), effective=(-0.115475, 0.109292), R=0.058266
+2026-11-05 10:29:11,434 transreid.train INFO: QG layer 06 rank0-local: raw=(-0.250112, 0.007152), effective=(-0.169688, 0.007149), R=0.107432
+2026-11-05 10:29:11,434 transreid.train INFO: QG layer 07 rank0-local: raw=(-0.187828, 0.054837), effective=(-0.146965, 0.053503), R=0.076209
+2026-11-05 10:29:11,434 transreid.train INFO: QG layer 08 rank0-local: raw=(-0.177900, 0.097172), effective=(-0.142229, 0.090185), R=0.071830
+2026-11-05 10:29:11,434 transreid.train INFO: QG layer 09 rank0-local: raw=(-0.140541, 0.124329), effective=(-0.121217, 0.110455), R=0.063365
+2026-11-05 10:29:11,434 transreid.train INFO: QG layer 10 rank0-local: raw=(-0.176909, 0.108408), effective=(-0.141738, 0.098906), R=0.078327
+2026-11-05 10:29:11,434 transreid.train INFO: QG layer 11 rank0-local: raw=(0.026147, 0.032656), effective=(0.025999, 0.032369), R=0.032106
+2026-11-05 10:29:11,434 transreid.train INFO: QG layer 12 rank0-local: raw=(0.065747, -0.054090), effective=(0.063477, -0.052808), R=0.031928
+2026-11-05 10:29:21,366 transreid.train INFO: Epoch 28 done. Time per batch: 0.742[s] Total: 84.6[s]
+2026-11-05 10:29:31,184 transreid.train INFO: Full checkpoint saved: epoch=28, successful_updates=3194, AMP skips=3, scale=16384.0
+2026-11-05 10:30:10,948 transreid.train INFO: Epoch[29] Iteration[50/114] Loss: 1.340, Acc: 0.887, Base Lr: 2.76e-02
+2026-11-05 10:30:10,949 transreid.train INFO: Epoch[29] 0.524, 0.298, 0.290, 0.515
+2026-11-05 10:30:10,949 transreid.train INFO: QG layer 01 rank0-local: raw=(-0.237689, 0.166251), effective=(-0.166019, 0.136230), R=0.096201
+2026-11-05 10:30:10,949 transreid.train INFO: QG layer 02 rank0-local: raw=(-0.196330, 0.024058), effective=(-0.150756, 0.023943), R=0.098210
+2026-11-05 10:30:10,949 transreid.train INFO: QG layer 03 rank0-local: raw=(-0.067929, 0.074398), effective=(-0.065432, 0.071146), R=0.035369
+2026-11-05 10:30:10,949 transreid.train INFO: QG layer 04 rank0-local: raw=(-0.081821, 0.058175), effective=(-0.077543, 0.056588), R=0.035110
+2026-11-05 10:30:10,949 transreid.train INFO: QG layer 05 rank0-local: raw=(-0.134410, 0.120263), effective=(-0.117265, 0.107597), R=0.058142
+2026-11-05 10:30:10,949 transreid.train INFO: QG layer 06 rank0-local: raw=(-0.252354, -0.000688), effective=(-0.170310, -0.000688), R=0.108977
+2026-11-05 10:30:10,950 transreid.train INFO: QG layer 07 rank0-local: raw=(-0.194834, 0.056627), effective=(-0.150106, 0.055161), R=0.075631
+2026-11-05 10:30:10,950 transreid.train INFO: QG layer 08 rank0-local: raw=(-0.183480, 0.096771), effective=(-0.144933, 0.089865), R=0.071606
+2026-11-05 10:30:10,950 transreid.train INFO: QG layer 09 rank0-local: raw=(-0.140072, 0.131786), effective=(-0.120920, 0.115530), R=0.064155
+2026-11-05 10:30:10,950 transreid.train INFO: QG layer 10 rank0-local: raw=(-0.177982, 0.112997), effective=(-0.142270, 0.102334), R=0.078102
+2026-11-05 10:30:10,950 transreid.train INFO: QG layer 11 rank0-local: raw=(0.027582, 0.034587), effective=(0.027409, 0.034246), R=0.033884
+2026-11-05 10:30:10,950 transreid.train INFO: QG layer 12 rank0-local: raw=(0.062547, -0.056743), effective=(0.060585, -0.055268), R=0.031639
+2026-11-05 10:30:45,367 transreid.train INFO: Epoch[29] Iteration[100/114] Loss: 1.190, Acc: 0.902, Base Lr: 2.76e-02
+2026-11-05 10:30:45,367 transreid.train INFO: Epoch[29] 0.454, 0.286, 0.283, 0.447
+2026-11-05 10:30:45,367 transreid.train INFO: QG layer 01 rank0-local: raw=(-0.239140, 0.174389), effective=(-0.166468, 0.140472), R=0.097484
+2026-11-05 10:30:45,368 transreid.train INFO: QG layer 02 rank0-local: raw=(-0.196258, 0.034605), effective=(-0.150725, 0.034264), R=0.092243
+2026-11-05 10:30:45,368 transreid.train INFO: QG layer 03 rank0-local: raw=(-0.053350, 0.076158), effective=(-0.052120, 0.072678), R=0.032250
+2026-11-05 10:30:45,368 transreid.train INFO: QG layer 04 rank0-local: raw=(-0.082084, 0.052978), effective=(-0.077766, 0.051772), R=0.035113
+2026-11-05 10:30:45,368 transreid.train INFO: QG layer 05 rank0-local: raw=(-0.133972, 0.135559), effective=(-0.116977, 0.118017), R=0.059552
+2026-11-05 10:30:45,368 transreid.train INFO: QG layer 06 rank0-local: raw=(-0.253723, -0.002090), effective=(-0.170684, -0.002089), R=0.111071
+2026-11-05 10:30:45,368 transreid.train INFO: QG layer 07 rank0-local: raw=(-0.194193, 0.061574), effective=(-0.149825, 0.059700), R=0.075443
+2026-11-05 10:30:45,368 transreid.train INFO: QG layer 08 rank0-local: raw=(-0.182261, 0.114776), effective=(-0.144352, 0.103641), R=0.072783
+2026-11-05 10:30:45,368 transreid.train INFO: QG layer 09 rank0-local: raw=(-0.144199, 0.125899), effective=(-0.123505, 0.111541), R=0.063453
+2026-11-05 10:30:45,369 transreid.train INFO: QG layer 10 rank0-local: raw=(-0.178101, 0.108449), effective=(-0.142329, 0.098937), R=0.075747
+2026-11-05 10:30:45,369 transreid.train INFO: QG layer 11 rank0-local: raw=(0.027927, 0.035712), effective=(0.027747, 0.035338), R=0.033880
+2026-11-05 10:30:45,369 transreid.train INFO: QG layer 12 rank0-local: raw=(0.063914, -0.047809), effective=(0.061824, -0.046918), R=0.030914
+2026-11-05 10:30:55,302 transreid.train INFO: Epoch 29 done. Time per batch: 0.738[s] Total: 84.1[s]
+2026-11-05 10:31:03,988 transreid.train INFO: Full checkpoint saved: epoch=29, successful_updates=3308, AMP skips=3, scale=16384.0
+2026-11-05 10:31:43,636 transreid.train INFO: Epoch[30] Iteration[50/114] Loss: 1.256, Acc: 0.892, Base Lr: 2.73e-02
+2026-11-05 10:31:43,636 transreid.train INFO: Epoch[30] 0.484, 0.292, 0.289, 0.477
+2026-11-05 10:31:43,637 transreid.train INFO: QG layer 01 rank0-local: raw=(-0.240141, 0.177239), effective=(-0.166774, 0.141902), R=0.098404
+2026-11-05 10:31:43,637 transreid.train INFO: QG layer 02 rank0-local: raw=(-0.197922, 0.033489), effective=(-0.151439, 0.033180), R=0.095678
+2026-11-05 10:31:43,637 transreid.train INFO: QG layer 03 rank0-local: raw=(-0.058220, 0.062084), effective=(-0.056629, 0.060164), R=0.030786
+2026-11-05 10:31:43,637 transreid.train INFO: QG layer 04 rank0-local: raw=(-0.080257, 0.065117), effective=(-0.076210, 0.062910), R=0.035579
+2026-11-05 10:31:43,637 transreid.train INFO: QG layer 05 rank0-local: raw=(-0.143364, 0.118486), effective=(-0.122987, 0.106328), R=0.061062
+2026-11-05 10:31:43,637 transreid.train INFO: QG layer 06 rank0-local: raw=(-0.254943, 0.001013), effective=(-0.171014, 0.001013), R=0.111060
+2026-11-05 10:31:43,637 transreid.train INFO: QG layer 07 rank0-local: raw=(-0.197758, 0.056536), effective=(-0.151369, 0.055076), R=0.079128
+2026-11-05 10:31:43,637 transreid.train INFO: QG layer 08 rank0-local: raw=(-0.187863, 0.103354), effective=(-0.146981, 0.095041), R=0.074611
+2026-11-05 10:31:43,638 transreid.train INFO: QG layer 09 rank0-local: raw=(-0.147325, 0.130934), effective=(-0.125420, 0.114961), R=0.066797
+2026-11-05 10:31:43,638 transreid.train INFO: QG layer 10 rank0-local: raw=(-0.180919, 0.103360), effective=(-0.143705, 0.095046), R=0.080386
+2026-11-05 10:31:43,638 transreid.train INFO: QG layer 11 rank0-local: raw=(0.027188, 0.028725), effective=(0.027022, 0.028529), R=0.030138
+2026-11-05 10:31:43,638 transreid.train INFO: QG layer 12 rank0-local: raw=(0.061709, -0.050714), effective=(0.059822, -0.049654), R=0.030345
+2026-11-05 10:32:17,955 transreid.train INFO: Epoch[30] Iteration[100/114] Loss: 1.148, Acc: 0.903, Base Lr: 2.73e-02
+2026-11-05 10:32:17,955 transreid.train INFO: Epoch[30] 0.434, 0.284, 0.282, 0.428
+2026-11-05 10:32:17,955 transreid.train INFO: QG layer 01 rank0-local: raw=(-0.242931, 0.174580), effective=(-0.167614, 0.140569), R=0.099773
+2026-11-05 10:32:17,955 transreid.train INFO: QG layer 02 rank0-local: raw=(-0.200368, 0.025108), effective=(-0.152473, 0.024977), R=0.097888
+2026-11-05 10:32:17,955 transreid.train INFO: QG layer 03 rank0-local: raw=(-0.064409, 0.050418), effective=(-0.062271, 0.049377), R=0.031213
+2026-11-05 10:32:17,956 transreid.train INFO: QG layer 04 rank0-local: raw=(-0.076949, 0.066327), effective=(-0.073364, 0.063998), R=0.033568
+2026-11-05 10:32:17,956 transreid.train INFO: QG layer 05 rank0-local: raw=(-0.146969, 0.128865), effective=(-0.125204, 0.113567), R=0.060854
+2026-11-05 10:32:17,956 transreid.train INFO: QG layer 06 rank0-local: raw=(-0.255397, 0.009791), effective=(-0.171136, 0.009783), R=0.105375
+2026-11-05 10:32:17,956 transreid.train INFO: QG layer 07 rank0-local: raw=(-0.202107, 0.055902), effective=(-0.153196, 0.054490), R=0.078053
+2026-11-05 10:32:17,956 transreid.train INFO: QG layer 08 rank0-local: raw=(-0.186885, 0.120092), effective=(-0.146530, 0.107475), R=0.073681
+2026-11-05 10:32:17,956 transreid.train INFO: QG layer 09 rank0-local: raw=(-0.150037, 0.123542), effective=(-0.127052, 0.109907), R=0.064713
+2026-11-05 10:32:17,956 transreid.train INFO: QG layer 10 rank0-local: raw=(-0.180241, 0.106578), effective=(-0.143377, 0.097517), R=0.078452
+2026-11-05 10:32:17,956 transreid.train INFO: QG layer 11 rank0-local: raw=(0.025869, 0.030022), effective=(0.025726, 0.029799), R=0.029448
+2026-11-05 10:32:17,956 transreid.train INFO: QG layer 12 rank0-local: raw=(0.059854, -0.051212), effective=(0.058129, -0.050121), R=0.029977
+2026-11-05 10:32:27,929 transreid.train INFO: Epoch 30 done. Time per batch: 0.736[s] Total: 83.9[s]
+2026-11-05 10:33:42,563 transreid.train INFO: => Split mode 1: query 2135, total query 2135
+2026-11-05 10:33:49,681 transreid.train INFO: The test feature is normalized
+2026-11-05 10:33:49,733 transreid.train INFO: => Computing DistMat in q-chunks (chunk=4000)
+2026-11-05 10:35:07,584 transreid.train INFO: Starting modality-pair specific evaluation. Query mods: [1, 2, 3], Gallery mods: [1, 2, 3]
+2026-11-05 10:35:15,703 transreid.train INFO:   Pair (Q:1, G:1) -> Rank-1: 35.74%, mAP: 22.48%, mINP: 4.04%
+2026-11-05 10:35:23,723 transreid.train INFO:   Pair (Q:1, G:2) -> Rank-1: 20.70%, mAP: 12.81%, mINP: 1.74%
+2026-11-05 10:35:31,777 transreid.train INFO:   Pair (Q:1, G:3) -> Rank-1: 5.34%, mAP: 4.22%, mINP: 0.84%
+2026-11-05 10:35:39,962 transreid.train INFO:   Pair (Q:2, G:1) -> Rank-1: 19.95%, mAP: 12.70%, mINP: 2.15%
+2026-11-05 10:35:47,903 transreid.train INFO:   Pair (Q:2, G:2) -> Rank-1: 23.28%, mAP: 13.80%, mINP: 1.84%
+2026-11-05 10:35:55,826 transreid.train INFO:   Pair (Q:2, G:3) -> Rank-1: 4.92%, mAP: 3.79%, mINP: 0.78%
+2026-11-05 10:36:04,322 transreid.train INFO:   Pair (Q:3, G:1) -> Rank-1: 5.25%, mAP: 4.04%, mINP: 0.92%
+2026-11-05 10:36:12,390 transreid.train INFO:   Pair (Q:3, G:2) -> Rank-1: 6.37%, mAP: 3.78%, mINP: 0.75%
+2026-11-05 10:36:20,764 transreid.train INFO:   Pair (Q:3, G:3) -> Rank-1: 15.60%, mAP: 10.81%, mINP: 1.77%
+2026-11-05 10:36:20,765 transreid.train INFO: VI-ReID results (Table 5 protocol):
+2026-11-05 10:36:20,765 transreid.train INFO:   Setting   Rank-1     mAP    mINP
+2026-11-05 10:36:20,765 transreid.train INFO:   NIR->RGB    19.95%  12.70%   2.15%
+2026-11-05 10:36:20,765 transreid.train INFO:   TIR->RGB     5.25%   4.04%   0.92%
+2026-11-05 10:36:20,765 transreid.train INFO: Modality-pair results (Table 6 protocol):
+2026-11-05 10:36:20,765 transreid.train INFO:   Query Gallery  Rank-1     mAP    mINP
+2026-11-05 10:36:20,765 transreid.train INFO:     RGB     RGB  35.74%  22.48%   4.04%
+2026-11-05 10:36:20,765 transreid.train INFO:     RGB     NIR  20.70%  12.81%   1.74%
+2026-11-05 10:36:20,765 transreid.train INFO:     RGB     TIR   5.34%   4.22%   0.84%
+2026-11-05 10:36:20,765 transreid.train INFO:     NIR     RGB  19.95%  12.70%   2.15%
+2026-11-05 10:36:20,765 transreid.train INFO:     NIR     NIR  23.28%  13.80%   1.84%
+2026-11-05 10:36:20,765 transreid.train INFO:     NIR     TIR   4.92%   3.79%   0.78%
+2026-11-05 10:36:20,765 transreid.train INFO:     TIR     RGB   5.25%   4.04%   0.92%
+2026-11-05 10:36:20,765 transreid.train INFO:     TIR     NIR   6.37%   3.78%   0.75%
+2026-11-05 10:36:20,765 transreid.train INFO:     TIR     TIR  15.60%  10.81%   1.77%
+2026-11-05 10:36:20,766 transreid.train INFO: AG-ReID results (Table 4 protocol; all modalities):
+2026-11-05 10:36:33,872 transreid.train INFO:   A->G -> mAP: 10.39%, Rank-1: 30.44%, Rank-10: 57.48%
+2026-11-05 10:36:46,742 transreid.train INFO:   G->A -> mAP: 12.01%, Rank-1: 29.92%, Rank-10: 54.81%
+2026-11-05 10:36:46,764 transreid.train INFO: Validation Results - Epoch: 30
+2026-11-05 10:36:46,764 transreid.train INFO: mAP: 8.74%
+2026-11-05 10:36:46,764 transreid.train INFO: CMC curve, Rank-1 : 24.92%
+2026-11-05 10:36:46,764 transreid.train INFO: CMC curve, Rank-5 : 40.42%
+2026-11-05 10:36:46,764 transreid.train INFO: CMC curve, Rank-10: 48.82%
+2026-11-05 10:36:55,676 transreid.train INFO: Full checkpoint saved: epoch=30, successful_updates=3422, AMP skips=3, scale=16384.0
+2026-11-05 10:37:36,377 transreid.train INFO: Epoch[31] Iteration[50/114] Loss: 1.166, Acc: 0.904, Base Lr: 2.70e-02
+2026-11-05 10:37:36,377 transreid.train INFO: Epoch[31] 0.452, 0.286, 0.291, 0.425
+2026-11-05 10:37:36,377 transreid.train INFO: QG layer 01 rank0-local: raw=(-0.244672, 0.177868), effective=(-0.168128, 0.142213), R=0.099150
+2026-11-05 10:37:36,378 transreid.train INFO: QG layer 02 rank0-local: raw=(-0.202042, 0.027621), effective=(-0.153170, 0.027447), R=0.099367
+2026-11-05 10:37:36,378 transreid.train INFO: QG layer 03 rank0-local: raw=(-0.068440, 0.072771), effective=(-0.065888, 0.069721), R=0.035290
+2026-11-05 10:37:36,378 transreid.train INFO: QG layer 04 rank0-local: raw=(-0.083055, 0.062195), effective=(-0.078589, 0.060265), R=0.036091
+2026-11-05 10:37:36,378 transreid.train INFO: QG layer 05 rank0-local: raw=(-0.147448, 0.125620), effective=(-0.125495, 0.111348), R=0.062294
+2026-11-05 10:37:36,378 transreid.train INFO: QG layer 06 rank0-local: raw=(-0.258674, 0.012505), effective=(-0.172001, 0.012489), R=0.109713
+2026-11-05 10:37:36,378 transreid.train INFO: QG layer 07 rank0-local: raw=(-0.201086, 0.058019), effective=(-0.152773, 0.056445), R=0.079867
+2026-11-05 10:37:36,378 transreid.train INFO: QG layer 08 rank0-local: raw=(-0.193614, 0.103463), effective=(-0.149571, 0.095125), R=0.075392
+2026-11-05 10:37:36,378 transreid.train INFO: QG layer 09 rank0-local: raw=(-0.150659, 0.135341), effective=(-0.127422, 0.117874), R=0.067372
+2026-11-05 10:37:36,378 transreid.train INFO: QG layer 10 rank0-local: raw=(-0.183268, 0.106664), effective=(-0.144832, 0.097583), R=0.080261
+2026-11-05 10:37:36,379 transreid.train INFO: QG layer 11 rank0-local: raw=(0.023107, 0.023778), effective=(0.023005, 0.023667), R=0.025340
+2026-11-05 10:37:36,379 transreid.train INFO: QG layer 12 rank0-local: raw=(0.056616, -0.054120), effective=(0.055150, -0.052836), R=0.029353
+2026-11-05 10:38:11,115 transreid.train INFO: Epoch[31] Iteration[100/114] Loss: 1.088, Acc: 0.913, Base Lr: 2.70e-02
+2026-11-05 10:38:11,115 transreid.train INFO: Epoch[31] 0.412, 0.276, 0.283, 0.397
+2026-11-05 10:38:11,116 transreid.train INFO: QG layer 01 rank0-local: raw=(-0.245531, 0.176755), effective=(-0.168380, 0.141661), R=0.098983
+2026-11-05 10:38:11,116 transreid.train INFO: QG layer 02 rank0-local: raw=(-0.200185, 0.032268), effective=(-0.152397, 0.031991), R=0.097652
+2026-11-05 10:38:11,116 transreid.train INFO: QG layer 03 rank0-local: raw=(-0.065645, 0.068724), effective=(-0.063385, 0.066141), R=0.034143
+2026-11-05 10:38:11,116 transreid.train INFO: QG layer 04 rank0-local: raw=(-0.088501, 0.057721), effective=(-0.083144, 0.056170), R=0.038101
+2026-11-05 10:38:11,116 transreid.train INFO: QG layer 05 rank0-local: raw=(-0.147049, 0.130213), effective=(-0.125253, 0.114477), R=0.063131
+2026-11-05 10:38:11,116 transreid.train INFO: QG layer 06 rank0-local: raw=(-0.260181, -0.006158), effective=(-0.172391, -0.006156), R=0.117633
+2026-11-05 10:38:11,116 transreid.train INFO: QG layer 07 rank0-local: raw=(-0.202066, 0.061505), effective=(-0.153180, 0.059637), R=0.079299
+2026-11-05 10:38:11,116 transreid.train INFO: QG layer 08 rank0-local: raw=(-0.195183, 0.111512), effective=(-0.150258, 0.101233), R=0.078081
+2026-11-05 10:38:11,116 transreid.train INFO: QG layer 09 rank0-local: raw=(-0.151135, 0.128164), effective=(-0.127705, 0.113091), R=0.067099
+2026-11-05 10:38:11,117 transreid.train INFO: QG layer 10 rank0-local: raw=(-0.184623, 0.118755), effective=(-0.145473, 0.106521), R=0.079733
+2026-11-05 10:38:11,117 transreid.train INFO: QG layer 11 rank0-local: raw=(0.022135, 0.025188), effective=(0.022045, 0.025055), R=0.025471
+2026-11-05 10:38:11,117 transreid.train INFO: QG layer 12 rank0-local: raw=(0.058252, -0.043796), effective=(0.056658, -0.043110), R=0.027438
+2026-11-05 10:38:21,235 transreid.train INFO: Epoch 31 done. Time per batch: 0.751[s] Total: 85.6[s]
+2026-11-05 10:38:33,698 transreid.train INFO: Full checkpoint saved: epoch=31, successful_updates=3536, AMP skips=3, scale=16384.0
+2026-11-05 10:39:13,728 transreid.train INFO: Epoch[32] Iteration[50/113] Loss: 1.180, Acc: 0.904, Base Lr: 2.67e-02
+2026-11-05 10:39:13,728 transreid.train INFO: Epoch[32] 0.451, 0.283, 0.290, 0.443
+2026-11-05 10:39:13,728 transreid.train INFO: QG layer 01 rank0-local: raw=(-0.245683, 0.179996), effective=(-0.168424, 0.143258), R=0.099970
+2026-11-05 10:39:13,728 transreid.train INFO: QG layer 02 rank0-local: raw=(-0.200220, 0.016677), effective=(-0.152411, 0.016638), R=0.102781
+2026-11-05 10:39:13,728 transreid.train INFO: QG layer 03 rank0-local: raw=(-0.061596, 0.065627), effective=(-0.059719, 0.063368), R=0.032251
+2026-11-05 10:39:13,729 transreid.train INFO: QG layer 04 rank0-local: raw=(-0.085550, 0.053547), effective=(-0.080688, 0.052303), R=0.036993
+2026-11-05 10:39:13,729 transreid.train INFO: QG layer 05 rank0-local: raw=(-0.150414, 0.126529), effective=(-0.127277, 0.111974), R=0.063162
+2026-11-05 10:39:13,729 transreid.train INFO: QG layer 06 rank0-local: raw=(-0.262726, 0.011875), effective=(-0.173038, 0.011861), R=0.108481
+2026-11-05 10:39:13,729 transreid.train INFO: QG layer 07 rank0-local: raw=(-0.206564, 0.056575), effective=(-0.155007, 0.055112), R=0.079484
+2026-11-05 10:39:13,729 transreid.train INFO: QG layer 08 rank0-local: raw=(-0.198958, 0.102993), effective=(-0.151879, 0.094761), R=0.077008
+2026-11-05 10:39:13,729 transreid.train INFO: QG layer 09 rank0-local: raw=(-0.154501, 0.131229), effective=(-0.129677, 0.115158), R=0.067958
+2026-11-05 10:39:13,729 transreid.train INFO: QG layer 10 rank0-local: raw=(-0.186381, 0.113189), effective=(-0.146296, 0.102475), R=0.079620
+2026-11-05 10:39:13,729 transreid.train INFO: QG layer 11 rank0-local: raw=(0.023940, 0.033511), effective=(0.023826, 0.033201), R=0.030527
+2026-11-05 10:39:13,729 transreid.train INFO: QG layer 12 rank0-local: raw=(0.055750, -0.046977), effective=(0.054349, -0.046132), R=0.027093
+2026-11-05 10:39:48,014 transreid.train INFO: Epoch[32] Iteration[100/113] Loss: 1.050, Acc: 0.916, Base Lr: 2.67e-02
+2026-11-05 10:39:48,014 transreid.train INFO: Epoch[32] 0.392, 0.269, 0.279, 0.386
+2026-11-05 10:39:48,014 transreid.train INFO: QG layer 01 rank0-local: raw=(-0.247969, 0.182642), effective=(-0.169082, 0.144534), R=0.103847
+2026-11-05 10:39:48,015 transreid.train INFO: QG layer 02 rank0-local: raw=(-0.199970, 0.028842), effective=(-0.152306, 0.028644), R=0.100703
+2026-11-05 10:39:48,015 transreid.train INFO: QG layer 03 rank0-local: raw=(-0.064774, 0.060640), effective=(-0.062600, 0.058847), R=0.033067
+2026-11-05 10:39:48,015 transreid.train INFO: QG layer 04 rank0-local: raw=(-0.080677, 0.065410), effective=(-0.076568, 0.063173), R=0.036461
+2026-11-05 10:39:48,015 transreid.train INFO: QG layer 05 rank0-local: raw=(-0.149543, 0.137345), effective=(-0.126757, 0.119175), R=0.064912
+2026-11-05 10:39:48,015 transreid.train INFO: QG layer 06 rank0-local: raw=(-0.266020, 0.000702), effective=(-0.173855, 0.000702), R=0.115298
+2026-11-05 10:39:48,015 transreid.train INFO: QG layer 07 rank0-local: raw=(-0.206224, 0.064543), effective=(-0.154871, 0.062392), R=0.079628
+2026-11-05 10:39:48,015 transreid.train INFO: QG layer 08 rank0-local: raw=(-0.201028, 0.115444), effective=(-0.152749, 0.104129), R=0.078589
+2026-11-05 10:39:48,015 transreid.train INFO: QG layer 09 rank0-local: raw=(-0.153818, 0.122499), effective=(-0.129280, 0.109176), R=0.067496
+2026-11-05 10:39:48,015 transreid.train INFO: QG layer 10 rank0-local: raw=(-0.187986, 0.114466), effective=(-0.147038, 0.103414), R=0.083107
+2026-11-05 10:39:48,016 transreid.train INFO: QG layer 11 rank0-local: raw=(0.021950, 0.030867), effective=(0.021862, 0.030624), R=0.029384
+2026-11-05 10:39:48,016 transreid.train INFO: QG layer 12 rank0-local: raw=(0.055855, -0.047770), effective=(0.054447, -0.046882), R=0.028570
+2026-11-05 10:39:57,331 transreid.train INFO: Epoch 32 done. Time per batch: 0.740[s] Total: 83.6[s]
+2026-11-05 10:40:04,620 transreid.train INFO: Full checkpoint saved: epoch=32, successful_updates=3649, AMP skips=3, scale=16384.0
+2026-11-05 10:40:44,824 transreid.train INFO: Epoch[33] Iteration[50/114] Loss: 1.139, Acc: 0.904, Base Lr: 2.64e-02
+2026-11-05 10:40:44,825 transreid.train INFO: Epoch[33] 0.438, 0.279, 0.286, 0.419
+2026-11-05 10:40:44,825 transreid.train INFO: QG layer 01 rank0-local: raw=(-0.247980, 0.181156), effective=(-0.169085, 0.143820), R=0.099294
+2026-11-05 10:40:44,825 transreid.train INFO: QG layer 02 rank0-local: raw=(-0.202296, 0.025208), effective=(-0.153275, 0.025075), R=0.101442
+2026-11-05 10:40:44,825 transreid.train INFO: QG layer 03 rank0-local: raw=(-0.065760, 0.072129), effective=(-0.063489, 0.069156), R=0.034638
+2026-11-05 10:40:44,825 transreid.train INFO: QG layer 04 rank0-local: raw=(-0.076727, 0.060215), effective=(-0.073172, 0.058460), R=0.033853
+2026-11-05 10:40:44,825 transreid.train INFO: QG layer 05 rank0-local: raw=(-0.154949, 0.121197), effective=(-0.129936, 0.108259), R=0.063195
+2026-11-05 10:40:44,825 transreid.train INFO: QG layer 06 rank0-local: raw=(-0.269437, 0.000326), effective=(-0.174677, 0.000326), R=0.112058
+2026-11-05 10:40:44,826 transreid.train INFO: QG layer 07 rank0-local: raw=(-0.206293, 0.055139), effective=(-0.154899, 0.053783), R=0.079678
+2026-11-05 10:40:44,826 transreid.train INFO: QG layer 08 rank0-local: raw=(-0.205325, 0.101407), effective=(-0.154510, 0.093526), R=0.077435
+2026-11-05 10:40:44,826 transreid.train INFO: QG layer 09 rank0-local: raw=(-0.153733, 0.139860), effective=(-0.129230, 0.120785), R=0.069093
+2026-11-05 10:40:44,826 transreid.train INFO: QG layer 10 rank0-local: raw=(-0.191356, 0.094902), effective=(-0.148567, 0.088367), R=0.082068
+2026-11-05 10:40:44,826 transreid.train INFO: QG layer 11 rank0-local: raw=(0.017169, 0.024970), effective=(0.017127, 0.024841), R=0.022978
+2026-11-05 10:40:44,826 transreid.train INFO: QG layer 12 rank0-local: raw=(0.051792, -0.045973), effective=(0.050665, -0.045180), R=0.026161
+2026-11-05 10:41:19,228 transreid.train INFO: Epoch[33] Iteration[100/114] Loss: 1.020, Acc: 0.916, Base Lr: 2.64e-02
+2026-11-05 10:41:19,228 transreid.train INFO: Epoch[33] 0.382, 0.263, 0.276, 0.372
+2026-11-05 10:41:19,228 transreid.train INFO: QG layer 01 rank0-local: raw=(-0.249405, 0.184940), effective=(-0.169489, 0.145623), R=0.098022
+2026-11-05 10:41:19,228 transreid.train INFO: QG layer 02 rank0-local: raw=(-0.201442, 0.026465), effective=(-0.152921, 0.026312), R=0.096350
+2026-11-05 10:41:19,229 transreid.train INFO: QG layer 03 rank0-local: raw=(-0.059909, 0.059743), effective=(-0.058179, 0.058027), R=0.030211
+2026-11-05 10:41:19,229 transreid.train INFO: QG layer 04 rank0-local: raw=(-0.079136, 0.061492), effective=(-0.075249, 0.059625), R=0.034042
+2026-11-05 10:41:19,229 transreid.train INFO: QG layer 05 rank0-local: raw=(-0.150722, 0.130484), effective=(-0.127459, 0.114659), R=0.061984
+2026-11-05 10:41:19,229 transreid.train INFO: QG layer 06 rank0-local: raw=(-0.271032, 0.000171), effective=(-0.175053, 0.000171), R=0.112218
+2026-11-05 10:41:19,229 transreid.train INFO: QG layer 07 rank0-local: raw=(-0.208031, 0.070696), effective=(-0.155590, 0.067892), R=0.076224
+2026-11-05 10:41:19,229 transreid.train INFO: QG layer 08 rank0-local: raw=(-0.206382, 0.109852), effective=(-0.154935, 0.099993), R=0.076885
+2026-11-05 10:41:19,229 transreid.train INFO: QG layer 09 rank0-local: raw=(-0.153422, 0.137396), effective=(-0.129049, 0.119208), R=0.066983
+2026-11-05 10:41:19,229 transreid.train INFO: QG layer 10 rank0-local: raw=(-0.191518, 0.104385), effective=(-0.148640, 0.095837), R=0.078936
+2026-11-05 10:41:19,229 transreid.train INFO: QG layer 11 rank0-local: raw=(0.019805, 0.036360), effective=(0.019741, 0.035964), R=0.029691
+2026-11-05 10:41:19,230 transreid.train INFO: QG layer 12 rank0-local: raw=(0.047602, -0.047422), effective=(0.046723, -0.046553), R=0.025835
+2026-11-05 10:41:29,196 transreid.train INFO: Epoch 33 done. Time per batch: 0.742[s] Total: 84.6[s]
+2026-11-05 10:41:37,103 transreid.train INFO: Full checkpoint saved: epoch=33, successful_updates=3763, AMP skips=3, scale=16384.0
+2026-11-05 10:42:17,230 transreid.train INFO: Epoch[34] Iteration[50/114] Loss: 1.091, Acc: 0.910, Base Lr: 2.61e-02
+2026-11-05 10:42:17,231 transreid.train INFO: Epoch[34] 0.417, 0.271, 0.283, 0.399
+2026-11-05 10:42:17,231 transreid.train INFO: QG layer 01 rank0-local: raw=(-0.250900, 0.188593), effective=(-0.169908, 0.147316), R=0.100133
+2026-11-05 10:42:17,231 transreid.train INFO: QG layer 02 rank0-local: raw=(-0.203317, 0.030328), effective=(-0.153694, 0.030098), R=0.096991
+2026-11-05 10:42:17,231 transreid.train INFO: QG layer 03 rank0-local: raw=(-0.055524, 0.062992), effective=(-0.054140, 0.060988), R=0.029691
+2026-11-05 10:42:17,231 transreid.train INFO: QG layer 04 rank0-local: raw=(-0.082519, 0.051401), effective=(-0.078135, 0.050299), R=0.035650
+2026-11-05 10:42:17,231 transreid.train INFO: QG layer 05 rank0-local: raw=(-0.153143, 0.129515), effective=(-0.128886, 0.114007), R=0.063222
+2026-11-05 10:42:17,231 transreid.train INFO: QG layer 06 rank0-local: raw=(-0.274480, 0.003425), effective=(-0.175848, 0.003424), R=0.113589
+2026-11-05 10:42:17,231 transreid.train INFO: QG layer 07 rank0-local: raw=(-0.210842, 0.053714), effective=(-0.156688, 0.052459), R=0.081666
+2026-11-05 10:42:17,232 transreid.train INFO: QG layer 08 rank0-local: raw=(-0.209658, 0.114165), effective=(-0.156228, 0.103193), R=0.079217
+2026-11-05 10:42:17,232 transreid.train INFO: QG layer 09 rank0-local: raw=(-0.156556, 0.123193), effective=(-0.130860, 0.109663), R=0.066738
+2026-11-05 10:42:17,232 transreid.train INFO: QG layer 10 rank0-local: raw=(-0.194685, 0.091443), effective=(-0.150041, 0.085562), R=0.082696
+2026-11-05 10:42:17,232 transreid.train INFO: QG layer 11 rank0-local: raw=(0.014254, 0.028478), effective=(0.014230, 0.028287), R=0.023622
+2026-11-05 10:42:17,232 transreid.train INFO: QG layer 12 rank0-local: raw=(0.048404, -0.052125), effective=(0.047481, -0.050976), R=0.027538
+2026-11-05 10:42:51,619 transreid.train INFO: Epoch[34] Iteration[100/114] Loss: 0.986, Acc: 0.920, Base Lr: 2.61e-02
+2026-11-05 10:42:51,619 transreid.train INFO: Epoch[34] 0.370, 0.255, 0.273, 0.358
+2026-11-05 10:42:51,619 transreid.train INFO: QG layer 01 rank0-local: raw=(-0.252948, 0.188226), effective=(-0.170473, 0.147148), R=0.101052
+2026-11-05 10:42:51,619 transreid.train INFO: QG layer 02 rank0-local: raw=(-0.205740, 0.034538), effective=(-0.154677, 0.034199), R=0.098371
+2026-11-05 10:42:51,619 transreid.train INFO: QG layer 03 rank0-local: raw=(-0.056948, 0.061513), effective=(-0.055457, 0.059644), R=0.030252
+2026-11-05 10:42:51,619 transreid.train INFO: QG layer 04 rank0-local: raw=(-0.082987, 0.073544), effective=(-0.078531, 0.070399), R=0.037036
+2026-11-05 10:42:51,620 transreid.train INFO: QG layer 05 rank0-local: raw=(-0.153676, 0.127279), effective=(-0.129197, 0.112488), R=0.064288
+2026-11-05 10:42:51,620 transreid.train INFO: QG layer 06 rank0-local: raw=(-0.275457, 0.012607), effective=(-0.176068, 0.012590), R=0.113835
+2026-11-05 10:42:51,620 transreid.train INFO: QG layer 07 rank0-local: raw=(-0.212937, 0.055440), effective=(-0.157490, 0.054062), R=0.083815
+2026-11-05 10:42:51,620 transreid.train INFO: QG layer 08 rank0-local: raw=(-0.208885, 0.099730), effective=(-0.155926, 0.092211), R=0.079323
+2026-11-05 10:42:51,620 transreid.train INFO: QG layer 09 rank0-local: raw=(-0.157435, 0.129826), effective=(-0.131361, 0.114217), R=0.067733
+2026-11-05 10:42:51,620 transreid.train INFO: QG layer 10 rank0-local: raw=(-0.194516, 0.114837), effective=(-0.149967, 0.103685), R=0.080638
+2026-11-05 10:42:51,620 transreid.train INFO: QG layer 11 rank0-local: raw=(0.015176, 0.030329), effective=(0.015147, 0.030099), R=0.025230
+2026-11-05 10:42:51,620 transreid.train INFO: QG layer 12 rank0-local: raw=(0.050039, -0.044515), effective=(0.049020, -0.043794), R=0.025772
+2026-11-05 10:43:01,507 transreid.train INFO: Epoch 34 done. Time per batch: 0.740[s] Total: 84.4[s]
+2026-11-05 10:43:08,821 transreid.train INFO: Full checkpoint saved: epoch=34, successful_updates=3877, AMP skips=3, scale=16384.0
+2026-11-05 10:43:48,526 transreid.train INFO: Epoch[35] Iteration[50/115] Loss: 1.032, Acc: 0.918, Base Lr: 2.58e-02
+2026-11-05 10:43:48,526 transreid.train INFO: Epoch[35] 0.387, 0.265, 0.281, 0.376
+2026-11-05 10:43:48,526 transreid.train INFO: QG layer 01 rank0-local: raw=(-0.254649, 0.192519), effective=(-0.170935, 0.149087), R=0.099529
+2026-11-05 10:43:48,526 transreid.train INFO: QG layer 02 rank0-local: raw=(-0.210695, 0.032132), effective=(-0.156631, 0.031858), R=0.101476
+2026-11-05 10:43:48,526 transreid.train INFO: QG layer 03 rank0-local: raw=(-0.051955, 0.064037), effective=(-0.050817, 0.061935), R=0.029207
+2026-11-05 10:43:48,526 transreid.train INFO: QG layer 04 rank0-local: raw=(-0.079286, 0.059907), effective=(-0.075378, 0.058177), R=0.034970
+2026-11-05 10:43:48,526 transreid.train INFO: QG layer 05 rank0-local: raw=(-0.149017, 0.138255), effective=(-0.126442, 0.119760), R=0.064319
+2026-11-05 10:43:48,527 transreid.train INFO: QG layer 06 rank0-local: raw=(-0.278759, -0.003666), effective=(-0.176801, -0.003666), R=0.118898
+2026-11-05 10:43:48,527 transreid.train INFO: QG layer 07 rank0-local: raw=(-0.213068, 0.069456), effective=(-0.157540, 0.066792), R=0.081566
+2026-11-05 10:43:48,527 transreid.train INFO: QG layer 08 rank0-local: raw=(-0.212967, 0.103369), effective=(-0.157501, 0.095053), R=0.080624
+2026-11-05 10:43:48,527 transreid.train INFO: QG layer 09 rank0-local: raw=(-0.159361, 0.131709), effective=(-0.132449, 0.115479), R=0.070048
+2026-11-05 10:43:48,527 transreid.train INFO: QG layer 10 rank0-local: raw=(-0.196648, 0.098959), effective=(-0.150893, 0.091602), R=0.083155
+2026-11-05 10:43:48,527 transreid.train INFO: QG layer 11 rank0-local: raw=(0.013763, 0.026357), effective=(0.013742, 0.026205), R=0.022309
+2026-11-05 10:43:48,527 transreid.train INFO: QG layer 12 rank0-local: raw=(0.048689, -0.044515), effective=(0.047750, -0.043794), R=0.024992
+2026-11-05 10:44:23,012 transreid.train INFO: Epoch[35] Iteration[100/115] Loss: 0.948, Acc: 0.925, Base Lr: 2.58e-02
+2026-11-05 10:44:23,012 transreid.train INFO: Epoch[35] 0.350, 0.254, 0.273, 0.342
+2026-11-05 10:44:23,013 transreid.train INFO: QG layer 01 rank0-local: raw=(-0.255091, 0.193939), effective=(-0.171054, 0.149714), R=0.099516
+2026-11-05 10:44:23,013 transreid.train INFO: QG layer 02 rank0-local: raw=(-0.211918, 0.016519), effective=(-0.157101, 0.016482), R=0.106213
+2026-11-05 10:44:23,013 transreid.train INFO: QG layer 03 rank0-local: raw=(-0.055149, 0.065566), effective=(-0.053793, 0.063314), R=0.030226
+2026-11-05 10:44:23,013 transreid.train INFO: QG layer 04 rank0-local: raw=(-0.080653, 0.057982), effective=(-0.076548, 0.056411), R=0.034657
+2026-11-05 10:44:23,013 transreid.train INFO: QG layer 05 rank0-local: raw=(-0.151234, 0.131090), effective=(-0.127763, 0.115066), R=0.063034
+2026-11-05 10:44:23,013 transreid.train INFO: QG layer 06 rank0-local: raw=(-0.279822, -0.000206), effective=(-0.177032, -0.000206), R=0.117013
+2026-11-05 10:44:23,013 transreid.train INFO: QG layer 07 rank0-local: raw=(-0.214345, 0.065880), effective=(-0.158022, 0.063596), R=0.080229
+2026-11-05 10:44:23,013 transreid.train INFO: QG layer 08 rank0-local: raw=(-0.214791, 0.102350), effective=(-0.158189, 0.094261), R=0.078929
+2026-11-05 10:44:23,013 transreid.train INFO: QG layer 09 rank0-local: raw=(-0.163068, 0.118879), effective=(-0.134505, 0.106610), R=0.066147
+2026-11-05 10:44:23,014 transreid.train INFO: QG layer 10 rank0-local: raw=(-0.195200, 0.109267), effective=(-0.150266, 0.099554), R=0.080574
+2026-11-05 10:44:23,014 transreid.train INFO: QG layer 11 rank0-local: raw=(0.016846, 0.032301), effective=(0.016806, 0.032023), R=0.026658
+2026-11-05 10:44:23,014 transreid.train INFO: QG layer 12 rank0-local: raw=(0.044477, -0.046391), effective=(0.043758, -0.045577), R=0.025129
+2026-11-05 10:44:33,712 transreid.train INFO: Epoch 35 done. Time per batch: 0.738[s] Total: 84.9[s]
+2026-11-05 10:44:42,262 transreid.train INFO: Full checkpoint saved: epoch=35, successful_updates=3992, AMP skips=3, scale=16384.0
+2026-11-05 10:45:22,579 transreid.train INFO: Epoch[36] Iteration[50/115] Loss: 1.007, Acc: 0.915, Base Lr: 2.54e-02
+2026-11-05 10:45:22,580 transreid.train INFO: Epoch[36] 0.383, 0.258, 0.279, 0.362
+2026-11-05 10:45:22,580 transreid.train INFO: QG layer 01 rank0-local: raw=(-0.257033, 0.191592), effective=(-0.171571, 0.148673), R=0.100005
+2026-11-05 10:45:22,580 transreid.train INFO: QG layer 02 rank0-local: raw=(-0.210223, 0.033822), effective=(-0.156448, 0.033503), R=0.097097
+2026-11-05 10:45:22,580 transreid.train INFO: QG layer 03 rank0-local: raw=(-0.062878, 0.074216), effective=(-0.060885, 0.070987), R=0.033600
+2026-11-05 10:45:22,580 transreid.train INFO: QG layer 04 rank0-local: raw=(-0.076349, 0.059782), effective=(-0.072844, 0.058063), R=0.033213
+2026-11-05 10:45:22,580 transreid.train INFO: QG layer 05 rank0-local: raw=(-0.158428, 0.117097), effective=(-0.131924, 0.105328), R=0.063396
+2026-11-05 10:45:22,580 transreid.train INFO: QG layer 06 rank0-local: raw=(-0.283219, 0.001755), effective=(-0.177756, 0.001755), R=0.117076
+2026-11-05 10:45:22,580 transreid.train INFO: QG layer 07 rank0-local: raw=(-0.216959, 0.058419), effective=(-0.158994, 0.056813), R=0.083323
+2026-11-05 10:45:22,581 transreid.train INFO: QG layer 08 rank0-local: raw=(-0.216792, 0.111045), effective=(-0.158933, 0.100885), R=0.081512
+2026-11-05 10:45:22,581 transreid.train INFO: QG layer 09 rank0-local: raw=(-0.161796, 0.127633), effective=(-0.133806, 0.112730), R=0.068823
+2026-11-05 10:45:22,581 transreid.train INFO: QG layer 10 rank0-local: raw=(-0.198362, 0.106911), effective=(-0.151627, 0.097771), R=0.082270
+2026-11-05 10:45:22,581 transreid.train INFO: QG layer 11 rank0-local: raw=(0.013257, 0.022285), effective=(0.013238, 0.022193), R=0.018967
+2026-11-05 10:45:22,581 transreid.train INFO: QG layer 12 rank0-local: raw=(0.041653, -0.051865), effective=(0.041061, -0.050733), R=0.026651
+2026-11-05 10:45:56,865 transreid.train INFO: Epoch[36] Iteration[100/115] Loss: 0.903, Acc: 0.928, Base Lr: 2.54e-02
+2026-11-05 10:45:56,866 transreid.train INFO: Epoch[36] 0.334, 0.243, 0.270, 0.324
+2026-11-05 10:45:56,866 transreid.train INFO: QG layer 01 rank0-local: raw=(-0.259250, 0.194426), effective=(-0.172151, 0.149928), R=0.103808
+2026-11-05 10:45:56,866 transreid.train INFO: QG layer 02 rank0-local: raw=(-0.212779, 0.027391), effective=(-0.157430, 0.027221), R=0.101118
+2026-11-05 10:45:56,866 transreid.train INFO: QG layer 03 rank0-local: raw=(-0.068592, 0.067008), effective=(-0.066024, 0.064609), R=0.034403
+2026-11-05 10:45:56,866 transreid.train INFO: QG layer 04 rank0-local: raw=(-0.081434, 0.060467), effective=(-0.077213, 0.058690), R=0.035599
+2026-11-05 10:45:56,866 transreid.train INFO: QG layer 05 rank0-local: raw=(-0.160934, 0.126721), effective=(-0.133328, 0.112106), R=0.065324
+2026-11-05 10:45:56,866 transreid.train INFO: QG layer 06 rank0-local: raw=(-0.285959, -0.002763), effective=(-0.178325, -0.002762), R=0.117423
+2026-11-05 10:45:56,866 transreid.train INFO: QG layer 07 rank0-local: raw=(-0.218615, 0.057649), effective=(-0.159599, 0.056104), R=0.082277
+2026-11-05 10:45:56,867 transreid.train INFO: QG layer 08 rank0-local: raw=(-0.219020, 0.119727), effective=(-0.159747, 0.107215), R=0.080245
+2026-11-05 10:45:56,867 transreid.train INFO: QG layer 09 rank0-local: raw=(-0.163992, 0.123840), effective=(-0.135009, 0.110114), R=0.068095
+2026-11-05 10:45:56,867 transreid.train INFO: QG layer 10 rank0-local: raw=(-0.199425, 0.107294), effective=(-0.152077, 0.098062), R=0.082398
+2026-11-05 10:45:56,867 transreid.train INFO: QG layer 11 rank0-local: raw=(0.017157, 0.028929), effective=(0.017115, 0.028729), R=0.024503
+2026-11-05 10:45:56,867 transreid.train INFO: QG layer 12 rank0-local: raw=(0.042898, -0.043678), effective=(0.042252, -0.042997), R=0.023381
+2026-11-05 10:46:07,517 transreid.train INFO: Epoch 36 done. Time per batch: 0.741[s] Total: 85.3[s]
+2026-11-05 10:46:15,371 transreid.train INFO: Full checkpoint saved: epoch=36, successful_updates=4107, AMP skips=3, scale=32768.0
+2026-11-05 10:46:55,661 transreid.train INFO: Epoch[37] Iteration[50/114] Loss: 0.982, Acc: 0.920, Base Lr: 2.51e-02
+2026-11-05 10:46:55,661 transreid.train INFO: Epoch[37] 0.366, 0.257, 0.276, 0.356
+2026-11-05 10:46:55,661 transreid.train INFO: QG layer 01 rank0-local: raw=(-0.261540, 0.198423), effective=(-0.172738, 0.151653), R=0.101695
+2026-11-05 10:46:55,662 transreid.train INFO: QG layer 02 rank0-local: raw=(-0.215942, 0.027433), effective=(-0.158618, 0.027262), R=0.104133
+2026-11-05 10:46:55,662 transreid.train INFO: QG layer 03 rank0-local: raw=(-0.066557, 0.071257), effective=(-0.064205, 0.068388), R=0.034560
+2026-11-05 10:46:55,662 transreid.train INFO: QG layer 04 rank0-local: raw=(-0.081361, 0.052964), effective=(-0.077151, 0.051759), R=0.035088
+2026-11-05 10:46:55,662 transreid.train INFO: QG layer 05 rank0-local: raw=(-0.165602, 0.123781), effective=(-0.135881, 0.110073), R=0.066746
+2026-11-05 10:46:55,662 transreid.train INFO: QG layer 06 rank0-local: raw=(-0.286810, 0.001903), effective=(-0.178499, 0.001903), R=0.117291
+2026-11-05 10:46:55,662 transreid.train INFO: QG layer 07 rank0-local: raw=(-0.221103, 0.065822), effective=(-0.160494, 0.063545), R=0.082189
+2026-11-05 10:46:55,662 transreid.train INFO: QG layer 08 rank0-local: raw=(-0.222012, 0.105323), effective=(-0.160817, 0.096558), R=0.082238
+2026-11-05 10:46:55,663 transreid.train INFO: QG layer 09 rank0-local: raw=(-0.166081, 0.127858), effective=(-0.136139, 0.112883), R=0.070193
+2026-11-05 10:46:55,663 transreid.train INFO: QG layer 10 rank0-local: raw=(-0.200026, 0.100413), effective=(-0.152330, 0.092748), R=0.085203
+2026-11-05 10:46:55,663 transreid.train INFO: QG layer 11 rank0-local: raw=(0.015085, 0.026883), effective=(0.015057, 0.026722), R=0.022821
+2026-11-05 10:46:55,663 transreid.train INFO: QG layer 12 rank0-local: raw=(0.039680, -0.044128), effective=(0.039168, -0.043425), R=0.023504
+2026-11-05 10:47:30,468 transreid.train INFO: Epoch[37] Iteration[100/114] Loss: 0.904, Acc: 0.927, Base Lr: 2.51e-02
+2026-11-05 10:47:30,468 transreid.train INFO: Epoch[37] 0.330, 0.245, 0.267, 0.326
+2026-11-05 10:47:30,469 transreid.train INFO: QG layer 01 rank0-local: raw=(-0.264625, 0.200196), effective=(-0.173512, 0.152401), R=0.105886
+2026-11-05 10:47:30,469 transreid.train INFO: QG layer 02 rank0-local: raw=(-0.217778, 0.022066), effective=(-0.159295, 0.021977), R=0.109850
+2026-11-05 10:47:30,469 transreid.train INFO: QG layer 03 rank0-local: raw=(-0.066659, 0.069279), effective=(-0.064295, 0.066635), R=0.035063
+2026-11-05 10:47:30,469 transreid.train INFO: QG layer 04 rank0-local: raw=(-0.077877, 0.055138), effective=(-0.074166, 0.053782), R=0.035305
+2026-11-05 10:47:30,469 transreid.train INFO: QG layer 05 rank0-local: raw=(-0.166170, 0.125311), effective=(-0.136186, 0.111135), R=0.067502
+2026-11-05 10:47:30,469 transreid.train INFO: QG layer 06 rank0-local: raw=(-0.288793, -0.004926), effective=(-0.178899, -0.004925), R=0.126148
+2026-11-05 10:47:30,469 transreid.train INFO: QG layer 07 rank0-local: raw=(-0.224321, 0.065947), effective=(-0.161625, 0.063656), R=0.084886
+2026-11-05 10:47:30,469 transreid.train INFO: QG layer 08 rank0-local: raw=(-0.224293, 0.099746), effective=(-0.161616, 0.092223), R=0.084113
+2026-11-05 10:47:30,469 transreid.train INFO: QG layer 09 rank0-local: raw=(-0.166470, 0.133454), effective=(-0.136347, 0.116636), R=0.070832
+2026-11-05 10:47:30,470 transreid.train INFO: QG layer 10 rank0-local: raw=(-0.200480, 0.107365), effective=(-0.152520, 0.098116), R=0.083135
+2026-11-05 10:47:30,470 transreid.train INFO: QG layer 11 rank0-local: raw=(0.020060, 0.032707), effective=(0.019993, 0.032418), R=0.029063
+2026-11-05 10:47:30,470 transreid.train INFO: QG layer 12 rank0-local: raw=(0.040119, -0.042048), effective=(0.039589, -0.041440), R=0.023616
+2026-11-05 10:47:40,378 transreid.train INFO: Epoch 37 done. Time per batch: 0.746[s] Total: 85.0[s]
+2026-11-05 10:47:49,205 transreid.train INFO: Full checkpoint saved: epoch=37, successful_updates=4221, AMP skips=3, scale=32768.0
+2026-11-05 10:48:29,995 transreid.train INFO: Epoch[38] Iteration[50/115] Loss: 0.955, Acc: 0.920, Base Lr: 2.47e-02
+2026-11-05 10:48:29,996 transreid.train INFO: Epoch[38] 0.358, 0.248, 0.273, 0.346
+2026-11-05 10:48:29,996 transreid.train INFO: QG layer 01 rank0-local: raw=(-0.264291, 0.206476), effective=(-0.173429, 0.154972), R=0.105274
+2026-11-05 10:48:29,996 transreid.train INFO: QG layer 02 rank0-local: raw=(-0.220566, 0.028623), effective=(-0.160303, 0.028429), R=0.106385
+2026-11-05 10:48:29,996 transreid.train INFO: QG layer 03 rank0-local: raw=(-0.062598, 0.076043), effective=(-0.060631, 0.072579), R=0.034943
+2026-11-05 10:48:29,996 transreid.train INFO: QG layer 04 rank0-local: raw=(-0.075838, 0.072724), effective=(-0.072401, 0.069680), R=0.035974
+2026-11-05 10:48:29,996 transreid.train INFO: QG layer 05 rank0-local: raw=(-0.165149, 0.133413), effective=(-0.135637, 0.116609), R=0.068637
+2026-11-05 10:48:29,997 transreid.train INFO: QG layer 06 rank0-local: raw=(-0.290666, 0.003915), effective=(-0.179270, 0.003915), R=0.117502
+2026-11-05 10:48:29,997 transreid.train INFO: QG layer 07 rank0-local: raw=(-0.225572, 0.068293), effective=(-0.162057, 0.065757), R=0.083468
+2026-11-05 10:48:29,997 transreid.train INFO: QG layer 08 rank0-local: raw=(-0.227169, 0.109784), effective=(-0.162602, 0.099942), R=0.083215
+2026-11-05 10:48:29,997 transreid.train INFO: QG layer 09 rank0-local: raw=(-0.168275, 0.143264), effective=(-0.137307, 0.122925), R=0.073518
+2026-11-05 10:48:29,997 transreid.train INFO: QG layer 10 rank0-local: raw=(-0.201856, 0.111584), effective=(-0.153093, 0.101287), R=0.085287
+2026-11-05 10:48:29,997 transreid.train INFO: QG layer 11 rank0-local: raw=(0.017775, 0.028156), effective=(0.017728, 0.027972), R=0.025562
+2026-11-05 10:48:29,997 transreid.train INFO: QG layer 12 rank0-local: raw=(0.039933, -0.042422), effective=(0.039411, -0.041797), R=0.022969
+2026-11-05 10:49:04,701 transreid.train INFO: Epoch[38] Iteration[100/115] Loss: 0.863, Acc: 0.930, Base Lr: 2.47e-02
+2026-11-05 10:49:04,702 transreid.train INFO: Epoch[38] 0.317, 0.237, 0.265, 0.306
+2026-11-05 10:49:04,702 transreid.train INFO: QG layer 01 rank0-local: raw=(-0.265467, 0.209254), effective=(-0.173719, 0.156070), R=0.103664
+2026-11-05 10:49:04,702 transreid.train INFO: QG layer 02 rank0-local: raw=(-0.221088, 0.029803), effective=(-0.160489, 0.029585), R=0.104624
+2026-11-05 10:49:04,702 transreid.train INFO: QG layer 03 rank0-local: raw=(-0.057884, 0.075360), effective=(-0.056320, 0.071985), R=0.033426
+2026-11-05 10:49:04,702 transreid.train INFO: QG layer 04 rank0-local: raw=(-0.071456, 0.055570), effective=(-0.068563, 0.054182), R=0.032085
+2026-11-05 10:49:04,702 transreid.train INFO: QG layer 05 rank0-local: raw=(-0.165768, 0.133294), effective=(-0.135970, 0.116531), R=0.067585
+2026-11-05 10:49:04,702 transreid.train INFO: QG layer 06 rank0-local: raw=(-0.291809, -0.004864), effective=(-0.179493, -0.004863), R=0.122125
+2026-11-05 10:49:04,703 transreid.train INFO: QG layer 07 rank0-local: raw=(-0.229225, 0.057406), effective=(-0.163293, 0.055880), R=0.086814
+2026-11-05 10:49:04,703 transreid.train INFO: QG layer 08 rank0-local: raw=(-0.228816, 0.101105), effective=(-0.163157, 0.093290), R=0.083410
+2026-11-05 10:49:04,703 transreid.train INFO: QG layer 09 rank0-local: raw=(-0.168036, 0.133014), effective=(-0.137181, 0.116345), R=0.071256
+2026-11-05 10:49:04,703 transreid.train INFO: QG layer 10 rank0-local: raw=(-0.201995, 0.116076), effective=(-0.153150, 0.104588), R=0.084231
+2026-11-05 10:49:04,703 transreid.train INFO: QG layer 11 rank0-local: raw=(0.017142, 0.031468), effective=(0.017100, 0.031210), R=0.026691
+2026-11-05 10:49:04,703 transreid.train INFO: QG layer 12 rank0-local: raw=(0.036224, -0.044820), effective=(0.035833, -0.044084), R=0.023635
+2026-11-05 10:49:15,331 transreid.train INFO: Epoch 38 done. Time per batch: 0.749[s] Total: 86.1[s]
+2026-11-05 10:49:23,233 transreid.train INFO: Full checkpoint saved: epoch=38, successful_updates=4336, AMP skips=3, scale=32768.0
+2026-11-05 10:50:03,616 transreid.train INFO: Epoch[39] Iteration[50/114] Loss: 0.903, Acc: 0.925, Base Lr: 2.44e-02
+2026-11-05 10:50:03,616 transreid.train INFO: Epoch[39] 0.340, 0.242, 0.273, 0.318
+2026-11-05 10:50:03,617 transreid.train INFO: QG layer 01 rank0-local: raw=(-0.269106, 0.207888), effective=(-0.174599, 0.155533), R=0.102140
+2026-11-05 10:50:03,617 transreid.train INFO: QG layer 02 rank0-local: raw=(-0.221323, 0.044978), effective=(-0.160572, 0.044235), R=0.096986
+2026-11-05 10:50:03,617 transreid.train INFO: QG layer 03 rank0-local: raw=(-0.056267, 0.070920), effective=(-0.054828, 0.068090), R=0.031920
+2026-11-05 10:50:03,617 transreid.train INFO: QG layer 04 rank0-local: raw=(-0.070438, 0.051426), effective=(-0.067664, 0.050321), R=0.031372
+2026-11-05 10:50:03,617 transreid.train INFO: QG layer 05 rank0-local: raw=(-0.170991, 0.129232), effective=(-0.138730, 0.113816), R=0.068070
+2026-11-05 10:50:03,617 transreid.train INFO: QG layer 06 rank0-local: raw=(-0.293757, -0.005311), effective=(-0.179869, -0.005310), R=0.118846
+2026-11-05 10:50:03,617 transreid.train INFO: QG layer 07 rank0-local: raw=(-0.230969, 0.054872), effective=(-0.163870, 0.053535), R=0.085354
+2026-11-05 10:50:03,618 transreid.train INFO: QG layer 08 rank0-local: raw=(-0.228750, 0.104587), effective=(-0.163135, 0.095993), R=0.081936
+2026-11-05 10:50:03,618 transreid.train INFO: QG layer 09 rank0-local: raw=(-0.169955, 0.133787), effective=(-0.138191, 0.116856), R=0.070893
+2026-11-05 10:50:03,618 transreid.train INFO: QG layer 10 rank0-local: raw=(-0.203483, 0.098537), effective=(-0.153763, 0.091269), R=0.085084
+2026-11-05 10:50:03,618 transreid.train INFO: QG layer 11 rank0-local: raw=(0.013088, 0.022124), effective=(0.013069, 0.022034), R=0.019254
+2026-11-05 10:50:03,618 transreid.train INFO: QG layer 12 rank0-local: raw=(0.033422, -0.046899), effective=(0.033114, -0.046058), R=0.024513
+2026-11-05 10:50:38,380 transreid.train INFO: Epoch[39] Iteration[100/114] Loss: 0.821, Acc: 0.934, Base Lr: 2.44e-02
+2026-11-05 10:50:38,380 transreid.train INFO: Epoch[39] 0.300, 0.230, 0.262, 0.288
+2026-11-05 10:50:38,381 transreid.train INFO: QG layer 01 rank0-local: raw=(-0.272154, 0.201418), effective=(-0.175314, 0.152911), R=0.100774
+2026-11-05 10:50:38,381 transreid.train INFO: QG layer 02 rank0-local: raw=(-0.223821, 0.039450), effective=(-0.161452, 0.038946), R=0.097234
+2026-11-05 10:50:38,381 transreid.train INFO: QG layer 03 rank0-local: raw=(-0.063441, 0.072945), effective=(-0.061395, 0.069874), R=0.033337
+2026-11-05 10:50:38,381 transreid.train INFO: QG layer 04 rank0-local: raw=(-0.074221, 0.060675), effective=(-0.070991, 0.058879), R=0.031966
+2026-11-05 10:50:38,381 transreid.train INFO: QG layer 05 rank0-local: raw=(-0.175846, 0.135170), effective=(-0.141207, 0.117763), R=0.066782
+2026-11-05 10:50:38,381 transreid.train INFO: QG layer 06 rank0-local: raw=(-0.295300, 0.000063), effective=(-0.180162, 0.000063), R=0.116228
+2026-11-05 10:50:38,381 transreid.train INFO: QG layer 07 rank0-local: raw=(-0.230705, 0.062443), effective=(-0.163784, 0.060490), R=0.082792
+2026-11-05 10:50:38,381 transreid.train INFO: QG layer 08 rank0-local: raw=(-0.230743, 0.114393), effective=(-0.163796, 0.103360), R=0.081410
+2026-11-05 10:50:38,381 transreid.train INFO: QG layer 09 rank0-local: raw=(-0.168232, 0.130501), effective=(-0.137285, 0.114670), R=0.069362
+2026-11-05 10:50:38,382 transreid.train INFO: QG layer 10 rank0-local: raw=(-0.204643, 0.106955), effective=(-0.154235, 0.097804), R=0.082822
+2026-11-05 10:50:38,382 transreid.train INFO: QG layer 11 rank0-local: raw=(0.016113, 0.030974), effective=(0.016078, 0.030729), R=0.025696
+2026-11-05 10:50:38,382 transreid.train INFO: QG layer 12 rank0-local: raw=(0.040230, -0.038910), effective=(0.039696, -0.038427), R=0.021510
+2026-11-05 10:50:48,299 transreid.train INFO: Epoch 39 done. Time per batch: 0.746[s] Total: 85.1[s]
+2026-11-05 10:50:56,233 transreid.train INFO: Full checkpoint saved: epoch=39, successful_updates=4450, AMP skips=3, scale=32768.0
+2026-11-05 10:51:36,068 transreid.train INFO: Epoch[40] Iteration[50/114] Loss: 0.905, Acc: 0.927, Base Lr: 2.40e-02
+2026-11-05 10:51:36,068 transreid.train INFO: Epoch[40] 0.334, 0.244, 0.273, 0.324
+2026-11-05 10:51:36,068 transreid.train INFO: QG layer 01 rank0-local: raw=(-0.274966, 0.202966), effective=(-0.175958, 0.153550), R=0.106522
+2026-11-05 10:51:36,068 transreid.train INFO: QG layer 02 rank0-local: raw=(-0.225070, 0.031787), effective=(-0.161884, 0.031522), R=0.104715
+2026-11-05 10:51:36,068 transreid.train INFO: QG layer 03 rank0-local: raw=(-0.060575, 0.074715), effective=(-0.058788, 0.071423), R=0.033735
+2026-11-05 10:51:36,068 transreid.train INFO: QG layer 04 rank0-local: raw=(-0.080991, 0.055973), effective=(-0.076836, 0.054556), R=0.035293
+2026-11-05 10:51:36,069 transreid.train INFO: QG layer 05 rank0-local: raw=(-0.173930, 0.123617), effective=(-0.140239, 0.109958), R=0.068289
+2026-11-05 10:51:36,069 transreid.train INFO: QG layer 06 rank0-local: raw=(-0.297168, 0.002843), effective=(-0.180511, 0.002843), R=0.117689
+2026-11-05 10:51:36,069 transreid.train INFO: QG layer 07 rank0-local: raw=(-0.235169, 0.049343), effective=(-0.165228, 0.048366), R=0.089731
+2026-11-05 10:51:36,069 transreid.train INFO: QG layer 08 rank0-local: raw=(-0.233766, 0.109559), effective=(-0.164779, 0.099773), R=0.084255
+2026-11-05 10:51:36,069 transreid.train INFO: QG layer 09 rank0-local: raw=(-0.169998, 0.146533), effective=(-0.138213, 0.124939), R=0.073934
+2026-11-05 10:51:36,069 transreid.train INFO: QG layer 10 rank0-local: raw=(-0.206523, 0.099806), effective=(-0.154991, 0.092271), R=0.088560
+2026-11-05 10:51:36,070 transreid.train INFO: QG layer 11 rank0-local: raw=(0.014570, 0.030282), effective=(0.014545, 0.030053), R=0.025893
+2026-11-05 10:51:36,070 transreid.train INFO: QG layer 12 rank0-local: raw=(0.035210, -0.042368), effective=(0.034851, -0.041745), R=0.022438
+2026-11-05 10:52:10,380 transreid.train INFO: Epoch[40] Iteration[100/114] Loss: 0.806, Acc: 0.936, Base Lr: 2.40e-02
+2026-11-05 10:52:10,380 transreid.train INFO: Epoch[40] 0.292, 0.229, 0.262, 0.283
+2026-11-05 10:52:10,380 transreid.train INFO: QG layer 01 rank0-local: raw=(-0.276341, 0.204152), effective=(-0.176266, 0.154035), R=0.106413
+2026-11-05 10:52:10,380 transreid.train INFO: QG layer 02 rank0-local: raw=(-0.225643, 0.031209), effective=(-0.162082, 0.030958), R=0.106821
+2026-11-05 10:52:10,380 transreid.train INFO: QG layer 03 rank0-local: raw=(-0.056130, 0.066215), effective=(-0.054701, 0.063898), R=0.031320
+2026-11-05 10:52:10,381 transreid.train INFO: QG layer 04 rank0-local: raw=(-0.072305, 0.068834), effective=(-0.069312, 0.066239), R=0.033959
+2026-11-05 10:52:10,381 transreid.train INFO: QG layer 05 rank0-local: raw=(-0.175392, 0.121350), effective=(-0.140978, 0.108367), R=0.069452
+2026-11-05 10:52:10,381 transreid.train INFO: QG layer 06 rank0-local: raw=(-0.298471, -0.008820), effective=(-0.180751, -0.008815), R=0.125342
+2026-11-05 10:52:10,381 transreid.train INFO: QG layer 07 rank0-local: raw=(-0.234697, 0.062262), effective=(-0.165077, 0.060326), R=0.087944
+2026-11-05 10:52:10,381 transreid.train INFO: QG layer 08 rank0-local: raw=(-0.236396, 0.100427), effective=(-0.165615, 0.092759), R=0.086012
+2026-11-05 10:52:10,381 transreid.train INFO: QG layer 09 rank0-local: raw=(-0.173534, 0.137569), effective=(-0.140037, 0.119319), R=0.073528
+2026-11-05 10:52:10,381 transreid.train INFO: QG layer 10 rank0-local: raw=(-0.206830, 0.103401), effective=(-0.155113, 0.095077), R=0.087190
+2026-11-05 10:52:10,381 transreid.train INFO: QG layer 11 rank0-local: raw=(0.014440, 0.030890), effective=(0.014415, 0.030646), R=0.025683
+2026-11-05 10:52:10,381 transreid.train INFO: QG layer 12 rank0-local: raw=(0.033910, -0.043867), effective=(0.033589, -0.043177), R=0.023510
+2026-11-05 10:52:20,258 transreid.train INFO: Epoch 40 done. Time per batch: 0.737[s] Total: 84.0[s]
+2026-11-05 10:53:35,017 transreid.train INFO: => Split mode 1: query 2135, total query 2135
+2026-11-05 10:53:38,008 transreid.train INFO: The test feature is normalized
+2026-11-05 10:53:38,057 transreid.train INFO: => Computing DistMat in q-chunks (chunk=4000)
+2026-11-05 10:55:00,895 transreid.train INFO: Starting modality-pair specific evaluation. Query mods: [1, 2, 3], Gallery mods: [1, 2, 3]
+2026-11-05 10:55:08,938 transreid.train INFO:   Pair (Q:1, G:1) -> Rank-1: 35.64%, mAP: 22.39%, mINP: 4.02%
+2026-11-05 10:55:17,060 transreid.train INFO:   Pair (Q:1, G:2) -> Rank-1: 21.17%, mAP: 12.57%, mINP: 1.74%
+2026-11-05 10:55:25,252 transreid.train INFO:   Pair (Q:1, G:3) -> Rank-1: 5.62%, mAP: 4.06%, mINP: 0.81%
+2026-11-05 10:55:33,181 transreid.train INFO:   Pair (Q:2, G:1) -> Rank-1: 20.70%, mAP: 12.83%, mINP: 2.13%
+2026-11-05 10:55:41,155 transreid.train INFO:   Pair (Q:2, G:2) -> Rank-1: 23.61%, mAP: 13.96%, mINP: 1.95%
+2026-11-05 10:55:49,354 transreid.train INFO:   Pair (Q:2, G:3) -> Rank-1: 5.25%, mAP: 3.76%, mINP: 0.78%
+2026-11-05 10:55:57,849 transreid.train INFO:   Pair (Q:3, G:1) -> Rank-1: 6.00%, mAP: 4.41%, mINP: 0.95%
+2026-11-05 10:56:06,468 transreid.train INFO:   Pair (Q:3, G:2) -> Rank-1: 6.28%, mAP: 3.93%, mINP: 0.75%
+2026-11-05 10:56:14,716 transreid.train INFO:   Pair (Q:3, G:3) -> Rank-1: 16.53%, mAP: 11.29%, mINP: 1.83%
+2026-11-05 10:56:14,717 transreid.train INFO: VI-ReID results (Table 5 protocol):
+2026-11-05 10:56:14,717 transreid.train INFO:   Setting   Rank-1     mAP    mINP
+2026-11-05 10:56:14,717 transreid.train INFO:   NIR->RGB    20.70%  12.83%   2.13%
+2026-11-05 10:56:14,717 transreid.train INFO:   TIR->RGB     6.00%   4.41%   0.95%
+2026-11-05 10:56:14,717 transreid.train INFO: Modality-pair results (Table 6 protocol):
+2026-11-05 10:56:14,717 transreid.train INFO:   Query Gallery  Rank-1     mAP    mINP
+2026-11-05 10:56:14,717 transreid.train INFO:     RGB     RGB  35.64%  22.39%   4.02%
+2026-11-05 10:56:14,717 transreid.train INFO:     RGB     NIR  21.17%  12.57%   1.74%
+2026-11-05 10:56:14,717 transreid.train INFO:     RGB     TIR   5.62%   4.06%   0.81%
+2026-11-05 10:56:14,717 transreid.train INFO:     NIR     RGB  20.70%  12.83%   2.13%
+2026-11-05 10:56:14,717 transreid.train INFO:     NIR     NIR  23.61%  13.96%   1.95%
+2026-11-05 10:56:14,717 transreid.train INFO:     NIR     TIR   5.25%   3.76%   0.78%
+2026-11-05 10:56:14,717 transreid.train INFO:     TIR     RGB   6.00%   4.41%   0.95%
+2026-11-05 10:56:14,717 transreid.train INFO:     TIR     NIR   6.28%   3.93%   0.75%
+2026-11-05 10:56:14,717 transreid.train INFO:     TIR     TIR  16.53%  11.29%   1.83%
+2026-11-05 10:56:14,718 transreid.train INFO: AG-ReID results (Table 4 protocol; all modalities):
+2026-11-05 10:56:27,231 transreid.train INFO:   A->G -> mAP: 10.45%, Rank-1: 30.44%, Rank-10: 58.59%
+2026-11-05 10:56:39,366 transreid.train INFO:   G->A -> mAP: 12.09%, Rank-1: 28.83%, Rank-10: 54.40%
+2026-11-05 10:56:39,379 transreid.train INFO: Validation Results - Epoch: 40
+2026-11-05 10:56:39,379 transreid.train INFO: mAP: 8.84%
+2026-11-05 10:56:39,379 transreid.train INFO: CMC curve, Rank-1 : 25.26%
+2026-11-05 10:56:39,379 transreid.train INFO: CMC curve, Rank-5 : 41.47%
+2026-11-05 10:56:39,379 transreid.train INFO: CMC curve, Rank-10: 49.73%
+2026-11-05 10:56:47,696 transreid.train INFO: Full checkpoint saved: epoch=40, successful_updates=4564, AMP skips=3, scale=32768.0

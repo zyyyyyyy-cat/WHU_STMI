@@ -1,0 +1,4 @@
+COMMAND: D:\PROGRAM\Anaconda\python.exe -m compileall -q WHU
+EXIT: 0
+ELAPSED_SECONDS: 0.15
+

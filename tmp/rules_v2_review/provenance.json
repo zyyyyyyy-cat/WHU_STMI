@@ -1,0 +1,339 @@
+{
+  "purpose": "train-only comparison; not a production mask manifest",
+  "checkpoint_sha256": "7442e4e9b732a508f80e141e7c2913437a3610ee0c77381a66658c3a445df87b",
+  "model_config": "configs/sam2/sam2_hiera_l.yaml",
+  "config_sha256": "0ee9f2037fd98489212bb0b78a56f33ac82eb177cf5e52c88be3714cb84eea26",
+  "precision": "bf16",
+  "torch_version": "2.5.1+cu124",
+  "cuda_version": "12.4",
+  "sam2_commit": "2b90b9f5ceec907a1c18123530e92e794ad901a4",
+  "script_sha256": "3f2b68aa589cf9c42967e51e3116596c1b45a889627c76542e433791247f01bc",
+  "helper_sha256": "9e5022e077f87e4a9ff68e0d52c0ba447f61174e1490b2348a3943970d33d29e",
+  "selection": [
+    "train/IR/0006_c2_m2_f000134.jpg",
+    "train/IR/0065_c6_m2_f000879.jpg",
+    "train/IR/0136_c6_m2_f002374.jpg",
+    "train/IR/0159_c6_m2_f002703.jpg",
+    "train/IR/0206_c2_m2_f003573.jpg",
+    "train/IR/0356_c6_m2_f001396.jpg",
+    "train/IR/0437_c6_m2_f002951.jpg",
+    "train/IR/0467_c6_m2_f003508.jpg",
+    "train/IR/0476_c2_m2_f009629.jpg",
+    "train/IR/0544_c1_m2_f011757.jpg",
+    "train/IR/1024_c4_m2_f001024.jpg",
+    "train/IR/1223_c7_m2_f004101.jpg",
+    "train/IR/1286_c7_m2_f000197.jpg",
+    "train/IR/1306_c7_m2_f000925.jpg",
+    "train/IR/1415_c5_m2_f003657.jpg",
+    "train/IR/1425_c7_m2_f003734.jpg",
+    "train/IR/1458_c7_m2_f004600.jpg",
+    "train/IR/1485_c7_m2_f004952.jpg",
+    "train/IR/2010_c2_m2_f000419.jpg",
+    "train/IR/2040_c3_m2_f000033.jpg",
+    "train/IR/2398_c1_m2_f005799.jpg",
+    "train/IR/2430_c3_m2_f006209.jpg",
+    "train/IR/2616_c2_m2_f003601.jpg",
+    "train/IR/3859_c2_m2_f009569.jpg",
+    "train/RGB/0046_c6_m1_f000509.jpg",
+    "train/RGB/0374_c1_m1_f008259.jpg",
+    "train/RGB/0420_c1_m1_f008898.jpg",
+    "train/RGB/0476_c2_m1_f009593.jpg",
+    "train/RGB/0508_c6_m1_f004541.jpg",
+    "train/RGB/0516_c2_m1_f011219.jpg",
+    "train/RGB/1071_c7_m1_f003178.jpg",
+    "train/RGB/1096_c7_m1_f000117.jpg",
+    "train/RGB/1102_c7_m1_f000440.jpg",
+    "train/RGB/1105_c4_m1_f000639.jpg",
+    "train/RGB/1120_c7_m1_f000989.jpg",
+    "train/RGB/1160_c7_m1_f002553.jpg",
+    "train/RGB/1162_c7_m1_f002512.jpg",
+    "train/RGB/1210_c4_m1_f004086.jpg",
+    "train/RGB/1295_c7_m1_f000547.jpg",
+    "train/RGB/1295_c7_m1_f000555.jpg",
+    "train/RGB/1331_c5_m1_f001559.jpg",
+    "train/RGB/1355_c7_m1_f002250.jpg",
+    "train/RGB/1443_c7_m1_f004161.jpg",
+    "train/RGB/2400_c1_m1_f005837.jpg",
+    "train/RGB/3740_c2_m1_f005720.jpg",
+    "train/RGB/3859_c2_m1_f009541.jpg",
+    "train/RGB/3860_c1_m1_f009641.jpg",
+    "train/RGB/3869_c3_m1_f003703.jpg",
+    "train/Thermal/0021_c1_m3_f000045.jpg",
+    "train/Thermal/0234_c6_m3_f004223.jpg",
+    "train/Thermal/0277_c6_m3_f004876.jpg",
+    "train/Thermal/0312_c6_m3_f000221.jpg",
+    "train/Thermal/0313_c1_m3_f006684.jpg",
+    "train/Thermal/0460_c6_m3_f003399.jpg",
+    "train/Thermal/0482_c6_m3_f004021.jpg",
+    "train/Thermal/0511_c6_m3_f004563.jpg",
+    "train/Thermal/0513_c2_m3_f011219.jpg",
+    "train/Thermal/1091_c4_m3_f000813.jpg",
+    "train/Thermal/1105_c7_m3_f000943.jpg",
+    "train/Thermal/1160_c7_m3_f002521.jpg",
+    "train/Thermal/1163_c7_m3_f002638.jpg",
+    "train/Thermal/1198_c7_m3_f003537.jpg",
+    "train/Thermal/1227_c7_m3_f004346.jpg",
+    "train/Thermal/1289_c7_m3_f000256.jpg",
+    "train/Thermal/1306_c5_m3_f000794.jpg",
+    "train/Thermal/2288_c2_m3_f007346.jpg",
+    "train/Thermal/2400_c3_m3_f007466.jpg",
+    "train/Thermal/3200_c1_m3_f005251.jpg",
+    "train/Thermal/3275_c3_m3_f000897.jpg",
+    "train/Thermal/3303_c3_m3_f002032.jpg",
+    "train/Thermal/3307_c2_m3_f008020.jpg",
+    "train/Thermal/3864_c3_m3_f003645.jpg"
+  ],
+  "rules": [
+    {
+      "name": "R00_v1",
+      "points": [
+        [
+          0.5,
+          0.5
+        ]
+      ],
+      "box": [
+        0,
+        0,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "R01_center",
+      "points": [
+        [
+          0.5,
+          0.5
+        ]
+      ]
+    },
+    {
+      "name": "R02_upper",
+      "points": [
+        [
+          0.5,
+          0.35
+        ]
+      ]
+    },
+    {
+      "name": "R03_vertical",
+      "points": [
+        [
+          0.5,
+          0.25
+        ],
+        [
+          0.5,
+          0.5
+        ],
+        [
+          0.5,
+          0.75
+        ]
+      ]
+    },
+    {
+      "name": "R04_compact",
+      "points": [
+        [
+          0.5,
+          0.5
+        ],
+        [
+          0.4,
+          0.5
+        ],
+        [
+          0.6,
+          0.5
+        ]
+      ]
+    },
+    {
+      "name": "R05_center_neg",
+      "points": [
+        [
+          0.5,
+          0.5
+        ],
+        [
+          0.02,
+          0.02
+        ],
+        [
+          0.98,
+          0.02
+        ],
+        [
+          0.02,
+          0.98
+        ],
+        [
+          0.98,
+          0.98
+        ]
+      ],
+      "labels": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "R06_vertical_neg",
+      "points": [
+        [
+          0.5,
+          0.25
+        ],
+        [
+          0.5,
+          0.5
+        ],
+        [
+          0.5,
+          0.75
+        ],
+        [
+          0.02,
+          0.02
+        ],
+        [
+          0.98,
+          0.02
+        ],
+        [
+          0.02,
+          0.98
+        ],
+        [
+          0.98,
+          0.98
+        ]
+      ],
+      "labels": [
+        1,
+        1,
+        1,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "R07_box_only",
+      "box": [
+        0.1,
+        0.02,
+        0.9,
+        0.98
+      ]
+    },
+    {
+      "name": "R08_box_center",
+      "points": [
+        [
+          0.5,
+          0.5
+        ]
+      ],
+      "box": [
+        0.1,
+        0.02,
+        0.9,
+        0.98
+      ]
+    },
+    {
+      "name": "R09_compact_box",
+      "points": [
+        [
+          0.5,
+          0.5
+        ]
+      ],
+      "box": [
+        0.08,
+        0.08,
+        0.92,
+        0.92
+      ]
+    },
+    {
+      "name": "R10_center_single",
+      "points": [
+        [
+          0.5,
+          0.5
+        ]
+      ],
+      "multi": false
+    },
+    {
+      "name": "R11_vertical_single",
+      "points": [
+        [
+          0.5,
+          0.25
+        ],
+        [
+          0.5,
+          0.5
+        ],
+        [
+          0.5,
+          0.75
+        ]
+      ],
+      "multi": false
+    },
+    {
+      "name": "R12_padding_center",
+      "points": [
+        [
+          0.5,
+          0.5
+        ]
+      ],
+      "encoding": "padding"
+    },
+    {
+      "name": "R13_padding_box",
+      "points": [
+        [
+          0.5,
+          0.5
+        ]
+      ],
+      "box": [
+        0,
+        0,
+        1,
+        1
+      ],
+      "encoding": "padding"
+    },
+    {
+      "name": "R14_IR_contrast",
+      "points": [
+        [
+          0.5,
+          0.5
+        ]
+      ],
+      "encoding": "ir_contrast"
+    }
+  ],
+  "geometry_formula": "q+.20*positive-.20*negative-.15*border-.30*(max(0,(area-.85)/.15)+max(0,(.03-area)/.03))",
+  "padding": "12% of max(original W,H) on each side; constant median original border color; crop masks back",
+  "ir_contrast": "IR only: grayscale monotonic percentile 1/99 stretch; unchanged image if no intensity range",
+  "postprocessing": false,
+  "mask_logit_threshold": 0.0,
+  "tf32": false,
+  "seed": 1234
+}

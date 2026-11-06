@@ -1,0 +1,3 @@
+[W1104 23:59:05.000000000 socket.cpp:752] [c10d] The client socket has failed to connect to [DESKTOP-NG9BBPA]:53265 (system error: 10049 - �����������У�������ĵ�ַ��Ч��).
+[W1104 23:59:05.000000000 socket.cpp:752] [c10d] The client socket has failed to connect to [DESKTOP-NG9BBPA]:53265 (system error: 10049 - �����������У�������ĵ�ַ��Ч��).
+PASS: native AMP overflow/backoff on both ranks; parameters/momentum/prototypes unchanged on skip; recovery and states synchronized

@@ -1,0 +1,249 @@
+{
+  "modified": [
+    {
+      "path": "config/defaults.py",
+      "before_sha256": "16d1f61a8a10f3d520e2a17ac444010f10c846597a5eaebf52fed90f588cf2f2",
+      "after_sha256": "2a590ad928d3c8410caa5d3b561d4c4787506888737e05010f1c261e2e58da91"
+    },
+    {
+      "path": "configs/UAD.yml",
+      "before_sha256": "f2fb4f9a9605eb5acd73e847d74f4cb5793bb61bc5094e36540cee4d6f9393ae",
+      "after_sha256": "8472563f16090411922442a723fc6128e4377bfa15c63c3ee1aa10012580ac79"
+    },
+    {
+      "path": "datasets/bases.py",
+      "before_sha256": "37f311e15a9ec7496ba985c4a6ac77fae735d6ae047ec572f411932b97250b9e",
+      "after_sha256": "b151a2eeca7e4ea9ff147ce944f854d6eae8985ff8f65461c3295e6702b5114f"
+    },
+    {
+      "path": "datasets/make_dataloader.py",
+      "before_sha256": "a87f676371bb6adc1db3183b954935f7c395e9cf4f14b76a883c71a835b04b85",
+      "after_sha256": "c686f0cd3708c136c2dcdfffc058e6370767236b73ddcd430e7b025dfc231765"
+    },
+    {
+      "path": "model/backbones/vit_pytorch.py",
+      "before_sha256": "e935f70335cd86617545e5afe8d4308638d71143c96960998e65d51ae08ef503",
+      "after_sha256": "b3f218cfff4a975c099a8a0a0dbfcf7a30b5f2ee10fdacffb8c0a796780968fb"
+    },
+    {
+      "path": "model/make_model.py",
+      "before_sha256": "042ca47867a114f56c5c9946ad08ec27c9c9265a42f4f57cd0f5a220105d9ba4",
+      "after_sha256": "0c9f7288a2e4c143073bc261920a397cab1475bcc65d59af781664ce8e4a1fcd"
+    },
+    {
+      "path": "processor/processor.py",
+      "before_sha256": "3e368495ff0067d96647828ccd89aeed51069b13f8afd95035768e15ab6a1a28",
+      "after_sha256": "4704798046ebcaadfee3c8fde962cc88aeb36db33a237be5c51a30e6e4038e97"
+    },
+    {
+      "path": "README.md",
+      "before_sha256": "79b3dae112622198272db8b278e793ea5a9b9bd6f96e82d80aaae8b5aca580b9",
+      "after_sha256": "2472820712cf83eada2a9ef13e6ef90e63e3b712dd2ecdcbbf76f5291f0c3a51"
+    },
+    {
+      "path": "solver/make_optimizer.py",
+      "before_sha256": "51a3f9f4584e5ed3d8a692f03949bb6ff40531911f8fef7dac4a4fae4c135d04",
+      "after_sha256": "f5c0f1aecffe65e5d509a912df593b9459db979bbf3e578ff27ec3eb7c5fcc37"
+    }
+  ],
+  "added": [
+    {
+      "path": "configs/UAD_baseline.yml",
+      "before_sha256": null,
+      "after_sha256": "f2fb4f9a9605eb5acd73e847d74f4cb5793bb61bc5094e36540cee4d6f9393ae"
+    },
+    {
+      "path": "datasets/masks.py",
+      "before_sha256": null,
+      "after_sha256": "5bac829f1b6cf12a289990f136374cc4478d1c890a8dd6bca22fb8e2e65d49e5"
+    },
+    {
+      "path": "tests/ddp_qg_smoke.py",
+      "before_sha256": null,
+      "after_sha256": "e6ddf59ca1ce5833cbdb157f476f599d576b2e1336c4dfd22b91414d826416c6"
+    },
+    {
+      "path": "tests/test_qg_sfm.py",
+      "before_sha256": null,
+      "after_sha256": "3782eff5306f66e661f89067a079c199d86cfa4c53570cc2f9f6dad7dda79b13"
+    },
+    {
+      "path": "tests/test_sam2_masks.py",
+      "before_sha256": null,
+      "after_sha256": "0387e02247b1e9093f75109f94f29266d4e392566c22ef7ae6063d03fba9061a"
+    },
+    {
+      "path": "tests/test_sam2_rules.py",
+      "before_sha256": null,
+      "after_sha256": "456adb4d59d8e096229d4e6ee18b0209926ce1ac2e428f840e42028ff26c803b"
+    },
+    {
+      "path": "tools/audit_masks.py",
+      "before_sha256": null,
+      "after_sha256": "796b9ed5df9b5cccdc7b9d82843158fb0d37aef978d1b13ad1d644ca6fde403c"
+    },
+    {
+      "path": "tools/compare_sam2_rules.py",
+      "before_sha256": null,
+      "after_sha256": "3f2b68aa589cf9c42967e51e3116596c1b45a889627c76542e433791247f01bc"
+    },
+    {
+      "path": "tools/generate_sam2_masks.py",
+      "before_sha256": null,
+      "after_sha256": "9e5022e077f87e4a9ff68e0d52c0ba447f61174e1490b2348a3943970d33d29e"
+    },
+    {
+      "path": "tools/verify_reference.py",
+      "before_sha256": null,
+      "after_sha256": "00f35d7ab449a278e1526367e69aecee1ff95cb7b5d7846b0a9fb180d22284ab"
+    }
+  ],
+  "unchanged": [
+    {
+      "path": "config/__init__.py",
+      "before_sha256": "9114eb48d58a5005687c212d10473a8402f277e7b2d1cbcdde553a0a0aa6bfde",
+      "after_sha256": "9114eb48d58a5005687c212d10473a8402f277e7b2d1cbcdde553a0a0aa6bfde"
+    },
+    {
+      "path": "datasets/__init__.py",
+      "before_sha256": "471edd22352b71726fc920b48d660cd9e1f5af47bbb23133679621d4f31e1c08",
+      "after_sha256": "471edd22352b71726fc920b48d660cd9e1f5af47bbb23133679621d4f31e1c08"
+    },
+    {
+      "path": "datasets/sampler.py",
+      "before_sha256": "0603afb91f2e1f688f14c0bf37c7b217082d0b7dafcf24adfbb358624bcee96f",
+      "after_sha256": "0603afb91f2e1f688f14c0bf37c7b217082d0b7dafcf24adfbb358624bcee96f"
+    },
+    {
+      "path": "datasets/sampler_ddp.py",
+      "before_sha256": "4f055d77b81507162387a096d0763c810ee21608f2a3ec1ad6e9be37f232b1d1",
+      "after_sha256": "4f055d77b81507162387a096d0763c810ee21608f2a3ec1ad6e9be37f232b1d1"
+    },
+    {
+      "path": "datasets/whu_mars.py",
+      "before_sha256": "e2d3ec02764d46473afab322cd2e52422efd4a316c5f9f230f56d0d5b7dfd91d",
+      "after_sha256": "e2d3ec02764d46473afab322cd2e52422efd4a316c5f9f230f56d0d5b7dfd91d"
+    },
+    {
+      "path": "loss/__init__.py",
+      "before_sha256": "03b27435083e2e46aa89ab601bd8ef2274211516fc8b9996449aec6d28f4f4df",
+      "after_sha256": "03b27435083e2e46aa89ab601bd8ef2274211516fc8b9996449aec6d28f4f4df"
+    },
+    {
+      "path": "loss/arcface.py",
+      "before_sha256": "3803794a420e4c5d565e6d06415a816889df0ec10b687f8837cc61c6f6cbf46a",
+      "after_sha256": "3803794a420e4c5d565e6d06415a816889df0ec10b687f8837cc61c6f6cbf46a"
+    },
+    {
+      "path": "loss/center_loss.py",
+      "before_sha256": "0588ca64c95e10cbe884801aed7fa568f587aa07ec6684a77bfd57c6d9fcfda0",
+      "after_sha256": "0588ca64c95e10cbe884801aed7fa568f587aa07ec6684a77bfd57c6d9fcfda0"
+    },
+    {
+      "path": "loss/make_loss.py",
+      "before_sha256": "91f872a9462c109a5d34a359eff7b4ada5f070f304516537c5a9bd66dbac8ff9",
+      "after_sha256": "91f872a9462c109a5d34a359eff7b4ada5f070f304516537c5a9bd66dbac8ff9"
+    },
+    {
+      "path": "loss/metric_learning.py",
+      "before_sha256": "262cd6a003028e8c11eadf3ed4e43096adae8e9d89d50dc61b1e9bd4fad94246",
+      "after_sha256": "262cd6a003028e8c11eadf3ed4e43096adae8e9d89d50dc61b1e9bd4fad94246"
+    },
+    {
+      "path": "loss/softmax_loss.py",
+      "before_sha256": "d872eba630685044eda8e507f9e0f6f0e0a42af7e222ed4d8fd4c418d384c518",
+      "after_sha256": "d872eba630685044eda8e507f9e0f6f0e0a42af7e222ed4d8fd4c418d384c518"
+    },
+    {
+      "path": "loss/triplet_loss.py",
+      "before_sha256": "c2c9f47b3f462f8a0b5dce178e77979c18c878a90a3187378712f811e06ec54c",
+      "after_sha256": "c2c9f47b3f462f8a0b5dce178e77979c18c878a90a3187378712f811e06ec54c"
+    },
+    {
+      "path": "loss/wrt_loss.py",
+      "before_sha256": "e30fd5835ec43049065c1a8f72a5056b5338c54d85ef3f94e44e9134c0ee31c8",
+      "after_sha256": "e30fd5835ec43049065c1a8f72a5056b5338c54d85ef3f94e44e9134c0ee31c8"
+    },
+    {
+      "path": "model/__init__.py",
+      "before_sha256": "9f179b02c62d59506676185be571a51af6bc327ada51ec4fb71ddd73aba778c6",
+      "after_sha256": "9f179b02c62d59506676185be571a51af6bc327ada51ec4fb71ddd73aba778c6"
+    },
+    {
+      "path": "model/backbones/__init__.py",
+      "before_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "after_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "processor/__init__.py",
+      "before_sha256": "dc9ad41ea468de419d5f33b6dd86b1599bfc924a33f59af8383c46c7191c896c",
+      "after_sha256": "dc9ad41ea468de419d5f33b6dd86b1599bfc924a33f59af8383c46c7191c896c"
+    },
+    {
+      "path": "solver/__init__.py",
+      "before_sha256": "c146da7bc398363b7e0c2ff827a9af8ff7c52021de40a0e3041480d393bc83d7",
+      "after_sha256": "c146da7bc398363b7e0c2ff827a9af8ff7c52021de40a0e3041480d393bc83d7"
+    },
+    {
+      "path": "solver/cosine_lr.py",
+      "before_sha256": "d3db6e30c1666c5af71200086f33c644d476310b6c5dc7ed98097cc989bdad4d",
+      "after_sha256": "d3db6e30c1666c5af71200086f33c644d476310b6c5dc7ed98097cc989bdad4d"
+    },
+    {
+      "path": "solver/lr_scheduler.py",
+      "before_sha256": "397d43647f93fa47de0bac6b1372473a07565a28a092a240ac44c7a0b6c89631",
+      "after_sha256": "397d43647f93fa47de0bac6b1372473a07565a28a092a240ac44c7a0b6c89631"
+    },
+    {
+      "path": "solver/scheduler.py",
+      "before_sha256": "b7517bb0f79a3334e2a3ac5ecb14bdcf69cb28c62dd3c734c4e3d212d0955228",
+      "after_sha256": "b7517bb0f79a3334e2a3ac5ecb14bdcf69cb28c62dd3c734c4e3d212d0955228"
+    },
+    {
+      "path": "solver/scheduler_factory.py",
+      "before_sha256": "1416226155da54dad05c444982296f7fbfae68df793e666561b4e4a68658ab08",
+      "after_sha256": "1416226155da54dad05c444982296f7fbfae68df793e666561b4e4a68658ab08"
+    },
+    {
+      "path": "test.py",
+      "before_sha256": "bc520944f8dd0635e7c997fe4da566da9e5ddc6739fe93261694f0b90c073ee2",
+      "after_sha256": "bc520944f8dd0635e7c997fe4da566da9e5ddc6739fe93261694f0b90c073ee2"
+    },
+    {
+      "path": "train.py",
+      "before_sha256": "d4fc7be88d9b7fbb61821ab251c89e1c34943430156bd3ebb1a918fa3cd238ce",
+      "after_sha256": "d4fc7be88d9b7fbb61821ab251c89e1c34943430156bd3ebb1a918fa3cd238ce"
+    },
+    {
+      "path": "utils/__init__.py",
+      "before_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "after_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "utils/iotools.py",
+      "before_sha256": "05e59eac76140ec28c87f606283baae9cdc260b250d3088d9624e08e3cacf3d7",
+      "after_sha256": "05e59eac76140ec28c87f606283baae9cdc260b250d3088d9624e08e3cacf3d7"
+    },
+    {
+      "path": "utils/logger.py",
+      "before_sha256": "45a278cec65347ec9410d3d6186f666ade3189e02f3755d1fd461bd6705c8837",
+      "after_sha256": "45a278cec65347ec9410d3d6186f666ade3189e02f3755d1fd461bd6705c8837"
+    },
+    {
+      "path": "utils/meter.py",
+      "before_sha256": "0245aa40c9a6ade9a9ac0a0f882d1a1d7b06260c667ea43e2ecb3ba846311796",
+      "after_sha256": "0245aa40c9a6ade9a9ac0a0f882d1a1d7b06260c667ea43e2ecb3ba846311796"
+    },
+    {
+      "path": "utils/metrics.py",
+      "before_sha256": "1c927c9427c01d1f5ad4b05c203f403dce8275fb01131a8c8be3e44c1ca5797d",
+      "after_sha256": "1c927c9427c01d1f5ad4b05c203f403dce8275fb01131a8c8be3e44c1ca5797d"
+    },
+    {
+      "path": "utils/reranking.py",
+      "before_sha256": "4381eb549a37f8b1f2f5acf78dca6b65aa024f4f8cfb5b709860c5e865427588",
+      "after_sha256": "4381eb549a37f8b1f2f5acf78dca6b65aa024f4f8cfb5b709860c5e865427588"
+    }
+  ],
+  "deleted": []
+}

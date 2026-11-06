@@ -1,0 +1,45 @@
+{
+  "environment": {
+    "torch_version": "1.12.1+cu113",
+    "cuda_version": "11.3",
+    "precision": "amp",
+    "init_scale": 65536.0
+  },
+  "failed_step": 2,
+  "losses": {
+    "loss": 40.66524124145508,
+    "ce": 6.205729007720947,
+    "wrt": 34.27561569213867,
+    "pca": 0.4634580612182617,
+    "gpd": 0.17925970256328583
+  },
+  "nonfinite_parameter_names": [
+    "base.cls_token",
+    "base.pos_embed",
+    "base.patch_embed.proj.weight",
+    "base.patch_embed.proj.bias",
+    "base.blocks.0.norm1.weight",
+    "base.blocks.0.norm1.bias",
+    "base.blocks.0.attn.qg_alpha_raw",
+    "base.blocks.0.attn.qg_beta_raw",
+    "base.blocks.0.attn.qkv.weight",
+    "base.blocks.0.attn.qkv.bias",
+    "base.blocks.0.attn.proj.weight",
+    "base.blocks.0.attn.proj.bias",
+    "base.blocks.0.norm2.weight",
+    "base.blocks.0.norm2.bias",
+    "base.blocks.0.mlp.fc1.weight",
+    "base.blocks.0.mlp.fc1.bias",
+    "base.blocks.0.mlp.fc2.weight",
+    "base.blocks.0.mlp.fc2.bias",
+    "base.blocks.1.norm1.weight",
+    "base.blocks.1.norm1.bias",
+    "base.blocks.1.attn.qg_alpha_raw",
+    "base.blocks.1.attn.qg_beta_raw",
+    "base.blocks.1.attn.qkv.weight",
+    "base.blocks.1.attn.qkv.bias"
+  ],
+  "max_abs_coefficient": 2.5505380108370446e-05,
+  "max_modulation_ratio": 1.757294376147911e-05,
+  "root_cause_status": "Consistent with loss-scaled FP16 backward overflow; exact originating operator not demonstrated"
+}

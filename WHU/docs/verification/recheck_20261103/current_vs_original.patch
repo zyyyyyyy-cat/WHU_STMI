@@ -1,0 +1,2486 @@
+--- a/config/defaults.py
++++ b/config/defaults.py
+@@ -57,6 +57,14 @@
+ _C.MODEL.ATT_DROP_RATE = 0.0
+ _C.MODEL.TRANSFORMER_TYPE = 'None'
+ _C.MODEL.STRIDE_SIZE = [16, 16]
++
++# QG-SFM: fixed layer-wise, head-shared scalars; baseline remains available.
++_C.MODEL.QG_SFM = CN()
++_C.MODEL.QG_SFM.ENABLED = False
++_C.MODEL.QG_SFM.BOUND = 0.2
++_C.MODEL.QG_SFM.MODE = 'qg'  # 'soft_sfm' is the continuous STMI ablation
++_C.MODEL.QG_SFM.UNIFORM_COVERAGE = False
++_C.MODEL.QG_SFM.DIAGNOSTICS = True
+ 
+ # JPM Parameter
+ _C.MODEL.JPM = False
+@@ -105,6 +113,12 @@
+ _C.DATASETS.DATASET_DIR = 'WHU-MARS'
+ # Filter to Ground-Daytime subset (WHU-MARS-1000-GD evaluation protocol)
+ _C.DATASETS.FILTER_GD = False
++
++# Manifest keys are paths relative to ROOT_DIR/DATASET_DIR; values relative
++# to MASK_ROOT. Encoding is declared, never inferred independently per image.
++_C.DATASETS.MASK_ROOT = ''
++_C.DATASETS.MASK_MANIFEST = ''
++_C.DATASETS.MASK_ENCODING = '0/255'  # '0/1' or '0/255'
+ 
+ 
+ # -----------------------------------------------------------------------------
+--- a/configs/UAD.yml
++++ b/configs/UAD.yml
+@@ -11,6 +11,12 @@
+   PCA_LOSS_WEIGHT: 0.01
+   # New-center weight; equivalent to alpha=0.8 on the old prototype in Eq. (7).
+   GPD_MOMENTUM: 0.2
++  QG_SFM:
++    ENABLED: True
++    BOUND: 0.2
++    MODE: 'qg'
++    UNIFORM_COVERAGE: False
++    DIAGNOSTICS: True
+ 
+ INPUT:
+   SIZE_TRAIN: [256, 128]
+@@ -25,6 +31,9 @@
+   NAMES: ('WHU-MARS')
+   ROOT_DIR: ('/project/code/data')
+   MODALITIES: ['RGB', 'IR', 'Thermal']
++  MASK_ROOT: ''  # Required: root containing masks (PNG or NPY).
++  MASK_MANIFEST: ''  # Required: JSON image->mask mapping with provenance.
++  MASK_ENCODING: '0/255'
+ 
+ DATALOADER:
+   SAMPLER: 'PKM'
+@@ -53,4 +62,4 @@
+   NECK_FEAT: 'before'
+   FEAT_NORM: 'yes'
+ 
+-OUTPUT_DIR: './logs/UAD_1000'
++OUTPUT_DIR: './logs/UAD_QG_SFM_1000'
+--- /dev/null
++++ b/configs/UAD_baseline.yml
+@@ -0,0 +1,56 @@
++MODEL:
++  PRETRAIN_CHOICE: 'imagenet'
++  PRETRAIN_PATH: 'jx_vit_base_p16_224-80ecf9dd.pth'
++  METRIC_LOSS_TYPE: 'wrt'
++  IF_LABELSMOOTH: 'off'
++  IF_WITH_CENTER: 'no'
++  NAME: 'transformer'
++  NO_MARGIN: True
++  TRANSFORMER_TYPE: 'vit_base_in'
++  STRIDE_SIZE: [16, 16]
++  PCA_LOSS_WEIGHT: 0.01
++  # New-center weight; equivalent to alpha=0.8 on the old prototype in Eq. (7).
++  GPD_MOMENTUM: 0.2
++
++INPUT:
++  SIZE_TRAIN: [256, 128]
++  SIZE_TEST: [256, 128]
++  PROB: 0.5 # random horizontal flip
++  RE_PROB: 0.5 # random erasing
++  PADDING: 10
++  PIXEL_MEAN: [0.5, 0.5, 0.5]
++  PIXEL_STD: [0.5, 0.5, 0.5]
++
++DATASETS:
++  NAMES: ('WHU-MARS')
++  ROOT_DIR: ('/project/code/data')
++  MODALITIES: ['RGB', 'IR', 'Thermal']
++
++DATALOADER:
++  SAMPLER: 'PKM'
++  NUM_INSTANCE: 4
++  NUM_WORKERS: 8
++
++SOLVER:
++  OPTIMIZER_NAME: 'SGD'
++  MAX_EPOCHS: 120
++  BASE_LR: 0.008
++  IMS_PER_BATCH: 64
++  SEED: 1234
++  WARMUP_METHOD: 'linear'
++  WARMUP_EPOCHS: 5
++  CHECKPOINT_PERIOD: 120
++  LOG_PERIOD: 50
++  EVAL_PERIOD: 10
++  WEIGHT_DECAY:  1e-4
++  WEIGHT_DECAY_BIAS: 1e-4
++  BIAS_LR_FACTOR: 2
++  LOSS_TYPE: "base+pca+gpd"
++
++TEST:
++  IMS_PER_BATCH: 512
++  RE_RANKING: False
++  NECK_FEAT: 'before'
++  FEAT_NORM: 'yes'
++
++OUTPUT_DIR: './logs/UAD_1000'
+--- a/datasets/bases.py
++++ b/datasets/bases.py
+@@ -69,11 +69,12 @@
+         print("  ----------------------------------------")
+ 
+ class ImageDataset(Dataset):
+-    def __init__(self, dataset, modalities, transform=None):
++    def __init__(self, dataset, modalities, transform=None, mask_store=None):
+         # dataset: dict(modality -> list of (img_path, pid, camid, modality_id))
+         self.dataset = dataset
+         self.modalities = list(modalities)
+         self.transform = transform
++        self.mask_store = mask_store
+ 
+     def __len__(self):
+         return sum(len(self.dataset[m]) for m in self.modalities)
+@@ -82,24 +83,35 @@
+         if isinstance(index, tuple):
+             imgs = []
+             camids = []
++            coverages, valid_flags = [], []
+             pid = None
+             for m_idx, modality in enumerate(self.modalities):
+                 img_path, cur_pid, camid, _ = self.dataset[modality][index[m_idx]]
+                 if pid is None:
+                     pid = cur_pid
++                elif cur_pid != pid:
++                    raise ValueError('PKM tuple contains different identities')
+                 img = read_image(img_path)
+-                if self.transform is not None:
++                if self.mask_store is not None:
++                    mask = self.mask_store.read(img_path, img.size)
++                    img, coverage, valid = self.transform(img, mask)
++                    coverages.append(coverage)
++                    valid_flags.append(valid)
++                elif self.transform is not None:
+                     img = self.transform(img)
+                 imgs.append(img)
+                 camids.append(camid)
++            if self.mask_store is not None:
++                return imgs, pid, camids, coverages, valid_flags
+             return imgs, pid, camids
+ 
+ class ImageDatasetTest(Dataset):
+-    def __init__(self, dataset, modality, transform=None):
++    def __init__(self, dataset, modality, transform=None, mask_store=None):
+         # dataset: list of (img_path, pid, camid, modality)
+         self.dataset = dataset
+         self.modality = modality
+         self.transform = transform
++        self.mask_store = mask_store
+ 
+     def __len__(self):
+         return len(self.dataset[self.modality])
+@@ -108,7 +120,12 @@
+         if isinstance(index, int):
+             img_path, pid, camid, modality = self.dataset[self.modality][index]
+             img = read_image(img_path)
+-            if self.transform is not None:
++            if self.mask_store is not None:
++                mask = self.mask_store.read(img_path, img.size)
++                img, coverage, valid = self.transform(img, mask)
++            elif self.transform is not None:
+                 img = self.transform(img)
+             filename = osp.basename(img_path)
++            if self.mask_store is not None:
++                return img, pid, camid, modality, filename, coverage, valid
+             return img, pid, camid, modality, filename
+--- a/datasets/make_dataloader.py
++++ b/datasets/make_dataloader.py
+@@ -8,6 +8,7 @@
+ from .whu_mars import WHU_MARS
+ from .sampler_ddp import PKMSampler_DDP
+ import torch.distributed as dist
++from .masks import MaskStore, JointMaskTransform
+ 
+ __factory = {
+     'WHU-MARS': WHU_MARS,
+@@ -15,6 +16,12 @@
+ 
+ 
+ def train_collate_fn(batch):
++    if len(batch[0]) == 5:
++        imgs, pids, camids = train_collate_fn([row[:3] for row in batch])
++        count = len(imgs)
++        coverage = [torch.stack([row[3][m] for row in batch]) for m in range(count)]
++        valid = [torch.stack([row[4][m] for row in batch]) for m in range(count)]
++        return imgs, pids, camids, coverage, valid
+     imgs_ls, pids, camids_ls = zip(*batch)
+     num_modalities = len(imgs_ls[0])
+     imgs = [torch.stack([sample[m] for sample in imgs_ls], dim=0) for m in range(num_modalities)]
+@@ -24,6 +31,10 @@
+ 
+ 
+ def val_collate_fn(batch):
++    if len(batch[0]) == 7:
++        original = val_collate_fn([row[:5] for row in batch])
++        return original + (torch.stack([row[5] for row in batch]),
++                           torch.stack([row[6] for row in batch]))
+     imgs, pids, camids, modids, img_paths = zip(*batch)
+     camidt = torch.tensor(camids, dtype=torch.int64)
+     return torch.stack(imgs, dim=0), pids, camids, camidt, modids, img_paths
+@@ -53,7 +64,16 @@
+                                              dataset_dir=cfg.DATASETS.DATASET_DIR,
+                                              filter_gd=cfg.DATASETS.FILTER_GD)
+ 
+-    train_set = ImageDataset(dataset.train, modalities=modalities, transform=train_transforms)
++    mask_store = None
++    if cfg.MODEL.QG_SFM.ENABLED:
++        mask_store = MaskStore(dataset.dataset_dir, cfg.DATASETS.MASK_ROOT,
++                               cfg.DATASETS.MASK_MANIFEST, cfg.DATASETS.MASK_ENCODING)
++        for split in (dataset.train, dataset.query, dataset.gallery):
++            mask_store.validate_records(split)
++        train_transforms = JointMaskTransform(cfg, training=True)
++        val_transforms = JointMaskTransform(cfg, training=False)
++
++    train_set = ImageDataset(dataset.train, modalities=modalities, transform=train_transforms, mask_store=mask_store)
+     num_classes = dataset.num_train_pids
+     cam_num = dataset.num_train_cams
+     view_num = dataset.num_train_vids
+@@ -115,7 +135,7 @@
+ 
+     for modality in modalities:
+         val_data = {modality: dataset.query.get(modality, []) + dataset.gallery.get(modality, [])}
+-        val_set = ImageDatasetTest(val_data, modality, val_transforms)
++        val_set = ImageDatasetTest(val_data, modality, val_transforms, mask_store=mask_store)
+         val_loader = DataLoader(
+             val_set,
+             batch_size=cfg.TEST.IMS_PER_BATCH,
+@@ -128,7 +148,7 @@
+ 
+     ref_modality = modalities[0]
+     train_normal_data = {ref_modality: dataset.train.get(ref_modality, [])}
+-    train_set_normal = ImageDatasetTest(train_normal_data, ref_modality, val_transforms)
++    train_set_normal = ImageDatasetTest(train_normal_data, ref_modality, val_transforms, mask_store=mask_store)
+     train_loader_normal = DataLoader(
+         train_set_normal,
+         batch_size=cfg.TEST.IMS_PER_BATCH,
+--- /dev/null
++++ b/datasets/masks.py
+@@ -0,0 +1,128 @@
++"""Strict per-image mask mapping and image/mask joint geometry.
++
++No segmentation model is run during ReID training or evaluation.
++"""
++import json
++from pathlib import Path
++
++import numpy as np
++from PIL import Image
++import torch
++import torch.nn.functional as F
++import torchvision.transforms as T
++import torchvision.transforms.functional as TF
++from timm.data.random_erasing import RandomErasing
++
++
++def _relative_file(root, name):
++    path = (root / name).resolve()
++    try:
++        path.relative_to(root)
++    except ValueError:
++        raise ValueError('Manifest path escapes its root: {}'.format(name))
++    return path
++
++
++class MaskStore:
++    def __init__(self, image_root, mask_root, manifest, encoding):
++        if not mask_root or not manifest:
++            raise ValueError('QG-SFM requires DATASETS.MASK_ROOT and MASK_MANIFEST')
++        if encoding not in ('0/1', '0/255'):
++            raise ValueError('MASK_ENCODING must be 0/1 or 0/255')
++        self.image_root = Path(image_root).resolve()
++        self.mask_root = Path(mask_root).resolve()
++        with open(manifest, encoding='utf-8') as stream:
++            doc = json.load(stream)
++        if doc.get('version') != 1 or doc.get('encoding') != encoding:
++            raise ValueError('Mask manifest version/encoding disagrees with configuration')
++        self.provenance = doc.get('provenance')
++        if not isinstance(self.provenance, dict) or not self.provenance:
++            raise ValueError('Manifest must record the fixed mask generator and settings in provenance')
++        self.mapping = doc.get('images')
++        if not isinstance(self.mapping, dict) or not self.mapping:
++            raise ValueError('Manifest images must be a nonempty image->mask mapping')
++        self.encoding = encoding
++        # A reused RGB mask for IR/Thermal is an error, even if sizes coincide.
++        resolved = set()
++        for key, value in self.mapping.items():
++            if not isinstance(key, str) or not isinstance(value, str):
++                raise ValueError('Manifest paths must be strings')
++            image = _relative_file(self.image_root, key)
++            if image.relative_to(self.image_root).as_posix() != key:
++                raise ValueError('Image keys must be normalized relative POSIX paths: {}'.format(key))
++            mask = _relative_file(self.mask_root, value)
++            if mask in resolved:
++                raise ValueError('Each image needs its own mask file: {}'.format(mask))
++            resolved.add(mask)
++
++    def path_for(self, image_path):
++        key = Path(image_path).resolve().relative_to(self.image_root).as_posix()
++        if key not in self.mapping:
++            raise KeyError('No mask mapped for {}'.format(key))
++        mask = _relative_file(self.mask_root, self.mapping[key])
++        if not mask.is_file():
++            raise FileNotFoundError('Mask for {} is missing: {}'.format(key, mask))
++        return mask
++
++    def validate_records(self, records):
++        for rows in records.values():
++            for image_path, _, _, _ in rows:
++                if not Path(image_path).is_file():
++                    raise FileNotFoundError(image_path)
++                self.path_for(image_path)
++
++    def read(self, image_path, image_size):
++        path = self.path_for(image_path)
++        try:
++            if path.suffix.lower() == '.npy':
++                array = np.load(path, allow_pickle=False)
++            elif path.suffix.lower() == '.png':
++                # PIL's global truncated-image option is used by the legacy
++                # image reader; verify PNG integrity before decoding masks.
++                with Image.open(path) as mask:
++                    mask.verify()
++                with Image.open(path) as mask:
++                    array = np.array(mask)
++            else:
++                raise ValueError('Only lossless single-channel PNG or 2D NPY masks are supported')
++        except Exception as exc:
++            raise ValueError('Cannot decode mask {}: {}'.format(path, exc)) from exc
++        if array.ndim != 2 or array.shape != (image_size[1], image_size[0]):
++            raise ValueError('Mask {} shape {} does not match image size {}'.format(path, array.shape, image_size))
++        high = 1 if self.encoding == '0/1' else 255
++        if not np.all((array == 0) | (array == high)):
++            raise ValueError('Mask {} is not binary with declared encoding {}'.format(path, self.encoding))
++        return Image.fromarray((array != 0).astype(np.uint8), mode='L')
++
++
++class JointMaskTransform:
++    def __init__(self, cfg, training):
++        self.training = training
++        self.size = tuple(cfg.INPUT.SIZE_TRAIN if training else cfg.INPUT.SIZE_TEST)
++        if any(d % 16 for d in self.size) or tuple(cfg.MODEL.STRIDE_SIZE) != (16, 16):
++            raise ValueError('QG-SFM requires a nonoverlapping 16x16 patch grid')
++        self.flip_prob = cfg.INPUT.PROB
++        self.padding = cfg.INPUT.PADDING
++        # Match the original UAD: train bicubic, test default bilinear.
++        self.image_resize = T.Resize(self.size, interpolation=3 if training else 2)
++        self.mask_resize = T.Resize(self.size, interpolation=0)
++        self.normalize = T.Normalize(cfg.INPUT.PIXEL_MEAN, cfg.INPUT.PIXEL_STD)
++        self.erase = RandomErasing(probability=cfg.INPUT.RE_PROB, mode='pixel', max_count=1, device='cpu')
++
++    def __call__(self, image, mask):
++        image, mask = self.image_resize(image), self.mask_resize(mask)
++        if self.training:
++            # Exactly one RNG draw per joint operation, as in the image-only path.
++            if torch.rand(1) < self.flip_prob:
++                image, mask = TF.hflip(image), TF.hflip(mask)
++            image = TF.pad(image, self.padding)
++            mask = TF.pad(mask, self.padding, fill=0)
++            crop = T.RandomCrop.get_params(image, self.size)
++            image, mask = TF.crop(image, *crop), TF.crop(mask, *crop)
++        mask = torch.from_numpy(np.array(mask, dtype=np.float32)).unsqueeze(0)
++        coverage = F.avg_pool2d(mask, kernel_size=16, stride=16).flatten()
++        valid = mask.sum() > 0  # validity AFTER geometry, before CLS is prepended
++        image = self.normalize(TF.to_tensor(image))
++        if self.training:
++            image = self.erase(image)
++        return image, coverage, valid
+--- a/model/backbones/vit_pytorch.py
++++ b/model/backbones/vit_pytorch.py
+@@ -107,7 +107,8 @@
+ 
+ 
+ class Attention(nn.Module):
+-    def __init__(self, dim, num_heads=8, qkv_bias=False, qk_scale=None, attn_drop=0., proj_drop=0.):
++    def __init__(self, dim, num_heads=8, qkv_bias=False, qk_scale=None, attn_drop=0., proj_drop=0.,
++                 qg_sfm=False, qg_bound=0.2, qg_mode='qg'):
+         super().__init__()
+         self.num_heads = num_heads
+         head_dim = dim // num_heads
+@@ -118,13 +119,56 @@
+         self.attn_drop = nn.Dropout(attn_drop)
+         self.proj = nn.Linear(dim, dim)
+         self.proj_drop = nn.Dropout(proj_drop)
+-
+-    def forward(self, x):
++        self.qg_sfm = qg_sfm
++        self.qg_bound = qg_bound
++        self.qg_mode = qg_mode
++        self.collect_qg_stats = False
++        self.qg_stats = None
++        if qg_sfm:
++            if not math.isfinite(qg_bound) or qg_bound <= 0 or qg_mode not in ('qg', 'soft_sfm'):
++                raise ValueError('Invalid QG-SFM bound or mode')
++            self.qg_alpha_raw = nn.Parameter(torch.zeros(()))
++            self.qg_beta_raw = nn.Parameter(torch.zeros(()))
++
++    def modulate_logits(self, logits, token_weights, valid_flags):
++        # No zero-parameter / empty-batch shortcut: even all-empty batches must
++        # keep both scalar parameters in the DDP backward graph.
++        with torch.autocast(device_type=logits.device.type, enabled=False):
++            scores = logits.float()
++            p = token_weights.detach().float()
++            query, key = p[:, None, :, None], p[:, None, None, :]
++            valid = valid_flags.detach().float()[:, None, None, None]
++            row_max = scores.amax(dim=-1, keepdim=True)
++            row_min = scores.amin(dim=-1, keepdim=True)
++            alpha = self.qg_bound * torch.tanh(self.qg_alpha_raw.float() / self.qg_bound)
++            beta = self.qg_bound * torch.tanh(self.qg_beta_raw.float() / self.qg_bound)
++            if self.qg_mode == 'qg':
++                delta = valid * query * (alpha * key * (row_max - scores)
++                                         - beta * (1 - key) * (scores - row_min))
++            else:
++                relation = query * key
++                delta = valid * (alpha * relation * (row_max - scores)
++                                 - beta * (1 - relation) * (scores - row_min))
++            if self.collect_qg_stats:
++                with torch.no_grad():
++                    centered_delta = delta - delta.mean(dim=-1, keepdim=True)
++                    centered_scores = scores - scores.mean(dim=-1, keepdim=True)
++                    ratio = centered_delta.square().mean().sqrt() / (centered_scores.square().mean().sqrt() + 1e-12)
++                    self.qg_stats = torch.stack((self.qg_alpha_raw, self.qg_beta_raw,
++                                                 alpha, beta, ratio)).detach()
++            return (scores + delta).to(logits.dtype)
++
++    def forward(self, x, token_weights=None, valid_flags=None):
+         B, N, C = x.shape
+         qkv = self.qkv(x).reshape(B, N, 3, self.num_heads, C // self.num_heads).permute(2, 0, 3, 1, 4)
+         q, k, v = qkv[0], qkv[1], qkv[2]   # make torchscript happy (cannot use tensor as tuple)
+ 
+-        attn = (q @ k.transpose(-2, -1)) * self.scale
++        attn = q @ k.transpose(-2, -1)
++        if self.qg_sfm:
++            if token_weights is None or valid_flags is None:
++                raise ValueError('QG-SFM requires mask coverage and validity at train AND test time')
++            attn = self.modulate_logits(attn, token_weights, valid_flags)
++        attn = attn * self.scale
+         attn = attn.softmax(dim=-1)
+         attn = self.attn_drop(attn)
+ 
+@@ -137,19 +181,21 @@
+ class Block(nn.Module):
+ 
+     def __init__(self, dim, num_heads, mlp_ratio=4., qkv_bias=False, qk_scale=None, drop=0., attn_drop=0.,
+-                 drop_path=0., act_layer=nn.GELU, norm_layer=nn.LayerNorm):
++                 drop_path=0., act_layer=nn.GELU, norm_layer=nn.LayerNorm,
++                 qg_sfm=False, qg_bound=0.2, qg_mode='qg'):
+         super().__init__()
+         self.norm1 = norm_layer(dim)
+         self.attn = Attention(
+-            dim, num_heads=num_heads, qkv_bias=qkv_bias, qk_scale=qk_scale, attn_drop=attn_drop, proj_drop=drop)
++            dim, num_heads=num_heads, qkv_bias=qkv_bias, qk_scale=qk_scale, attn_drop=attn_drop, proj_drop=drop,
++            qg_sfm=qg_sfm, qg_bound=qg_bound, qg_mode=qg_mode)
+         # NOTE: drop path for stochastic depth, we shall see if this is better than dropout here
+         self.drop_path = DropPath(drop_path) if drop_path > 0. else nn.Identity()
+         self.norm2 = norm_layer(dim)
+         mlp_hidden_dim = int(dim * mlp_ratio)
+         self.mlp = Mlp(in_features=dim, hidden_features=mlp_hidden_dim, act_layer=act_layer, drop=drop)
+ 
+-    def forward(self, x):
+-        x = x + self.drop_path(self.attn(self.norm1(x)))
++    def forward(self, x, token_weights=None, valid_flags=None):
++        x = x + self.drop_path(self.attn(self.norm1(x), token_weights, valid_flags))
+         x = x + self.drop_path(self.mlp(self.norm2(x)))
+         return x
+ 
+@@ -239,11 +285,17 @@
+     """
+     def __init__(self, img_size=224, patch_size=16, stride_size=16, in_chans=3, num_classes=1000, embed_dim=768, depth=12,
+                  num_heads=12, mlp_ratio=4., qkv_bias=False, qk_scale=None, drop_rate=0., attn_drop_rate=0., camera=0, view=0,
+-                 drop_path_rate=0., ics_embedding=False, norm_layer=nn.LayerNorm, local_feature=False, sie_xishu=1.0, hw_ratio=1):
++                 drop_path_rate=0., ics_embedding=False, norm_layer=nn.LayerNorm, local_feature=False, sie_xishu=1.0, hw_ratio=1,
++                 qg_sfm=False, qg_bound=0.2, qg_mode='qg', qg_uniform=False):
+         super().__init__()
+         self.num_classes = num_classes
+         self.num_features = self.embed_dim = embed_dim  # num_features for consistency with other models
+         self.local_feature = local_feature
++        self.qg_sfm = qg_sfm
++        self.qg_uniform = qg_uniform
++        if qg_sfm and (ics_embedding or tuple(to_2tuple(stride_size)) != (16, 16)
++                       or tuple(to_2tuple(patch_size)) != (16, 16)):
++            raise ValueError('QG-SFM supports the original ViT patch16/stride16 embedding only')
+         if ics_embedding:
+             self.patch_embed = PatchEmbed_ICS(
+                 img_size=img_size, patch_size=patch_size, stride_size=stride_size, in_chans=in_chans, embed_dim=embed_dim)
+@@ -282,7 +334,8 @@
+         self.blocks = nn.ModuleList([
+             Block(
+                 dim=embed_dim, num_heads=num_heads, mlp_ratio=mlp_ratio, qkv_bias=qkv_bias, qk_scale=qk_scale,
+-                drop=drop_rate, attn_drop=attn_drop_rate, drop_path=dpr[i], norm_layer=norm_layer)
++                drop=drop_rate, attn_drop=attn_drop_rate, drop_path=dpr[i], norm_layer=norm_layer,
++                qg_sfm=qg_sfm, qg_bound=qg_bound, qg_mode=qg_mode)
+             for i in range(depth)])
+ 
+         self.norm = norm_layer(embed_dim)
+@@ -314,9 +367,20 @@
+         self.num_classes = num_classes
+         self.fc = nn.Linear(self.embed_dim, num_classes) if num_classes > 0 else nn.Identity()
+ 
+-    def forward_features(self, x, camera_id, modal_id, view_id):
++    def forward_features(self, x, camera_id, modal_id, view_id, coverage=None, valid_flags=None):
+         B = x.shape[0]
+         x = self.patch_embed(x)
++        token_weights = None
++        if self.qg_sfm:
++            if coverage is None or valid_flags is None:
++                raise ValueError('Enabled QG-SFM cannot run without per-image masks')
++            if coverage.shape != (B, x.shape[1]) or valid_flags.shape != (B,):
++                raise ValueError('Mask batch/patch dimensions do not match image tokens')
++            coverage = coverage.detach().to(device=x.device, dtype=torch.float32)
++            valid_flags = valid_flags.detach().to(device=x.device)
++            if self.qg_uniform:
++                coverage = coverage.mean(dim=1, keepdim=True).expand_as(coverage)
++            token_weights = torch.cat((coverage.new_ones(B, 1), coverage), dim=1)
+ 
+         cls_tokens = self.cls_token.expand(B, -1, -1)  # stole cls_tokens impl from Phil Wang, thanks
+ 
+@@ -334,14 +398,14 @@
+         x = self.pos_drop(x)
+  
+         for blk in self.blocks:
+-            x = blk(x)
++            x = blk(x, token_weights, valid_flags)
+ 
+         x = self.norm(x)
+ 
+         return x[:, 0]
+ 
+-    def forward(self, x, cam_label=None, modal_label=None, view_label=None):
+-        x = self.forward_features(x, cam_label, modal_label, view_label)
++    def forward(self, x, cam_label=None, modal_label=None, view_label=None, coverage=None, valid_flags=None):
++        x = self.forward_features(x, cam_label, modal_label, view_label, coverage, valid_flags)
+         return x
+ 
+     def load_param(self, model_path):
+@@ -367,6 +431,9 @@
+                 k = k.replace("backbone.", "")
+                 newmodel[k] = v
+                 param_dict = newmodel
++        if self.qg_sfm and any('.qg_' in k for k in param_dict):
++            raise ValueError('ImageNet initialization must not contain QG parameters; use the ReID checkpoint loader')
++        loaded = set()
+         for k, v in param_dict.items():
+             if 'head' in k or 'dist' in k or 'pre_logits' in k:
+                 continue
+@@ -383,9 +450,17 @@
+             try:
+                 self.state_dict()[k].copy_(v)
+                 count +=1
+-            except:
++                loaded.add(k)
++            except Exception as exc:
++                if self.qg_sfm:
++                    raise RuntimeError('Cannot load ImageNet backbone tensor: {}'.format(k)) from exc
+                 print('===========================ERROR=========================')
+                 print('shape do not match in k :{}: param_dict{} vs self.state_dict(){}'.format(k, v.shape, self.state_dict()[k].shape))
++        if self.qg_sfm:
++            required = {k for k in self.state_dict() if not k.startswith('fc.') and '.qg_' not in k}
++            missing = required - loaded
++            if missing:
++                raise RuntimeError('ImageNet initialization is missing backbone tensors: {}'.format(sorted(missing)))
+         print('Load %d / %d layers.'%(count,len(self.state_dict().keys())))
+ 
+ 
+--- a/model/make_model.py
++++ b/model/make_model.py
+@@ -1,5 +1,6 @@
+ import torch
+ import torch.nn as nn
++import json
+ from .backbones.vit_pytorch import vit_base_in, vit_ics_lup
+ 
+ def weights_init_kaiming(m):
+@@ -34,6 +35,26 @@
+         self.neck = cfg.MODEL.NECK
+         self.neck_feat = cfg.TEST.NECK_FEAT
+         self.in_planes = 768
++        self.qg_enabled = cfg.MODEL.QG_SFM.ENABLED
++        if self.qg_enabled:
++            if cfg.MODEL.TRANSFORMER_TYPE != 'vit_base_in':
++                raise ValueError('The QG-SFM experiment requires the shared vit_base_in backbone')
++            if list(cfg.INPUT.SIZE_TRAIN) != [256, 128] or list(cfg.INPUT.SIZE_TEST) != [256, 128]:
++                raise ValueError('This experiment fixes train/test size to 256x128')
++            with open(cfg.DATASETS.MASK_MANIFEST, encoding='utf-8') as stream:
++                manifest = json.load(stream)
++            specification = {
++                'version': 1, 'bound': cfg.MODEL.QG_SFM.BOUND,
++                'mode': cfg.MODEL.QG_SFM.MODE,
++                'uniform': cfg.MODEL.QG_SFM.UNIFORM_COVERAGE,
++                'size': list(cfg.INPUT.SIZE_TRAIN), 'stride': list(cfg.MODEL.STRIDE_SIZE),
++                'mask_encoding': cfg.DATASETS.MASK_ENCODING,
++                'mask_provenance': manifest['provenance'],
++            }
++            payload = json.dumps(specification, sort_keys=True, ensure_ascii=True).encode('utf-8')
++            # Portable metadata travels with the usual raw state_dict checkpoint.
++            # No absolute mask paths are saved, so the dataset may be relocated.
++            self.register_buffer('_qg_spec', torch.tensor(list(payload), dtype=torch.uint8))
+ 
+         print('using Transformer_type: {} as a backbone'.format(cfg.MODEL.TRANSFORMER_TYPE))
+ 
+@@ -49,7 +70,10 @@
+         self.base=factory[cfg.MODEL.TRANSFORMER_TYPE](img_size=cfg.INPUT.SIZE_TRAIN, sie_xishu=cfg.MODEL.SIE_COE,
+                                                         camera=camera_num, view=view_num, stride_size=cfg.MODEL.STRIDE_SIZE, drop_path_rate=cfg.MODEL.DROP_PATH,
+                                                         drop_rate= cfg.MODEL.DROP_OUT,
+-                                                        attn_drop_rate=cfg.MODEL.ATT_DROP_RATE)
++                                                        attn_drop_rate=cfg.MODEL.ATT_DROP_RATE,
++                                                        qg_sfm=self.qg_enabled, qg_bound=cfg.MODEL.QG_SFM.BOUND,
++                                                        qg_mode=cfg.MODEL.QG_SFM.MODE,
++                                                        qg_uniform=cfg.MODEL.QG_SFM.UNIFORM_COVERAGE)
+ 
+         if pretrain_choice == 'imagenet':
+             self.base.load_param(model_path)
+@@ -64,15 +88,20 @@
+         self.bottleneck.bias.requires_grad_(False)
+         self.bottleneck.apply(weights_init_kaiming)
+         
+-    def forward(self, x=None, label=None, camids=None, mode=0):
++    def forward(self, x=None, label=None, camids=None, mode=0, coverage=None, valid_flags=None):
+         if mode==0:
++            if self.qg_enabled:
++                if coverage is None or valid_flags is None or len(coverage) != len(x) or len(valid_flags) != len(x):
++                    raise ValueError('Training requires one coverage/validity batch per modality')
++                coverage = torch.cat(list(coverage), dim=0)
++                valid_flags = torch.cat(list(valid_flags), dim=0)
+             x = torch.cat(list(x), dim=0)
+-            global_feat = self.base(x)
++            global_feat = self.base(x, coverage=coverage, valid_flags=valid_flags)
+             feat = self.bottleneck(global_feat)
+             cls_score = self.classifier(feat)
+             return cls_score, global_feat, feat
+         else:
+-            global_feat = self.base(x)
++            global_feat = self.base(x, coverage=coverage, valid_flags=valid_flags)
+             feat = self.bottleneck(global_feat)
+             if self.neck_feat == 'after':
+                 return feat
+@@ -81,18 +110,40 @@
+ 
+ 
+     def load_param(self, trained_path):
+-        param_dict = torch.load(trained_path)
+-        for i in param_dict:
+-            if 'classifier' in i:
+-                continue
+-            self.state_dict()[i.replace('module.', '')].copy_(param_dict[i])
++        self._load_reid_checkpoint(trained_path, skip_classifier=True)
+         print('Loading pretrained model from {}'.format(trained_path))
+ 
+     def load_param_finetune(self, model_path):
+-        param_dict = torch.load(model_path)
+-        for i in param_dict:
+-            self.state_dict()[i].copy_(param_dict[i])
++        self._load_reid_checkpoint(model_path, skip_classifier=False)
+         print('Loading pretrained model for finetuning from {}'.format(model_path))
++
++    def _load_reid_checkpoint(self, path, skip_classifier):
++        try:
++            checkpoint = torch.load(path, map_location='cpu', weights_only=True)
++        except TypeError:  # PyTorch 1.12
++            checkpoint = torch.load(path, map_location='cpu')
++        state = checkpoint.get('state_dict', checkpoint.get('model', checkpoint))
++        state = {(key[7:] if key.startswith('module.') else key): value for key, value in state.items()}
++        if self.qg_enabled:
++            required = {name for name, _ in self.named_parameters()
++                        if name.endswith(('.qg_alpha_raw', '.qg_beta_raw'))}
++            missing = required - state.keys()
++            if missing:
++                raise RuntimeError('QG checkpoint is missing modulation parameters: {}'.format(sorted(missing)))
++            if '_qg_spec' not in state or not torch.equal(state['_qg_spec'].cpu(), self._qg_spec.cpu()):
++                raise RuntimeError('QG checkpoint configuration or mask provenance disagrees with current configuration')
++        if skip_classifier:
++            state = {key: value for key, value in state.items() if not key.startswith('classifier.')}
++        # Validate everything before copying any tensor, avoiding partial loads.
++        own = self.state_dict()
++        expected = {key for key in own if not (skip_classifier and key.startswith('classifier.'))}
++        if set(state) != expected:
++            raise RuntimeError('Checkpoint keys mismatch; missing={}, unexpected={}'.format(
++                sorted(expected - state.keys()), sorted(state.keys() - expected)))
++        for key in expected:
++            if own[key].shape != state[key].shape:
++                raise RuntimeError('Checkpoint shape mismatch: {}'.format(key))
++        self.load_state_dict(state, strict=not skip_classifier)
+ 
+ 
+ __factory_T_type = {
+--- a/processor/processor.py
++++ b/processor/processor.py
+@@ -8,6 +8,32 @@
+ from torch.cuda import amp
+ import torch.distributed as dist
+ import torch.nn.functional as F
++
++
++def mask_kwargs(batch, device, training=False):
++    """Keep the original three/six metadata fields and append spatial inputs."""
++    baseline_length = 3 if training else 6
++    if len(batch) == baseline_length:
++        return {}
++    coverage, valid = batch[-2:]
++    if training:
++        coverage = [item.to(device) for item in coverage]
++        valid = [item.to(device) for item in valid]
++    else:
++        coverage, valid = coverage.to(device), valid.to(device)
++    return {'coverage': coverage, 'valid_flags': valid}
++
++
++def qg_diagnostics(model, enabled, logger=None):
++    base = model.module if hasattr(model, 'module') else model
++    for index, block in enumerate(base.base.blocks, start=1):
++        attn = block.attn
++        attn.collect_qg_stats = enabled
++        if logger is not None and attn.qg_stats is not None:
++            a, b, alpha, beta, ratio = attn.qg_stats.cpu().tolist()
++            logger.info('QG layer %02d rank0-local: raw=(%.6f, %.6f), effective=(%.6f, %.6f), R=%.6f',
++                        index, a, b, alpha, beta, ratio)
++            attn.qg_stats = None
+ 
+ 
+ def PCA(feat, target, num_modalities, group_size=4):
+@@ -173,7 +199,12 @@
+         model.train()
+ 
+         n_iter = 0
+-        for n_iter, (imgs, vid, camids) in enumerate(train_loader):
++        for n_iter, batch in enumerate(train_loader):
++            imgs, vid, camids = batch[:3]
++            spatial_inputs = mask_kwargs(batch, device, training=True)
++            if cfg.MODEL.QG_SFM.ENABLED:
++                qg_diagnostics(model, cfg.MODEL.QG_SFM.DIAGNOSTICS and is_main
++                               and (n_iter + 1) % log_period == 0)
+             optimizer.zero_grad()
+             optimizer_center.zero_grad()
+ 
+@@ -185,7 +216,7 @@
+             target_rep = target.repeat(num_modalities)
+ 
+             with amp.autocast(enabled=True):
+-                cls_score, global_feat, feat = model(imgs, target, camids)
++                cls_score, global_feat, feat = model(imgs, target, camids, **spatial_inputs)
+ 
+                 loss, il, tl = loss_fn(cls_score, global_feat, target_rep)
+                 meter_ls[0].update(il.item(), target_rep.shape[0])
+@@ -246,6 +277,8 @@
+                 metrics = [f'{m.avg:.3f}' for m in meter_ls]
+                 metrics_str = ', '.join(metrics)
+                 logger.info(f'Epoch[{epoch}] {metrics_str}')
++                if cfg.MODEL.QG_SFM.ENABLED and cfg.MODEL.QG_SFM.DIAGNOSTICS:
++                    qg_diagnostics(model, False, logger)
+ 
+         end_time = time.time()
+         time_per_batch = (end_time - start_time) / (n_iter + 1)
+@@ -295,10 +328,11 @@
+                 if dist_on and (mode - 1) % world_sz != rank:
+                     continue
+ 
+-                for img, vid, camid, camidt, modid, _ in val_loader:
++                for batch in val_loader:
++                    img, vid, camid, camidt, modid, _ = batch[:6]
+                     with torch.no_grad():
+                         img = img.to(device)
+-                        feat = eval_model(img, mode=mode)
++                        feat = eval_model(img, mode=mode, **mask_kwargs(batch, device))
+                         evaluator.update((feat, vid, camid, modid), mode)
+ 
+             evaluator.split_all()
+@@ -348,11 +382,12 @@
+     for mode, (val_loader, num_query) in enumerate(zip(val_loaders, num_querys), start=1):
+         evaluator.set_query_num(mode, num_query)
+ 
+-        for img, vid, camid, camidt, modid, imgpath in val_loader:
++        for batch in val_loader:
++            img, vid, camid, camidt, modid, imgpath = batch[:6]
+             with torch.no_grad():
+                 img = img.to(device)
+ 
+-                feat = model(img, mode=mode)
++                feat = model(img, mode=mode, **mask_kwargs(batch, device))
+                 evaluator.update((feat, vid, camid, modid), mode)
+                 img_path_list.extend(imgpath)
+ 
+--- a/solver/make_optimizer.py
++++ b/solver/make_optimizer.py
+@@ -3,8 +3,12 @@
+ 
+ def make_optimizer(cfg, model, center_criterion):
+     params = []
++    qg_params = []
+     for key, value in model.named_parameters():
+         if not value.requires_grad:
++            continue
++        if key.endswith(('.qg_alpha_raw', '.qg_beta_raw')):
++            qg_params.append(value)
+             continue
+         lr = cfg.SOLVER.BASE_LR
+         weight_decay = cfg.SOLVER.WEIGHT_DECAY
+@@ -18,6 +22,10 @@
+ 
+         params += [{"params": [value], "lr": lr, "weight_decay": weight_decay}]
+ 
++    if qg_params:
++        params.append({'params': qg_params, 'lr': cfg.SOLVER.BASE_LR,
++                       'weight_decay': 0.0, 'name': 'qg_sfm'})
++
+     if cfg.SOLVER.OPTIMIZER_NAME == 'SGD':
+         optimizer = getattr(torch.optim, cfg.SOLVER.OPTIMIZER_NAME)(params, momentum=cfg.SOLVER.MOMENTUM)
+     elif cfg.SOLVER.OPTIMIZER_NAME == 'AdamW':
+--- /dev/null
++++ b/tests/ddp_qg_smoke.py
+@@ -0,0 +1,88 @@
++"""Two CPU/Gloo ranks: QG gradient sync, empty masks, PKM and prototype sync.
++
++Run: python tests/ddp_qg_smoke.py
++This does not claim CUDA/NCCL validation.
++"""
++from datetime import timedelta
++from pathlib import Path
++import socket
++import sys
++
++import torch
++import torch.distributed as dist
++import torch.multiprocessing as mp
++
++sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
++from datasets.sampler_ddp import PKMSampler_DDP
++from model.backbones.vit_pytorch import TransReID
++from processor.processor import PCA, GPD, PrototypeBank
++
++
++def worker(rank, port):
++    torch.set_num_threads(1)
++    dist.init_process_group('gloo', init_method='tcp://127.0.0.1:{}'.format(port),
++                            rank=rank, world_size=2, timeout=timedelta(seconds=45))
++    try:
++        torch.manual_seed(1234)
++        model = TransReID(img_size=(32, 32), stride_size=16, embed_dim=24, depth=12,
++                         num_heads=3, num_classes=0, qg_sfm=True)
++        model = torch.nn.parallel.DistributedDataParallel(model)
++        optimizer = torch.optim.SGD(model.parameters(), lr=.008)
++        bank = PrototypeBank(4, 24, device='cpu')
++        modalities = ['RGB', 'IR', 'Thermal']
++        dataset = {m: [('{}_{}_{}'.format(m, pid, k), pid, k, index + 1)
++                       for pid in range(4) for k in range(2)]
++                   for index, m in enumerate(modalities)}
++        sampler = PKMSampler_DDP(dataset, batch_size=8, num_instances=2, modalities=modalities)
++        samples = list(sampler)
++        assert len(samples) == 4
++        targets = torch.tensor([dataset['RGB'][item[0]][1] for item in samples])
++        assert torch.equal(targets.reshape(-1, 2)[:, 0], targets.reshape(-1, 2)[:, 1])
++        for item in samples:
++            assert len({dataset[m][item[i]][1] for i, m in enumerate(modalities)}) == 1
++        # One entire rank sees empty masks on step 0; all ranks see empty masks
++        # on step 1. Both cases must retain all 24 parameters in the graph.
++        for step in range(2):
++            optimizer.zero_grad()
++            torch.manual_seed(10 + rank + step)
++            images = torch.randn(12, 3, 32, 32)
++            coverage = torch.rand(12, 4)
++            valid = torch.full((12,), bool(rank == 1 and step == 0))
++            if not valid.any():
++                coverage.zero_()
++            feature = model(images, coverage=coverage, valid_flags=valid)
++            pca, ids, centers = PCA(feature, targets, 3, group_size=2)
++            loss = feature[:, :6].square().mean() + .01 * pca + GPD(feature, targets, bank, ids, centers, 3)
++            loss.backward()
++            qg = [p for n, p in model.named_parameters() if '.qg_' in n]
++            assert len(qg) == 24
++            for parameter in qg:
++                assert parameter.grad is not None and torch.isfinite(parameter.grad)
++            if step == 0:
++                assert any(p.grad.abs().item() > 0 for p in qg)
++            optimizer.step()
++            bank.update(ids, centers, ddp=True)
++            state = torch.cat([p.detach().reshape(-1) for p in qg] + [bank.prototypes.flatten()])
++            states = [torch.empty_like(state) for _ in range(2)]
++            dist.all_gather(states, state)
++            torch.testing.assert_close(states[0], states[1], rtol=0, atol=0)
++        # Match the existing validation scheme: ranks execute unequal numbers
++        # of unwrapped forwards, then join at the next collective.
++        model.eval()
++        for buffer in model.module.buffers():
++            dist.broadcast(buffer, src=0)
++        with torch.no_grad():
++            for _ in range(rank + 1):
++                model.module(images[:1], coverage=coverage[:1], valid_flags=valid[:1])
++        dist.barrier()
++        if rank == 0:
++            print('PASS: two CPU/Gloo ranks; 12 layers/24 scalars, empty-mask backward, PKM ordering, prototype equality, unequal evaluation forwards')
++    finally:
++        dist.destroy_process_group()
++
++
++if __name__ == '__main__':
++    with socket.socket() as listener:
++        listener.bind(('127.0.0.1', 0))
++        port = listener.getsockname()[1]
++    mp.spawn(worker, args=(port,), nprocs=2, join=True)
+--- /dev/null
++++ b/tests/test_qg_sfm.py
+@@ -0,0 +1,406 @@
++"""CPU correctness checks; no WHU data, weights, CUDA, or SAM required."""
++import json
++from pathlib import Path
++import random
++import subprocess
++import sys
++import tempfile
++import unittest
++from unittest.mock import patch
++
++import numpy as np
++from PIL import Image
++import torch
++import torch.nn.functional as F
++import torchvision.transforms as T
++
++ROOT = Path(__file__).resolve().parents[1]
++sys.path.insert(0, str(ROOT))
++from config import cfg
++from datasets.bases import ImageDataset, ImageDatasetTest
++from datasets.make_dataloader import train_collate_fn, val_collate_fn, make_dataloader
++from datasets.masks import MaskStore, JointMaskTransform
++from model.backbones.vit_pytorch import Attention, TransReID
++from model.make_model import make_model
++from processor.processor import PCA, GPD, PrototypeBank, mask_kwargs
++from solver.make_optimizer import make_optimizer
++from solver.scheduler_factory import create_scheduler
++
++torch.set_num_threads(2)
++
++
++class QGMathTests(unittest.TestCase):
++    def setUp(self):
++        torch.manual_seed(1234)
++
++    def test_pretrained_loading_interpolation_and_missing_weight_guard(self):
++        source = TransReID(img_size=(48, 48), stride_size=16, embed_dim=24, depth=12,
++                           num_heads=3, num_classes=0)
++        target = TransReID(img_size=(32, 32), stride_size=16, embed_dim=24, depth=12,
++                           num_heads=3, num_classes=0, qg_sfm=True)
++        with tempfile.TemporaryDirectory() as directory:
++            path = Path(directory)/'imagenet.pth'
++            state = source.state_dict()
++            torch.save(state, path)
++            target.load_param(str(path))
++            torch.testing.assert_close(target.patch_embed.proj.weight, source.patch_embed.proj.weight)
++            torch.testing.assert_close(target.pos_embed[:, :1], source.pos_embed[:, :1])
++            self.assertEqual(target.pos_embed.shape, (1, 5, 24))
++            self.assertTrue(all(p.item()==0 for n,p in target.named_parameters() if '.qg_' in n))
++            state.pop('blocks.0.attn.qkv.weight')
++            torch.save(state, path)
++            with self.assertRaisesRegex(RuntimeError, 'missing backbone tensors'):
++                target.load_param(str(path))
++
++    def test_spatial_mechanism_and_full_foreground_limit(self):
++        module = Attention(12, num_heads=3, qg_sfm=True)
++        with torch.no_grad():
++            module.qg_alpha_raw.fill_(.08)
++            module.qg_beta_raw.fill_(.06)
++        logits = torch.randn(1, 3, 5, 5)
++        p = torch.tensor([[1., 1., 0., 0., 1.]], requires_grad=True)
++        valid = torch.ones(1, dtype=torch.bool)
++        changed = module.modulate_logits(logits, p, valid)
++        # Foreground keys gain probability mass for foreground queries.
++        original_prob = (logits * module.scale).softmax(-1)
++        changed_prob = (changed * module.scale).softmax(-1)
++        foreground = p.detach()[0].bool()
++        before = original_prob[:, :, foreground, :][..., foreground].sum(-1)
++        after = changed_prob[:, :, foreground, :][..., foreground].sum(-1)
++        self.assertTrue((after > before).all())
++        # Background query rows retain their own logits, not necessarily their
++        # final multi-layer features, which can change through other queries.
++        torch.testing.assert_close(changed[:, :, ~foreground], logits[:, :, ~foreground], rtol=0, atol=0)
++        changed.sum().backward()
++        self.assertIsNone(p.grad)
++        alpha = module.qg_bound * torch.tanh(module.qg_alpha_raw.detach()/module.qg_bound)
++        full = module.modulate_logits(logits, torch.ones_like(p), valid)
++        torch.testing.assert_close((full*module.scale).softmax(-1),
++                                   ((1-alpha)*logits*module.scale).softmax(-1))
++        self.assertFalse(torch.equal((full*module.scale).softmax(-1), original_prob))
++
++    def test_each_identity_loss_reaches_modulation_parameters(self):
++        from loss.wrt_loss import TripletLoss_WRT
++        network = TransReID(img_size=(32, 32), stride_size=16, embed_dim=24, depth=12,
++                            num_heads=3, num_classes=0, qg_sfm=True).eval()
++        images = torch.randn(12, 3, 32, 32)
++        feature = network(images, coverage=torch.tensor([[0., .25, .75, 1.]]).repeat(12, 1),
++                          valid_flags=torch.ones(12, dtype=torch.bool))
++        target = torch.tensor([0, 0, 1, 1])
++        pca, ids, centers = PCA(feature, target, 3, group_size=2)
++        classifier = torch.nn.Linear(24, 2)
++        losses = dict(CE=F.cross_entropy(classifier(feature), target.repeat(3)),
++                      WRT=TripletLoss_WRT()(feature, target.repeat(3))[0], ProCA=pca,
++                      GPD=GPD(feature, target, PrototypeBank(2, 24, device='cpu'), ids, centers, 3))
++        parameters = [p for n,p in network.named_parameters() if '.qg_' in n]
++        for name, loss in losses.items():
++            gradients = torch.autograd.grad(loss, parameters, retain_graph=True)
++            self.assertTrue(all(torch.isfinite(g).all() for g in gradients), name)
++            self.assertTrue(any(g.abs().item()>0 for g in gradients), name)
++
++    def test_formula_and_extrema_gradient(self):
++        module = Attention(12, num_heads=3, qg_sfm=True)
++        with torch.no_grad():
++            module.qg_alpha_raw.fill_(0.07)
++            module.qg_beta_raw.fill_(-0.04)
++        scores = torch.randn(2, 3, 5, 5, requires_grad=True)
++        weights = torch.tensor([[1., 0., .2, .8, 1.], [1., 0., 0., 0., 0.]])
++        valid = torch.tensor([True, False])
++        output = module.modulate_logits(scores, weights, valid)
++        # Independent scalar-loop reference to catch axis and broadcast errors.
++        expected = scores.clone()
++        alpha = float(.2 * torch.tanh(module.qg_alpha_raw.detach() / .2))
++        beta = float(.2 * torch.tanh(module.qg_beta_raw.detach() / .2))
++        for b in range(2):
++            for h in range(3):
++                for i in range(5):
++                    for j in range(5):
++                        row = scores[b, h, i]
++                        expected[b, h, i, j] = row[j] + valid[b] * weights[b, i] * (
++                            alpha * weights[b, j] * (row.max() - row[j])
++                            - beta * (1 - weights[b, j]) * (row[j] - row.min()))
++        torch.testing.assert_close(output, expected)
++        gradient = torch.autograd.grad(output.sum(), scores)[0]
++        reference = torch.autograd.grad(expected.sum(), scores)[0]
++        torch.testing.assert_close(gradient, reference)
++        torch.testing.assert_close(output[0, :, 1], scores[0, :, 1], rtol=0, atol=0)
++        torch.testing.assert_close(output[1], scores[1], rtol=0, atol=0)
++
++    def test_zero_init_attention_and_empty_backward(self):
++        original = Attention(24, num_heads=3, qkv_bias=True).eval()
++        improved = Attention(24, num_heads=3, qkv_bias=True, qg_sfm=True).eval()
++        improved.load_state_dict(original.state_dict(), strict=False)
++        x = torch.randn(2, 5, 24)
++        weights = torch.tensor([[1., 0., .25, .75, 1.]]).repeat(2, 1)
++        raw = torch.randn(2, 3, 5, 5)
++        modulated = improved.modulate_logits(raw, weights, torch.ones(2))
++        torch.testing.assert_close(raw, modulated, rtol=0, atol=0)
++        torch.testing.assert_close((raw * improved.scale).softmax(-1),
++                                   (modulated * improved.scale).softmax(-1), rtol=0, atol=0)
++        torch.testing.assert_close(original(x), improved(x, weights, torch.ones(2)), rtol=0, atol=0)
++        improved(x, weights, torch.ones(2)).square().sum().backward()
++        self.assertGreater(improved.qg_alpha_raw.grad.abs().item(), 0)
++        self.assertGreater(improved.qg_beta_raw.grad.abs().item(), 0)
++        improved.zero_grad()
++        with torch.no_grad():
++            improved.qg_alpha_raw.fill_(.1)
++            improved.qg_beta_raw.fill_(-.1)
++        torch.testing.assert_close(original(x), improved(x, weights, torch.zeros(2)), rtol=0, atol=0)
++        improved(x, weights, torch.zeros(2)).sum().backward()
++        self.assertEqual(improved.qg_alpha_raw.grad.item(), 0)
++        self.assertEqual(improved.qg_beta_raw.grad.item(), 0)
++
++    def test_twelve_layers_and_four_loss_gradients(self):
++        plain = TransReID(img_size=(32, 32), patch_size=16, stride_size=16,
++                         embed_dim=24, depth=12, num_heads=3, num_classes=0).eval()
++        improved = TransReID(img_size=(32, 32), patch_size=16, stride_size=16,
++                            embed_dim=24, depth=12, num_heads=3, num_classes=0, qg_sfm=True).eval()
++        improved.load_state_dict(plain.state_dict(), strict=False)
++        self.assertEqual(sum(p.numel() for n, p in improved.named_parameters() if '.qg_' in n), 24)
++        image = torch.randn(12, 3, 32, 32)
++        coverage = torch.tensor([[0., .25, .75, 1.]]).repeat(12, 1)
++        flags = torch.ones(12, dtype=torch.bool)
++        with torch.no_grad():
++            torch.testing.assert_close(plain(image), improved(image, coverage=coverage, valid_flags=flags), rtol=0, atol=0)
++        feature = improved(image, coverage=coverage, valid_flags=flags)
++        classifier = torch.nn.Linear(24, 2)
++        neck = torch.nn.BatchNorm1d(24)
++        target = torch.tensor([0, 0, 1, 1])
++        from loss.wrt_loss import TripletLoss_WRT
++        ce = F.cross_entropy(classifier(neck(feature)), target.repeat(3))
++        wrt = TripletLoss_WRT()(feature, target.repeat(3))[0]
++        pca, ids, centers = PCA(feature, target, 3, group_size=2)
++        bank = PrototypeBank(2, 24, device='cpu')
++        gpd = GPD(feature, target, bank, ids, centers, 3)
++        self.assertFalse(centers.requires_grad)
++        self.assertFalse(bank.prototypes.requires_grad)
++        (ce + wrt + .01 * pca + gpd).backward()
++        for name, parameter in improved.named_parameters():
++            self.assertIsNotNone(parameter.grad, name)
++            self.assertTrue(torch.isfinite(parameter.grad).all(), name)
++        self.assertTrue(torch.isfinite(neck.weight.grad).all())
++        self.assertTrue(torch.isfinite(classifier.weight.grad).all())
++
++    def test_ablations_and_low_precision(self):
++        module = Attention(12, num_heads=3, qg_sfm=True, qg_mode='soft_sfm')
++        with torch.no_grad():
++            module.qg_alpha_raw.fill_(.05)
++            module.qg_beta_raw.fill_(.05)
++        scores = torch.randn(1, 3, 5, 5).to(torch.bfloat16)
++        p = torch.tensor([[1., 0., .5, .8, 1.]])
++        output = module.modulate_logits(scores, p, torch.ones(1))
++        self.assertEqual(output.dtype, scores.dtype)
++        self.assertFalse(torch.equal(output[:, :, 1], scores[:, :, 1]))
++        output.float().sum().backward()
++        self.assertTrue(torch.isfinite(module.qg_alpha_raw.grad))
++        module.zero_grad()
++        with torch.autocast(device_type='cpu', dtype=torch.bfloat16):
++            autocast_output = module(torch.randn(1, 5, 12), p, torch.ones(1))
++        autocast_output.float().square().mean().backward()
++        self.assertTrue(torch.isfinite(module.qg_beta_raw.grad))
++        uniform = TransReID(img_size=(32, 32), stride_size=16, embed_dim=12, depth=1,
++                           num_heads=3, num_classes=0, qg_sfm=True, qg_uniform=True)
++        captured = []
++        handle = uniform.blocks[0].register_forward_pre_hook(lambda m, inputs: captured.append(inputs[1]))
++        uniform(torch.randn(1, 3, 32, 32), coverage=p[:, 1:], valid_flags=torch.ones(1))
++        handle.remove()
++        torch.testing.assert_close(captured[0], torch.tensor([[1., .575, .575, .575, .575]]))
++
++
++class PipelineTests(unittest.TestCase):
++    def setUp(self):
++        self.temp = tempfile.TemporaryDirectory()
++        self.root = Path(self.temp.name)
++        self.image_root = self.root / 'data'
++        self.mask_root = self.root / 'masks'
++        self.mapping = {}
++        for split in ('train', 'query', 'test'):
++            for index, modality in enumerate(('RGB', 'IR', 'Thermal')):
++                for pid in (1000, 1001):
++                    key = '{}/{}/{}_c{}.jpg'.format(split, modality, pid, 1 if split != 'test' else 2)
++                    image = self.image_root / key
++                    mask = self.mask_root / Path(key).with_suffix('.png')
++                    image.parent.mkdir(parents=True, exist_ok=True)
++                    mask.parent.mkdir(parents=True, exist_ok=True)
++                    array = np.zeros((32, 16), dtype=np.uint8)
++                    array[:, index:index + 8] = 255
++                    Image.fromarray(np.repeat(array[:, :, None], 3, axis=2)).save(image)
++                    Image.fromarray(array).save(mask)
++                    self.mapping[key] = mask.relative_to(self.mask_root).as_posix()
++        self.manifest = self.root / 'manifest.json'
++        self.document = {'version': 1, 'encoding': '0/255', 'provenance': {'generator': 'synthetic-test-v1'},
++                         'images': self.mapping}
++        self.manifest.write_text(json.dumps(self.document), encoding='utf-8')
++        self.store = MaskStore(self.image_root, self.mask_root, self.manifest, '0/255')
++        self.cfg = cfg.clone()
++        self.cfg.merge_from_file(str(ROOT / 'configs/UAD.yml'))
++        self.cfg.MODEL.PRETRAIN_CHOICE = 'none'
++        self.cfg.DATASETS.ROOT_DIR = str(self.root)
++        self.cfg.DATASETS.DATASET_DIR = 'data'
++        self.cfg.DATASETS.MASK_ROOT = str(self.mask_root)
++        self.cfg.DATASETS.MASK_MANIFEST = str(self.manifest)
++        self.cfg.DATALOADER.NUM_WORKERS = 0
++        self.cfg.DATALOADER.NUM_INSTANCE = 1
++        self.cfg.SOLVER.IMS_PER_BATCH = 2
++        self.cfg.TEST.IMS_PER_BATCH = 2
++
++    def tearDown(self):
++        self.temp.cleanup()
++
++    def test_strict_read_and_mapping(self):
++        key = next(iter(self.mapping))
++        image_path = self.image_root / key
++        self.assertEqual(self.store.read(image_path, (16, 32)).size, (16, 32))
++        with self.assertRaises(ValueError):
++            self.store.read(image_path, (32, 16))
++        mask_path = self.store.path_for(image_path)
++        for invalid in (np.ones((32, 16), dtype=np.uint8), np.zeros((32, 16, 3), dtype=np.uint8)):
++            Image.fromarray(invalid).save(mask_path)
++            with self.assertRaises(ValueError):
++                self.store.read(image_path, (16, 32))
++        mask_path.unlink()
++        with self.assertRaises(FileNotFoundError):
++            self.store.read(image_path, (16, 32))
++        with self.assertRaises(KeyError):
++            self.store.path_for(self.image_root / 'unmapped.jpg')
++
++    def test_npy_encoding_corruption_and_manifest_audit(self):
++        key = next(iter(self.mapping))
++        mask_path = self.mask_root / Path(key).with_suffix('.npy')
++        array = np.zeros((32, 16), dtype=np.float32)
++        array[:, :8] = 1.
++        np.save(mask_path, array)
++        self.document['encoding'] = '0/1'
++        self.document['images'] = {key: mask_path.relative_to(self.mask_root).as_posix()}
++        self.manifest.write_text(json.dumps(self.document), encoding='utf-8')
++        store = MaskStore(self.image_root, self.mask_root, self.manifest, '0/1')
++        self.assertEqual(np.array(store.read(self.image_root / key, (16, 32))).sum(), 256)
++        mask_path.write_bytes(b'corrupt')
++        with self.assertRaises(ValueError):
++            store.read(self.image_root / key, (16, 32))
++        provenance = self.root / 'provenance.json'
++        provenance.write_text(json.dumps({'generator': 'synthetic-test-v1'}), encoding='utf-8')
++        result = subprocess.run([sys.executable, str(ROOT / 'tools/audit_masks.py'),
++                                 '--image-root', str(self.image_root), '--mask-root', str(self.mask_root),
++                                 '--manifest', str(self.root / 'audited.json'), '--build',
++                                 '--provenance', str(provenance), '--report', str(self.root / 'report.json')],
++                                capture_output=True, text=True)
++        self.assertEqual(result.returncode, 0, result.stderr)
++        report = json.loads((self.root / 'report.json').read_text())
++        self.assertEqual(sum(item['count'] for item in report.values()), 18)
++
++    def test_joint_geometry_and_image_rng_equivalence(self):
++        transform = JointMaskTransform(self.cfg, training=True)
++        old = T.Compose([T.Resize(self.cfg.INPUT.SIZE_TRAIN, interpolation=3),
++                         T.RandomHorizontalFlip(self.cfg.INPUT.PROB), T.Pad(self.cfg.INPUT.PADDING),
++                         T.RandomCrop(self.cfg.INPUT.SIZE_TRAIN), T.ToTensor(),
++                         T.Normalize(self.cfg.INPUT.PIXEL_MEAN, self.cfg.INPUT.PIXEL_STD), transform.erase])
++        key = next(iter(self.mapping))
++        with Image.open(self.image_root / key) as source:
++            image = source.convert('RGB')
++        mask = self.store.read(self.image_root / key, image.size)
++        for seed in range(4):
++            torch.manual_seed(seed)
++            random.seed(seed)
++            expected = old(image)
++            torch.manual_seed(seed)
++            random.seed(seed)
++            actual, coverage, valid = transform(image, mask)
++            torch.testing.assert_close(actual, expected, rtol=0, atol=0)
++            self.assertEqual(coverage.shape, (128,))
++            self.assertTrue(((coverage >= 0) & (coverage <= 1)).all())
++            self.assertTrue(valid)
++        # Fixed geometry with one exact foreground patch checks flip/crop order.
++        self.cfg.INPUT.SIZE_TRAIN = [32, 32]
++        self.cfg.INPUT.PADDING = 16
++        self.cfg.INPUT.PROB = 1.
++        self.cfg.INPUT.RE_PROB = 0.
++        self.cfg.INPUT.PIXEL_MEAN = [0., 0., 0.]
++        self.cfg.INPUT.PIXEL_STD = [1., 1., 1.]
++        array = np.zeros((32, 32), dtype=np.uint8)
++        array[:16, :16] = 1
++        image = Image.fromarray(np.repeat((array * 255)[:, :, None], 3, axis=2))
++        with patch('datasets.masks.T.RandomCrop.get_params', return_value=(16, 16, 32, 32)):
++            result, coverage, valid = JointMaskTransform(self.cfg, True)(image, Image.fromarray(array))
++        torch.testing.assert_close(coverage, torch.tensor([0., 1., 0., 0.]))
++        torch.testing.assert_close(F.avg_pool2d(result[:1], 16).flatten(), coverage)
++        with patch('datasets.masks.T.RandomCrop.get_params', return_value=(32, 16, 32, 32)):
++            _, cropped_coverage, cropped_valid = JointMaskTransform(self.cfg, True)(image, Image.fromarray(array))
++        self.assertFalse(cropped_valid)
++        self.assertEqual(cropped_coverage.sum(), 0)
++        _, coverage, valid = JointMaskTransform(self.cfg, False)(image, Image.fromarray(array * 0))
++        self.assertFalse(valid)
++        self.assertEqual(coverage.sum(), 0)
++
++    def test_loader_train_and_all_eval_paths(self):
++        train, normal, vals, query_counts, classes, _, _ = make_dataloader(self.cfg)
++        batch = next(iter(train))
++        self.assertEqual(len(batch), 5)
++        self.assertEqual(classes, 2)
++        spatial = mask_kwargs(batch, 'cpu', training=True)
++        self.assertEqual(len(spatial['coverage']), 3)
++        self.assertEqual(spatial['coverage'][0].shape, (2, 128))
++        self.assertFalse(torch.equal(spatial['coverage'][0], spatial['coverage'][1]))
++        self.assertEqual(query_counts, [2, 2, 2])
++        for loader in [normal] + vals:
++            batch = next(iter(loader))
++            self.assertEqual(len(batch), 8)
++            self.assertEqual(mask_kwargs(batch, 'cpu')['coverage'].shape, (2, 128))
++        self.cfg.MODEL.QG_SFM.ENABLED = False
++        train, _, vals, *_ = make_dataloader(self.cfg)
++        self.assertEqual(len(next(iter(train))), 3)
++        self.assertEqual(len(next(iter(vals[0]))), 6)
++
++    def test_full_vit_checkpoint_optimizer_and_zero_equivalence(self):
++        torch.manual_seed(1234)
++        model = make_model(self.cfg, num_class=2, camera_num=7, view_num=3).eval()
++        image = torch.randn(1, 3, 256, 128)
++        coverage = torch.rand(1, 128)
++        flags = torch.ones(1, dtype=torch.bool)
++        with torch.no_grad():
++            before = model(image, mode=1, coverage=coverage, valid_flags=flags)
++            # The baseline follows identical blocks with the QG branch disabled.
++            for block in model.base.blocks:
++                block.attn.qg_sfm = False
++            baseline = model(image, mode=1, coverage=coverage, valid_flags=flags)
++            torch.testing.assert_close(before, baseline, rtol=0, atol=0)
++            for block in model.base.blocks:
++                block.attn.qg_sfm = True
++            for name, parameter in model.named_parameters():
++                if name.endswith(('.qg_alpha_raw', '.qg_beta_raw')):
++                    parameter.fill_(.03)
++            expected = model(image, mode=1, coverage=coverage, valid_flags=flags)
++        self.assertFalse(torch.equal(before, expected))
++        center = torch.nn.Linear(1, 1)
++        optimizer, _ = make_optimizer(self.cfg, model, center)
++        group = [g for g in optimizer.param_groups if g.get('name') == 'qg_sfm'][0]
++        self.assertEqual(len(group['params']), 24)
++        self.assertEqual(group['lr'], .008)
++        self.assertEqual(group['weight_decay'], 0)
++        scheduler = create_scheduler(self.cfg, optimizer)
++        for epoch in (1, 5, 40, 120):
++            scheduler.step(epoch)
++            self.assertEqual(group['lr'], optimizer.param_groups[0]['lr'])
++        checkpoint = self.root / 'model.pth'
++        torch.save(model.state_dict(), checkpoint)
++        with torch.no_grad():
++            model.base.blocks[0].attn.qg_alpha_raw.zero_()
++        model.load_param(str(checkpoint))
++        with torch.no_grad():
++            torch.testing.assert_close(expected, model(image, mode=1, coverage=coverage, valid_flags=flags), rtol=0, atol=0)
++        state = model.state_dict()
++        state.pop('base.blocks.0.attn.qg_alpha_raw')
++        torch.save(state, checkpoint)
++        with self.assertRaisesRegex(RuntimeError, 'missing modulation'):
++            model.load_param(str(checkpoint))
++        state = model.state_dict()
++        state['_qg_spec'] = torch.zeros(1, dtype=torch.uint8)
++        torch.save(state, checkpoint)
++        with self.assertRaisesRegex(RuntimeError, 'configuration'):
++            model.load_param(str(checkpoint))
++        with self.assertRaises(ValueError):
++            model(image, mode=1)
++
++
++if __name__ == '__main__':
++    unittest.main(verbosity=2)
+--- /dev/null
++++ b/tests/test_sam2_masks.py
+@@ -0,0 +1,77 @@
++import importlib.util
++import json
++from pathlib import Path
++import tempfile
++import unittest
++
++import numpy as np
++from PIL import Image
++
++path = Path(__file__).resolve().parents[1] / 'tools/generate_sam2_masks.py'
++spec = importlib.util.spec_from_file_location('offline_sam2', path)
++module = importlib.util.module_from_spec(spec)
++spec.loader.exec_module(module)
++
++
++class OfflineMaskTests(unittest.TestCase):
++    def test_frozen_selection_validation(self):
++        with tempfile.TemporaryDirectory() as directory:
++            root = Path(directory).resolve()
++            selection = root / 'selection.json'
++            name = 'train/IR/0001_c6.jpg'
++            image = root / name
++            image.parent.mkdir(parents=True)
++            Image.new('RGB', (24, 36)).save(image)
++            selection.write_text(json.dumps([name]), encoding='utf-8')
++            self.assertEqual(module.load_selection(root, selection), [image])
++            for names in ([name, name], ['../outside.jpg'], ['train/IR/./0001_c6.jpg'],
++                          ['query/IR/0001_c6.jpg'], [1], []):
++                selection.write_text(json.dumps(names), encoding='utf-8')
++                with self.assertRaises(ValueError):
++                    module.load_selection(root, selection)
++
++    def test_prompts_and_selection(self):
++        point, label, box = module.prompts(55, 176)
++        np.testing.assert_array_equal(point, [[27, 87.5]])
++        np.testing.assert_array_equal(label, [1])
++        np.testing.assert_array_equal(box, [0, 0, 54, 175])
++        masks = np.zeros((3, 176, 55), dtype=bool)
++        masks[1, :80, :20] = True
++        mask, score = module.choose_mask(masks, [.1, .9, .5], 176, 55)
++        self.assertEqual(mask.shape, (176, 55))
++        self.assertEqual(mask.dtype, np.uint8)
++        self.assertEqual(set(np.unique(mask)), {0, 255})
++        self.assertEqual(score, .9)
++        with self.assertRaises(ValueError):
++            module.choose_mask(masks, [.1, np.nan, .5], 176, 55)
++
++    def test_stratified_train_only_and_native_size(self):
++        with tempfile.TemporaryDirectory() as directory:
++            root = Path(directory) / 'images'
++            for split in ('train', 'query', 'test'):
++                for modality in ('RGB', 'IR', 'Thermal'):
++                    for cam in (1, 6):
++                        for index in range(2):
++                            path = root / split / modality / ('0001_c{}_f{}.jpg'.format(cam, index))
++                            path.parent.mkdir(parents=True, exist_ok=True)
++                            Image.new('RGB', (55, 176)).save(path)
++            selection = module.select_images(root, 1, 1234)
++            self.assertEqual(len(selection), 6)
++            self.assertTrue(all(p.relative_to(root).parts[0] == 'train' for p in selection))
++            self.assertEqual(selection, module.select_images(root, 1, 1234))
++            self.assertEqual(len(module.select_images(root, 0, 1234)), 36)
++            mask = np.zeros((176, 55), dtype=np.uint8)
++            mask[:80] = 255
++            path = Path(directory) / 'mask.png'
++            Image.fromarray(mask).save(path)
++            module.validate_existing(path, (55, 176))
++            with self.assertRaises(ValueError):
++                module.validate_existing(path, (176, 55))
++            module.save_preview(Image.new('RGB', (55, 176)), mask,
++                                Path(directory) / 'preview.png', 'synthetic')
++            with Image.open(path) as image:
++                self.assertEqual(image.size, (55, 176))
++
++
++if __name__ == '__main__':
++    unittest.main(verbosity=2)
+--- /dev/null
++++ b/tests/test_sam2_rules.py
+@@ -0,0 +1,114 @@
++import importlib.util
++import json
++from pathlib import Path
++import sys
++import tempfile
++import unittest
++
++import numpy as np
++from PIL import Image
++
++tools = Path(__file__).resolve().parents[1]/'tools'
++sys.path.insert(0,str(tools))
++spec=importlib.util.spec_from_file_location('rule_comparison',tools/'compare_sam2_rules.py')
++module=importlib.util.module_from_spec(spec)
++spec.loader.exec_module(module)
++
++
++class FakePredictor:
++    def __init__(self): self.embeddings=0
++    def set_image(self,image): self.image=image; self.embeddings+=1
++    def predict(self,**kwargs):
++        h,w=self.image.shape[:2]; n=3 if kwargs['multimask_output'] else 1
++        masks=np.zeros((n,h,w),dtype=bool)
++        masks[:,h//4:3*h//4,w//4:3*w//4]=True
++        if n>1: masks[1]=True
++        return masks,np.linspace(.9,.7,n),None
++
++
++class RuleTests(unittest.TestCase):
++    def test_equivalence_check_rejects_pixel_and_condition_changes(self):
++        from verify_mask_equivalence import compare
++        with tempfile.TemporaryDirectory() as directory:
++            root = Path(directory)
++            generated, reference = root/'generated', root/'reference'
++            name = 'train/IR/0001_c6.jpg'
++            rule = 'R08_box_center'
++            conditions = dict(checkpoint_sha256='checkpoint', model_config='config', config_sha256='config-hash',
++                              precision='bf16', sam2_commit='commit', torch_version='torch', cuda_version='cuda')
++            generated.mkdir(); reference.mkdir()
++            (generated/'provenance.json').write_text(json.dumps(dict(conditions, prompt_rule=rule)))
++            (reference/'provenance.json').write_text(json.dumps(dict(conditions, selection=[name])))
++            left = generated/Path(name).with_suffix('.png')
++            right = reference/'masks'/(rule+'__iou')/Path(name).with_suffix('.png')
++            for path in (left, right):
++                path.parent.mkdir(parents=True)
++                Image.new('L', (24, 36)).save(path)
++            self.assertEqual(compare(generated, reference, rule)['identical'], 1)
++            image = Image.open(left).copy(); image.putpixel((0, 0), 255); image.save(left)
++            self.assertEqual(compare(generated, reference, rule)['mismatches'], [name])
++            (generated/'provenance.json').write_text(json.dumps(dict(conditions, prompt_rule='R00_v1')))
++            with self.assertRaises(ValueError):
++                compare(generated, reference, rule)
++
++    def test_production_prompts_and_mask_match_comparison(self):
++        import generate_sam2_masks as production
++        for size in ((55, 176), (24, 36), (391, 738)):
++            image = Image.new('RGB', size)
++            for rule in (r for r in module.rules() if r['name'] in production.PROMPT_RULES):
++                expected = module.prepare_prompt(rule, size, (0, 0))
++                point, label, box = production.prompts(*size, rule=rule['name'])
++                for key, actual in [('point_coords', point), ('point_labels', label), ('box', box)]:
++                    if expected[key] is None:
++                        self.assertIsNone(actual)
++                    else:
++                        np.testing.assert_array_equal(actual, expected[key])
++                predictor = FakePredictor()
++                mask, score, index = production.predict_mask(predictor, image, 'fp32', rule['name'])
++                with tempfile.TemporaryDirectory() as directory:
++                    output = Path(directory)
++                    rows = module.run_image(FakePredictor(), image, Path('train/IR/0001_c6.jpg'),
++                                            output, 'fp32', [rule])
++                    with Image.open(output/'masks'/(rule['name']+'__iou')/'train/IR/0001_c6.png') as reference:
++                        np.testing.assert_array_equal(mask, np.array(reference))
++                    self.assertEqual(score, rows[0]['predicted_iou'])
++                    self.assertEqual(index, rows[0]['selected_candidate'])
++
++    def test_coordinates_and_rank(self):
++        rules=module.rules(); self.assertEqual(len(rules),15)
++        self.assertEqual(len({r['name'] for r in rules}),15)
++        prompt=module.prepare_prompt(rules[0],(55,176),(21,21))
++        np.testing.assert_allclose(prompt['point_coords'],[[48,108.5]])
++        np.testing.assert_allclose(prompt['box'],[21,21,75,196])
++        person=np.zeros((100,50),dtype=bool); person[10:90,15:35]=True
++        full=np.ones_like(person)
++        a=module.candidate_metrics(person,.9,rules[1])
++        b=module.candidate_metrics(full,.98,rules[1])
++        self.assertGreater(a['geometry_rank'],b['geometry_rank'])
++        # Area/score metrics never edit a candidate or silently invert it.
++        self.assertEqual(person.sum(),1600)
++
++    def test_pipeline_embeddings_outputs_and_original_size(self):
++        with tempfile.TemporaryDirectory() as directory:
++            output=Path(directory); image=Image.new('RGB',(24,36),color=(80,80,80))
++            predictor=FakePredictor()
++            rows=module.run_image(predictor,image,Path('train/IR/0001_c6.jpg'),output,'fp32',module.rules())
++            self.assertEqual(predictor.embeddings,3)
++            self.assertEqual(len(rows),30)
++            self.assertEqual(len(list((output/'candidates').rglob('*.png'))),41)
++            for path in (output/'masks').rglob('*.png'):
++                with Image.open(path) as mask:
++                    self.assertEqual(mask.size,image.size)
++                    self.assertTrue(set(np.unique(np.array(mask))) <= {0,255})
++            summary=module.summarize(rows)
++            self.assertEqual(len(summary),30)
++            self.assertTrue(all(key.endswith('/IR_A') for key in summary))
++            self.assertTrue((output/'review/selected/train/IR/0001_c6.jpg').is_file())
++            predictor=FakePredictor()
++            rgb=module.run_image(predictor,image,Path('train/RGB/0001_c1.jpg'),output,'fp32',module.rules())
++            self.assertEqual(predictor.embeddings,2)
++            self.assertEqual(len(rgb),28)
++            self.assertFalse(any('R14' in r['variant'] for r in rgb))
++
++
++if __name__=='__main__': unittest.main(verbosity=2)
+--- /dev/null
++++ b/tools/audit_masks.py
+@@ -0,0 +1,94 @@
++"""Build/audit a frozen image->mask manifest, without running segmentation.
++
++Run from WHU: python tools/audit_masks.py --help
++"""
++import argparse
++from collections import defaultdict
++import json
++from pathlib import Path
++import sys
++
++import numpy as np
++from PIL import Image
++import torch
++
++sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
++from config import cfg
++from datasets.masks import MaskStore, JointMaskTransform
++
++
++def main():
++    parser = argparse.ArgumentParser(description=__doc__)
++    parser.add_argument('--image-root', required=True, help='Dataset directory containing train/query/test')
++    parser.add_argument('--mask-root', required=True)
++    parser.add_argument('--manifest', required=True)
++    parser.add_argument('--encoding', choices=['0/1', '0/255'], default='0/255')
++    parser.add_argument('--build', action='store_true', help='Create a manifest using mirrored relative paths')
++    parser.add_argument('--suffix', choices=['.png', '.npy'], default='.png')
++    parser.add_argument('--provenance', help='JSON file recording generator/version/checkpoint/settings/binarization')
++    parser.add_argument('--report', required=True, help='JSON report destination')
++    args = parser.parse_args()
++    image_root = Path(args.image_root).resolve()
++    images = sorted(p for split in ('train', 'query', 'test')
++                    for p in (image_root / split).glob('*/*.jpg'))
++    if not images:
++        raise ValueError('No WHU images found')
++    manifest = Path(args.manifest)
++    if args.build:
++        if manifest.exists():
++            raise FileExistsError('Refusing to overwrite a fixed manifest: {}'.format(manifest))
++        if not args.provenance:
++            parser.error('--build requires --provenance')
++        with open(args.provenance, encoding='utf-8') as stream:
++            provenance = json.load(stream)
++        doc = {'version': 1, 'encoding': args.encoding, 'provenance': provenance,
++               'images': {p.relative_to(image_root).as_posix():
++                          p.relative_to(image_root).with_suffix(args.suffix).as_posix() for p in images}}
++        manifest.parent.mkdir(parents=True, exist_ok=True)
++        # Write only after every mask has passed the audit below.
++        import tempfile
++        with tempfile.TemporaryDirectory() as directory:
++            candidate = Path(directory) / 'manifest.json'
++            candidate.write_text(json.dumps(doc, ensure_ascii=False), encoding='utf-8')
++            store = MaskStore(image_root, args.mask_root, candidate, args.encoding)
++    else:
++        doc = None
++        store = MaskStore(image_root, args.mask_root, manifest, args.encoding)
++    transform = JointMaskTransform(cfg, training=False)
++    groups = defaultdict(lambda: {'count': 0, 'empty': 0, 'foreground': [], 'hist': np.zeros(10, dtype=np.int64)})
++    for path in images:
++        with Image.open(path) as source:
++            source.load()
++            mask = store.read(path, source.size)
++            _, coverage, valid = transform(source.convert('RGB'), mask)
++        # Original WHU camera IDs: 1..5 ground; 6..7 aerial.
++        import re
++        match = re.search(r'_c(\d+)', path.name)
++        if match is None:
++            raise ValueError('Cannot parse camera ID: {}'.format(path))
++        platform = 'ground' if int(match.group(1)) <= 5 else 'aerial'
++        relative = path.relative_to(image_root)
++        key = '/'.join((relative.parts[0], relative.parts[1], platform))
++        group = groups[key]
++        group['count'] += 1
++        group['empty'] += int(not valid)
++        group['foreground'].append(float(coverage.mean()))
++        group['hist'] += np.histogram(coverage.numpy(), bins=np.linspace(0, 1, 11))[0]
++    report = {}
++    for key, group in sorted(groups.items()):
++        report[key] = {'count': group['count'], 'empty_count': group['empty'],
++                       'empty_fraction': group['empty'] / group['count'],
++                       'mean_foreground_coverage': float(np.mean(group['foreground'])),
++                       'patch_coverage_bins': np.linspace(0, 1, 11).tolist(),
++                       'patch_coverage_histogram': group['hist'].tolist()}
++    destination = Path(args.report)
++    destination.parent.mkdir(parents=True, exist_ok=True)
++    destination.write_text(json.dumps(report, indent=2), encoding='utf-8')
++    if doc is not None:
++        manifest.write_text(json.dumps(doc, indent=2, ensure_ascii=False), encoding='utf-8')
++    print('Audited {} images; {} scene/split groups. Report: {}'.format(len(images), len(report), destination))
++
++
++if __name__ == '__main__':
++    torch.set_num_threads(1)
++    main()
+--- /dev/null
++++ b/tools/compare_sam2_rules.py
+@@ -0,0 +1,275 @@
++"""Training-only WHU SAM2 prompt comparison. Does not modify UAD or v1 masks."""
++import argparse
++from contextlib import nullcontext
++import json
++from pathlib import Path
++import subprocess
++import time
++
++import numpy as np
++from PIL import Image, ImageDraw, ImageOps
++import torch
++
++from generate_sam2_masks import sha256, validate_existing
++
++
++def rules():
++    # Coordinates normalized to [0,1] in the ORIGINAL crop, before padding.
++    center = [[.5, .5]]
++    corners = [[.02, .02], [.98, .02], [.02, .98], [.98, .98]]
++    vertical = [[.5, .25], [.5, .5], [.5, .75]]
++    cross = [[.5, .5], [.4, .5], [.6, .5]]
++    return [
++        dict(name='R00_v1', points=center, box=[0, 0, 1, 1]),
++        dict(name='R01_center', points=center),
++        dict(name='R02_upper', points=[[.5, .35]]),
++        dict(name='R03_vertical', points=vertical),
++        dict(name='R04_compact', points=cross),
++        dict(name='R05_center_neg', points=center + corners, labels=[1] + [0]*4),
++        dict(name='R06_vertical_neg', points=vertical + corners, labels=[1]*3 + [0]*4),
++        dict(name='R07_box_only', box=[.10, .02, .90, .98]),
++        dict(name='R08_box_center', points=center, box=[.10, .02, .90, .98]),
++        dict(name='R09_compact_box', points=center, box=[.08, .08, .92, .92]),
++        dict(name='R10_center_single', points=center, multi=False),
++        dict(name='R11_vertical_single', points=vertical, multi=False),
++        dict(name='R12_padding_center', points=center, encoding='padding'),
++        dict(name='R13_padding_box', points=center, box=[0, 0, 1, 1], encoding='padding'),
++        dict(name='R14_IR_contrast', points=center, encoding='ir_contrast'),
++    ]
++
++
++def input_image(image, encoding):
++    if encoding == 'padding':
++        margin = max(1, round(.12 * max(image.size)))
++        array = np.array(image)
++        boundary = np.concatenate((array[0], array[-1], array[:, 0], array[:, -1]))
++        color = tuple(np.median(boundary, axis=0).astype(np.uint8).tolist())
++        return ImageOps.expand(image, margin, fill=color), (margin, margin)
++    if encoding == 'ir_contrast':
++        # IR only: monotonic grayscale 1/99 percentile stretch. Not a thermal
++        # temperature estimator; do not transform pseudo-colored Thermal.
++        array = np.asarray(image.convert('L'), dtype=np.float32)
++        low, high = np.percentile(array, [1, 99])
++        if high > low:
++            array = np.clip((array-low) * (255. / (high-low)), 0, 255)
++        return Image.fromarray(array.astype(np.uint8)).convert('RGB'), (0, 0)
++    return image, (0, 0)
++
++
++def prepare_prompt(rule, original_size, offset):
++    scale = np.array([original_size[0]-1, original_size[1]-1], dtype=np.float32)
++    shift = np.array(offset, dtype=np.float32)
++    points = np.array(rule['points'], dtype=np.float32) * scale + shift if 'points' in rule else None
++    labels = np.array(rule.get('labels', [1]*len(points)), dtype=np.int32) if points is not None else None
++    box = None
++    if 'box' in rule:
++        box = (np.array(rule['box'], dtype=np.float32).reshape(2, 2)*scale + shift).reshape(4)
++    return dict(point_coords=points, point_labels=labels, box=box,
++                multimask_output=rule.get('multi', True), return_logits=False)
++
++
++def candidate_metrics(mask, score, rule):
++    height, width = mask.shape
++    area = float(mask.mean())
++    border = np.concatenate((mask[0], mask[-1], mask[:, 0], mask[:, -1]))
++    border_coverage = float(border.mean())
++    points = rule.get('points', [])
++    labels = rule.get('labels', [1]*len(points))
++    positive, negative = [], []
++    for (x, y), label in zip(points, labels):
++        value = float(mask[round(y*(height-1)), round(x*(width-1))])
++        (positive if label else negative).append(value)
++    pos = float(np.mean(positive)) if positive else 0.
++    neg = float(np.mean(negative)) if negative else 0.
++    # Smooth penalty, not an invalid-mask gate. No pixel edits, complements,
++    # area clipping, or zero-mask fallback. Heuristics are comparison only.
++    extreme = max(0., (area-.85)/.15) + max(0., (.03-area)/.03)
++    rank = float(score) + .20*pos - .20*neg - .15*border_coverage - .30*extreme
++    return dict(predicted_iou=float(score), foreground_fraction=area,
++                border_coverage=border_coverage, positive_hit=pos,
++                negative_hit=neg, extreme_penalty=extreme, geometry_rank=rank)
++
++
++def overlay(image, mask, points=None, labels=None, box=None):
++    array = np.array(image)
++    array[mask] = (array[mask]*.55 + np.array([0, 255, 0])*.45).astype(np.uint8)
++    panel = Image.fromarray(array)
++    # Draw prompts on the panel after resizing to keep dots visible on tiny crops.
++    panel = ImageOps.contain(panel, (260, 240))
++    draw = ImageDraw.Draw(panel)
++    sx, sy = panel.width/image.width, panel.height/image.height
++    if points is not None:
++        for (x, y), label in zip(points, labels):
++            x, y = float(x)*sx, float(y)*sy
++            draw.ellipse((x-3, y-3, x+3, y+3), fill='lime' if label else 'red', outline='black')
++    if box is not None:
++        draw.rectangle(tuple(float(v)*(sx if i%2 == 0 else sy) for i, v in enumerate(box)), outline='yellow', width=1)
++    return panel
++
++
++def render_sheet(tiles, destination):
++    columns, cell_width, cell_height = 4, 290, 295
++    sheet = Image.new('RGB', (columns*cell_width, ((len(tiles)+columns-1)//columns)*cell_height), 'white')
++    draw = ImageDraw.Draw(sheet)
++    for index, (title, subtitle, panel) in enumerate(tiles):
++        x, y = index%columns*cell_width, index//columns*cell_height
++        draw.text((x+4, y+4), title, fill='black')
++        draw.text((x+4, y+19), subtitle, fill='black')
++        sheet.paste(panel, (x+(cell_width-panel.width)//2, y+48))
++    destination.parent.mkdir(parents=True, exist_ok=True)
++    sheet.save(destination)
++
++
++def run_image(predictor, image, relative, output, precision, enabled_rules):
++    overview = [('original', str(relative), ImageOps.contain(image, (260, 240)))]
++    candidate_tiles = [('original', str(relative), ImageOps.contain(image, (260, 240)))]
++    records = []
++    for encoding in ('native', 'padding', 'ir_contrast'):
++        applicable = [r for r in enabled_rules if r.get('encoding', 'native') == encoding
++                      and (encoding != 'ir_contrast' or relative.parts[1] == 'IR')]
++        if not applicable:
++            continue
++        transformed, offset = input_image(image, encoding)
++        context = torch.autocast('cuda', dtype=torch.bfloat16) if precision == 'bf16' else nullcontext()
++        with torch.inference_mode(), context:
++            predictor.set_image(np.asarray(transformed))  # once per encoding, cached for all prompts
++            for rule in applicable:
++                kwargs = prepare_prompt(rule, image.size, offset)
++                masks, scores, _ = predictor.predict(**kwargs)
++                masks, scores = np.asarray(masks), np.asarray(scores)
++                if masks.ndim != 3 or masks.shape[1:] != (transformed.height, transformed.width) or scores.shape != (len(masks),):
++                    raise ValueError('Unexpected predictor shapes')
++                if not np.isfinite(masks).all() or not np.isfinite(scores).all() or not np.all((masks==0) | (masks==1)):
++                    raise ValueError('Invalid mask/score')
++                left, top = offset
++                masks = masks[:, top:top+image.height, left:left+image.width].astype(bool)
++                metrics = [candidate_metrics(mask, score, rule) for mask, score in zip(masks, scores)]
++                prompt = prepare_prompt(rule, image.size, (0, 0))
++                for index, (mask, metric) in enumerate(zip(masks, metrics)):
++                    destination = output/'candidates'/rule['name']/relative.parent/(relative.stem+'__c{}.png'.format(index))
++                    destination.parent.mkdir(parents=True, exist_ok=True)
++                    Image.fromarray(mask.astype(np.uint8)*255).save(destination)
++                    panel = overlay(image, mask, prompt['point_coords'], prompt['point_labels'], prompt['box'])
++                    candidate_tiles.append((rule['name']+' c{}'.format(index),
++                        'q={:.3f} a={:.3f} g={:.3f}'.format(metric['predicted_iou'], metric['foreground_fraction'], metric['geometry_rank']), panel))
++                for selector in ('iou', 'geometry'):
++                    key = 'predicted_iou' if selector == 'iou' else 'geometry_rank'
++                    best = int(np.argmax([m[key] for m in metrics]))
++                    variant = rule['name']+'__'+selector
++                    destination = output/'masks'/variant/relative.with_suffix('.png')
++                    destination.parent.mkdir(parents=True, exist_ok=True)
++                    Image.fromarray(masks[best].astype(np.uint8)*255).save(destination)
++                    metric = metrics[best]
++                    overview.append((variant+' c{}'.format(best), 'q={:.3f} fg={:.3f}'.format(metric['predicted_iou'], metric['foreground_fraction']),
++                                     overlay(image, masks[best], prompt['point_coords'], prompt['point_labels'], prompt['box'])))
++                    records.append(dict(image=relative.as_posix(), size=list(image.size), variant=variant, selected_candidate=best,
++                                        candidates=metrics, **metric))
++    render_sheet(overview, output/'review/selected'/relative.with_suffix('.jpg'))
++    render_sheet(candidate_tiles, output/'review/candidates'/relative.with_suffix('.jpg'))
++    return records
++
++
++def summarize(records):
++    groups = {}
++    for row in records:
++        path = Path(row['image'])
++        import re
++        camera = int(re.search(r'_c(\d+)', path.name).group(1))
++        group = path.parts[1] + ('_G' if camera <= 5 else '_A')
++        key = row['variant']+'/'+group
++        groups.setdefault(key, []).append(row)
++    return {key: dict(count=len(rows), mean_area=float(np.mean([r['foreground_fraction'] for r in rows])),
++                      area_ge_90=sum(r['foreground_fraction']>=.9 for r in rows),
++                      area_le_03=sum(r['foreground_fraction']<=.03 for r in rows),
++                      mean_predicted_iou=float(np.mean([r['predicted_iou'] for r in rows])))
++            for key, rows in sorted(groups.items())}
++
++
++def main():
++    parser = argparse.ArgumentParser(description=__doc__)
++    parser.add_argument('--image-root', required=True)
++    parser.add_argument('--selection', required=True, help='v1 preview_selection.json; train images only')
++    parser.add_argument('--output', required=True)
++    parser.add_argument('--checkpoint', required=True)
++    parser.add_argument('--model-config', default='configs/sam2/sam2_hiera_l.yaml')
++    parser.add_argument('--precision', choices=['bf16', 'fp32'], default='bf16')
++    parser.add_argument('--resume', action='store_true')
++    args = parser.parse_args()
++    if not torch.cuda.is_available():
++        raise RuntimeError('CUDA required')
++    if args.precision == 'bf16' and not torch.cuda.is_bf16_supported():
++        raise RuntimeError('BF16 unsupported')
++    root, output = Path(args.image_root).resolve(), Path(args.output).resolve()
++    selected = json.loads(Path(args.selection).read_text(encoding='utf-8'))
++    if not isinstance(selected, list) or not selected or len(set(selected)) != len(selected):
++        raise ValueError('Selection must contain unique image paths')
++    for name in selected:
++        path = (root/name).resolve()
++        path.relative_to(root)
++        relative = path.relative_to(root)
++        if relative.parts[0] != 'train' or relative.parts[1] not in ('RGB', 'IR', 'Thermal') or not path.is_file():
++            raise ValueError('Only existing WHU train images are allowed: {}'.format(name))
++    import sam2
++    from sam2.build_sam import build_sam2
++    from sam2.sam2_image_predictor import SAM2ImagePredictor
++    package = Path(sam2.__file__).resolve().parent
++    provenance = dict(purpose='train-only comparison; not a production mask manifest',
++                      checkpoint_sha256=sha256(args.checkpoint), model_config=args.model_config,
++                      config_sha256=sha256(package/args.model_config), precision=args.precision,
++                      torch_version=str(torch.__version__), cuda_version=torch.version.cuda,
++                      sam2_commit=subprocess.run(['git','-C',str(package.parent),'rev-parse','HEAD'],capture_output=True,text=True,check=True).stdout.strip(),
++                      script_sha256=sha256(__file__), helper_sha256=sha256(Path(__file__).with_name('generate_sam2_masks.py')),
++                      selection=selected, rules=rules(), geometry_formula='q+.20*positive-.20*negative-.15*border-.30*(max(0,(area-.85)/.15)+max(0,(.03-area)/.03))',
++                      padding='12% of max(original W,H) on each side; constant median original border color; crop masks back',
++                      ir_contrast='IR only: grayscale monotonic percentile 1/99 stretch; unchanged image if no intensity range',
++                      postprocessing=False, mask_logit_threshold=0., tf32=False, seed=1234)
++    output.mkdir(parents=True, exist_ok=True)
++    metadata=output/'provenance.json'
++    if metadata.exists():
++        if not args.resume or json.loads(metadata.read_text(encoding='utf-8')) != provenance:
++            raise ValueError('Existing output requires --resume and identical provenance')
++    elif any(output.iterdir()):
++        raise ValueError('Choose empty output directory')
++    else:
++        metadata.write_text(json.dumps(provenance, indent=2), encoding='utf-8')
++    torch.manual_seed(1234)
++    torch.backends.cuda.matmul.allow_tf32=False
++    torch.backends.cudnn.allow_tf32=False
++    model=build_sam2(args.model_config,args.checkpoint,device='cuda',apply_postprocessing=False)
++    predictor=SAM2ImagePredictor(model,mask_threshold=0.,max_hole_area=0.,max_sprinkle_area=0.)
++    records=[]
++    start=time.time()
++    for index,name in enumerate(selected,1):
++        relative=Path(name)
++        marker=output/'records'/relative.with_suffix('.json')
++        if marker.exists() and args.resume:
++            rows=json.loads(marker.read_text(encoding='utf-8'))
++            # Completed-image markers are written last; verify the associated
++            # outputs before trusting them on resume.
++            for row in rows:
++                validate_existing(output/'masks'/row['variant']/relative.with_suffix('.png'),tuple(row['size']))
++                rule_name=row['variant'].rsplit('__',1)[0]
++                for candidate in range(len(row['candidates'])):
++                    validate_existing(output/'candidates'/rule_name/relative.parent/
++                                      (relative.stem+'__c{}.png'.format(candidate)),tuple(row['size']))
++            for section in ('selected','candidates'):
++                with Image.open(output/'review'/section/relative.with_suffix('.jpg')) as preview:
++                    preview.verify()
++        else:
++            with Image.open(root/relative) as source:
++                source.load()
++                image=source.convert('RGB')
++            rows=run_image(predictor,image,relative,output,args.precision,rules())
++            marker.parent.mkdir(parents=True,exist_ok=True)
++            temporary=marker.with_suffix('.tmp.json')
++            temporary.write_text(json.dumps(rows,indent=2),encoding='utf-8')
++            temporary.replace(marker)
++        records.extend(rows)
++        print('{}/{} elapsed={:.1f}s {}'.format(index,len(selected),time.time()-start,name),flush=True)
++    (output/'results.jsonl').write_text('\n'.join(json.dumps(row) for row in records)+'\n',encoding='utf-8')
++    (output/'summary.json').write_text(json.dumps(summarize(records),indent=2),encoding='utf-8')
++    print('Done. Compare review/selected and review/candidates; lower extreme-area count is NOT segmentation accuracy.')
++
++
++if __name__ == '__main__':
++    main()
+--- /dev/null
++++ b/tools/generate_sam2_masks.py
+@@ -0,0 +1,259 @@
++"""Offline SAM2 masks. Run in wsam; this script never imports the UAD model.
++
++Preview uses train only, sampled across modality/platform groups. Full mode
++uses identical prompts on every train/query/test image. No PID-based sharing.
++"""
++import argparse
++from contextlib import nullcontext
++import hashlib
++import json
++from pathlib import Path
++import re
++import subprocess
++import time
++
++import numpy as np
++from PIL import Image, ImageDraw
++import torch
++
++
++def sha256(path):
++    digest = hashlib.sha256()
++    with open(path, 'rb') as stream:
++        for chunk in iter(lambda: stream.read(1024 * 1024), b''):
++            digest.update(chunk)
++    return digest.hexdigest()
++
++
++def select_images(root, preview_per_group, seed):
++    images = sorted(p for split in ('train', 'query', 'test')
++                    for modality in ('RGB', 'IR', 'Thermal')
++                    for p in (root / split / modality).glob('*.jpg'))
++    if not images:
++        raise ValueError('No WHU images found')
++    if not preview_per_group:
++        return images
++    rng = np.random.default_rng(seed)
++    selected = []
++    for modality in ('RGB', 'IR', 'Thermal'):
++        for platform in ('ground', 'aerial'):
++            group = []
++            for path in images:
++                relative = path.relative_to(root)
++                if relative.parts[:2] != ('train', modality):
++                    continue
++                match = re.search(r'_c(\d+)', path.name)
++                if match is None:
++                    raise ValueError('Cannot parse camera: {}'.format(path))
++                camera = int(match.group(1))
++                if camera not in range(1, 8):
++                    raise ValueError('Unexpected camera: {}'.format(path))
++                if ('ground' if camera <= 5 else 'aerial') == platform:
++                    group.append(path)
++            if not group:
++                raise ValueError('No train images for {}/{}'.format(modality, platform))
++            count = min(preview_per_group, len(group))
++            selected.extend(group[int(i)] for i in rng.choice(len(group), count, replace=False))
++    return sorted(selected)
++
++
++PROMPT_RULES = ('R00_v1', 'R07_box_only', 'R08_box_center')
++
++
++def load_selection(root, selection):
++    """Read a frozen train-only review list without resampling or reordering."""
++    names = json.loads(Path(selection).read_text(encoding='utf-8'))
++    if not isinstance(names, list) or not names or not all(isinstance(n, str) for n in names):
++        raise ValueError('Selection must be a nonempty list of relative image paths')
++    if len(set(names)) != len(names):
++        raise ValueError('Selection contains duplicate images')
++    images = []
++    for name in names:
++        path = (root / name).resolve()
++        relative = path.relative_to(root)
++        if (relative.as_posix() != name or len(relative.parts) != 3
++                or relative.parts[0] != 'train'
++                or relative.parts[1] not in ('RGB', 'IR', 'Thermal')
++                or relative.suffix != '.jpg' or not path.is_file()):
++            raise ValueError('Selection requires existing normalized WHU train paths: {}'.format(name))
++        images.append(path)
++    return images
++
++
++def prompts(width, height, rule='R00_v1'):
++    # Fixed crop prior: the target person is expected near the crop center.
++    # This is an experimental prompt rule, not a semantic person detector.
++    if rule not in PROMPT_RULES:
++        raise ValueError('Unknown prompt rule: {}'.format(rule))
++    # Match compare_sam2_rules.prepare_prompt's float32 multiplication exactly.
++    scale = np.array([width - 1, height - 1], dtype=np.float32)
++    normalized_box = [0, 0, 1, 1] if rule == 'R00_v1' else [.10, .02, .90, .98]
++    box = (np.array(normalized_box, dtype=np.float32).reshape(2, 2) * scale).reshape(4)
++    if rule == 'R07_box_only':
++        return None, None, box
++    return (np.array([[.5, .5]], dtype=np.float32) * scale,
++            np.array([1], dtype=np.int32), box)
++
++
++def predict_mask(predictor, image, precision, rule):
++    point, label, box = prompts(*image.size, rule=rule)
++    context = torch.autocast('cuda', dtype=torch.bfloat16) if precision == 'bf16' else nullcontext()
++    with torch.inference_mode(), context:
++        predictor.set_image(np.asarray(image))
++        masks, scores, _ = predictor.predict(point_coords=point, point_labels=label, box=box,
++                                             multimask_output=True, return_logits=False)
++    mask, score = choose_mask(masks, scores, image.height, image.width)
++    return mask, score, int(np.argmax(scores))
++
++
++def choose_mask(masks, scores, height, width):
++    masks, scores = np.asarray(masks), np.asarray(scores)
++    if masks.ndim != 3 or masks.shape[1:] != (height, width) or scores.shape != (len(masks),):
++        raise ValueError('Unexpected SAM2 mask/score dimensions: {}, {}'.format(masks.shape, scores.shape))
++    if not np.isfinite(scores).all() or not np.isfinite(masks).all():
++        raise ValueError('SAM2 returned nonfinite results')
++    if not np.all((masks == 0) | (masks == 1)):
++        raise ValueError('Expected predictor binary masks with return_logits=False')
++    index = int(np.argmax(scores))  # deterministic first-index tie breaking
++    return masks[index].astype(np.uint8) * 255, float(scores[index])
++
++
++def validate_existing(path, size):
++    with Image.open(path) as image:
++        image.verify()
++    with Image.open(path) as image:
++        array = np.array(image)
++    if array.shape != (size[1], size[0]) or not np.all((array == 0) | (array == 255)):
++        raise ValueError('Invalid existing mask: {}'.format(path))
++
++
++def save_preview(image, mask, destination, title):
++    rgb = np.asarray(image)
++    overlay = rgb.copy()
++    foreground = mask != 0
++    overlay[foreground] = (rgb[foreground] * .55 + np.array([0, 255, 0]) * .45).astype(np.uint8)
++    panels = [image, Image.fromarray(mask).convert('RGB'), Image.fromarray(overlay)]
++    width, height = image.size
++    # Native-size files remain untouched; only the review sheet is resized.
++    panel_height = 320
++    panel_width = max(1, round(width * panel_height / height))
++    sheet = Image.new('RGB', (panel_width * 3, panel_height + 48), 'white')
++    draw = ImageDraw.Draw(sheet)
++    for index, panel in enumerate(panels):
++        sheet.paste(panel.resize((panel_width, panel_height)), (index * panel_width, 48))
++    draw.text((4, 3), title, fill='black')
++    draw.text((4, 23), 'image | binary mask | overlay', fill='black')
++    destination.parent.mkdir(parents=True, exist_ok=True)
++    sheet.save(destination)
++
++
++def main():
++    parser = argparse.ArgumentParser(description=__doc__)
++    parser.add_argument('--image-root', required=True)
++    parser.add_argument('--mask-root', required=True)
++    parser.add_argument('--checkpoint', required=True)
++    parser.add_argument('--model-config', default='configs/sam2/sam2_hiera_l.yaml')
++    parser.add_argument('--precision', choices=['fp32', 'bf16'], default='bf16')
++    parser.add_argument('--prompt-rule', choices=PROMPT_RULES, default='R00_v1',
++                        help='Explicitly use R08_box_center for the validated v3 experiment; default retains v1 behavior')
++    parser.add_argument('--preview-per-group', type=int, default=0, help='>0: train-only stratified preview; 0: full dataset')
++    parser.add_argument('--selection', help='Frozen train-only JSON list, e.g. the 300-image v3 selection')
++    parser.add_argument('--seed', type=int, default=1234)
++    parser.add_argument('--resume', action='store_true', help='Validate and reuse masks with matching provenance')
++    args = parser.parse_args()
++    if args.preview_per_group < 0:
++        parser.error('--preview-per-group cannot be negative')
++    if args.selection and args.preview_per_group:
++        parser.error('--selection and --preview-per-group are mutually exclusive')
++    if not torch.cuda.is_available():
++        raise RuntimeError('Offline generation requires a visible CUDA GPU')
++    if args.precision == 'bf16' and not torch.cuda.is_bf16_supported():
++        raise RuntimeError('This GPU does not support BF16; explicitly choose --precision fp32')
++    import sam2
++    from sam2.build_sam import build_sam2
++    from sam2.sam2_image_predictor import SAM2ImagePredictor
++
++    root, output = Path(args.image_root).resolve(), Path(args.mask_root).resolve()
++    checkpoint = Path(args.checkpoint).resolve()
++    package = Path(sam2.__file__).resolve().parent
++    config_path = package / args.model_config
++    if not config_path.is_file():
++        raise FileNotFoundError('Cannot locate package config: {}'.format(config_path))
++    git = subprocess.run(['git', '-C', str(package.parent), 'rev-parse', 'HEAD'],
++                         capture_output=True, text=True, check=True).stdout.strip()
++    images = (load_selection(root, args.selection) if args.selection
++              else select_images(root, args.preview_per_group, args.seed))
++    names = [p.relative_to(root).as_posix() for p in images]
++    selection_hash = hashlib.sha256(json.dumps(names, separators=(',', ':')).encode('utf-8')).hexdigest()
++    provenance = {
++        'generator': 'SAM2ImagePredictor', 'sam2_commit': git,
++        'checkpoint_name': checkpoint.name, 'checkpoint_sha256': sha256(checkpoint),
++        'model_config': args.model_config, 'config_sha256': sha256(config_path),
++        'script_sha256': sha256(__file__), 'torch_version': str(torch.__version__),
++        'cuda_version': torch.version.cuda, 'precision': args.precision,
++        'prompt_rule': args.prompt_rule,
++        'prompt_box_normalized_xyxy': [0, 0, 1, 1] if args.prompt_rule == 'R00_v1' else [.10, .02, .90, .98],
++        'prompt_positive_points_normalized': [] if args.prompt_rule == 'R07_box_only' else [[.5, .5]],
++        'coordinate_convention': 'float32 normalized coordinates multiplied by W-1,H-1',
++        'selection': 'multimask_output=True; maximum predicted IoU; first index on ties',
++        'binarization': 'predictor threshold=0 logits; binary original-resolution output; PNG 0/255',
++        'postprocessing': 'build_sam2 apply_postprocessing=False; no hole/sprinkle filtering; no dilation',
++        'seed': args.seed,
++        'tf32': False,
++        'image_selection_sha256': selection_hash, 'image_count': len(images),
++        'purpose': 'train-only review' if args.selection or args.preview_per_group else 'full train/query/test',
++    }
++    output.mkdir(parents=True, exist_ok=True)
++    metadata = output / 'provenance.json'
++    if metadata.exists():
++        if json.loads(metadata.read_text(encoding='utf-8')) != provenance:
++            raise ValueError('Existing provenance differs; use a new mask-root instead of mixing settings')
++        if not args.resume:
++            raise FileExistsError('Output was already initialized; use --resume or a new mask-root')
++    else:
++        if any(output.iterdir()):
++            raise ValueError('Output contains files without provenance; choose an empty mask-root')
++        metadata.write_text(json.dumps(provenance, indent=2), encoding='utf-8')
++    (output / ('preview_selection.json' if args.selection or args.preview_per_group else 'full_selection.json')).write_text(
++        json.dumps(names, indent=2), encoding='utf-8')
++    torch.manual_seed(args.seed)
++    torch.backends.cuda.matmul.allow_tf32 = False
++    torch.backends.cudnn.allow_tf32 = False
++    model = build_sam2(args.model_config, str(checkpoint), device='cuda', apply_postprocessing=False)
++    predictor = SAM2ImagePredictor(model, mask_threshold=0., max_hole_area=0., max_sprinkle_area=0.)
++    start, generated, skipped = time.time(), 0, 0
++    with open(output / 'generation.jsonl', 'a', encoding='utf-8') as log:
++        for index, path in enumerate(images, 1):
++            relative = path.relative_to(root)
++            destination = output / relative.with_suffix('.png')
++            with Image.open(path) as source:
++                source.load()
++                image = source.convert('RGB')
++            if destination.exists():
++                if not args.resume:
++                    raise FileExistsError(destination)
++                validate_existing(destination, image.size)
++                skipped += 1
++                continue
++            mask, score, selected_candidate = predict_mask(predictor, image, args.precision, args.prompt_rule)
++            destination.parent.mkdir(parents=True, exist_ok=True)
++            temporary = destination.with_suffix('.tmp.png')
++            Image.fromarray(mask).save(temporary)
++            temporary.replace(destination)
++            record = {'image': relative.as_posix(), 'size': list(image.size),
++                      'prompt_rule': args.prompt_rule, 'selected_candidate': selected_candidate,
++                      'predicted_iou': score, 'foreground_fraction': float((mask != 0).mean())}
++            log.write(json.dumps(record) + '\n')
++            log.flush()
++            generated += 1
++            if args.selection or args.preview_per_group:
++                save_preview(image, mask, output / 'previews' / relative.with_suffix('.png'),
++                             '{} score={:.3f} fg={:.3f}'.format(path.name, score, record['foreground_fraction']))
++            if index % 50 == 0 or args.selection or args.preview_per_group or index == len(images):
++                print('{}/{} generated={} skipped={} elapsed={:.1f}s {}'.format(
++                    index, len(images), generated, skipped, time.time() - start, relative), flush=True)
++    print('Done. generated={} skipped={}; run audit_masks.py in clipreid before training.'.format(generated, skipped))
++
++
++if __name__ == '__main__':
++    main()
+--- /dev/null
++++ b/tools/preflight_qg.py
+@@ -0,0 +1,157 @@
++"""A few real CUDA/AMP training steps and masked eval forwards before a long run.
++
++Uses the existing loaders, model, losses, optimizer and NCCL setup. Does not save
++training weights or modify train.py. Supports python and torchrun entrypoints.
++"""
++import argparse
++import json
++from pathlib import Path
++import sys
++
++import torch
++import torch.distributed as dist
++
++sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
++from config import cfg
++from datasets import make_dataloader
++from loss import make_loss
++from model import make_model
++from processor.processor import PCA, GPD, PrototypeBank, mask_kwargs
++from solver import make_optimizer
++from solver.scheduler_factory import create_scheduler
++from train import setup_cuda_visible_devices, init_distributed, set_seed
++
++
++def main():
++    parser = argparse.ArgumentParser(description=__doc__)
++    parser.add_argument('--config_file', default='configs/UAD.yml')
++    parser.add_argument('--steps', type=int, default=2)
++    parser.add_argument('--report', default='logs/qg_preflight.json')
++    parser.add_argument('--local_rank', '--local-rank', type=int, default=-1)
++    parser.add_argument('opts', nargs=argparse.REMAINDER)
++    args = parser.parse_args()
++    if args.steps < 1:
++        parser.error('--steps must be positive')
++    config = cfg.clone()
++    config.merge_from_file(args.config_file)
++    config.merge_from_list(args.opts)
++    config.freeze()
++    if not config.MODEL.QG_SFM.ENABLED:
++        raise ValueError('This preflight checks the enabled QG-SFM experiment')
++    setup_cuda_visible_devices(config)
++    if not torch.cuda.is_available():
++        raise RuntimeError('Run real-data preflight in the server clipreid CUDA environment')
++    local_rank, rank, world = init_distributed(config, args)
++    torch.cuda.set_device(local_rank)
++    device = torch.device('cuda', local_rank)
++    set_seed(config.SOLVER.SEED)
++    try:
++        loader, _, eval_loaders, _, classes, cameras, views = make_dataloader(config)
++        model = make_model(config, classes, cameras, views).to(device)
++        base = model
++        for block in base.base.blocks:
++            block.attn.collect_qg_stats = True
++        qg = [(n,p) for n,p in base.named_parameters() if n.endswith(('.qg_alpha_raw', '.qg_beta_raw'))]
++        if len(qg) != 24 or any(p.detach().item() != 0 for _,p in qg):
++            raise AssertionError('Expected 24 zero-initialized modulation scalars')
++        loss_fn, center = make_loss(config, classes)
++        optimizer, _ = make_optimizer(config, model, center)
++        scheduler = create_scheduler(config, optimizer)
++        scheduler.step(1)
++        if world > 1:
++            model = torch.nn.parallel.DistributedDataParallel(
++                model, device_ids=[local_rank], output_device=local_rank, find_unused_parameters=True)
++        bank = PrototypeBank(classes, 768, momentum=config.MODEL.GPD_MOMENTUM, device=device)
++        scaler = torch.cuda.amp.GradScaler()
++        model.train()
++        iterator = iter(loader)
++        torch.cuda.reset_peak_memory_stats(device)
++        records = []
++        for step in range(args.steps):
++            try:
++                batch = next(iterator)
++            except StopIteration:
++                raise RuntimeError('Training loader ended before requested preflight steps')
++            images, targets = [x.to(device) for x in batch[0]], batch[1].to(device)
++            spatial = mask_kwargs(batch, device, training=True)
++            optimizer.zero_grad()
++            with torch.cuda.amp.autocast():
++                score, feature, _ = model(images, **spatial)
++                loss, ce, wrt = loss_fn(score, feature, targets.repeat(len(images)))
++                pca, ids, centers = PCA(feature, targets, len(images), config.DATALOADER.NUM_INSTANCE)
++                gpd = GPD(feature, targets, bank, ids, centers, len(images))
++                if 'pca' in config.SOLVER.LOSS_TYPE:
++                    loss = loss + config.MODEL.PCA_LOSS_WEIGHT * pca
++                if 'gpd' in config.SOLVER.LOSS_TYPE:
++                    loss = loss + gpd
++            diagnostics = [block.attn.qg_stats.detach().cpu().tolist() for block in base.base.blocks]
++            if not torch.isfinite(loss):
++                raise AssertionError('Nonfinite AMP loss')
++            scaler.scale(loss).backward()
++            scaler.unscale_(optimizer)
++            for name, parameter in qg:
++                if parameter.grad is None or not torch.isfinite(parameter.grad).all():
++                    raise AssertionError('Missing/nonfinite modulation gradient: {}'.format(name))
++            gradient_norm = torch.nn.utils.clip_grad_norm_(model.parameters(), 1.)
++            if not torch.isfinite(gradient_norm):
++                raise AssertionError('Nonfinite model gradient norm; AMP step would be skipped')
++            qg_grad_norm = torch.stack([p.grad.float().square() for _,p in qg]).sum().sqrt().item()
++            scale_before = scaler.get_scale()
++            scaler.step(optimizer)
++            scaler.update()
++            if scaler.get_scale() < scale_before:
++                raise AssertionError('AMP skipped an optimizer step')
++            bank.update(ids, centers, ddp=world>1)
++            if world > 1:
++                state = torch.cat([p.detach().reshape(-1) for _,p in qg] + [bank.prototypes.flatten()])
++                states = [torch.empty_like(state) for _ in range(world)]
++                dist.all_gather(states, state)
++                for other in states[1:]:
++                    torch.testing.assert_close(states[0], other, rtol=0, atol=0)
++            row = dict(step=step+1, loss=loss.item(), ce=ce.item(), wrt=wrt.item(),
++                       pca=pca.item(), gpd=gpd.item(), qg_gradient_norm=qg_grad_norm,
++                       tuple_batch=len(targets), actual_images=sum(len(x) for x in images),
++                       empty_masks=sum(int((~v.bool()).sum()) for v in spatial['valid_flags']),
++                       qg_forward_stats=diagnostics)
++            records.append(row)
++            if rank == 0:
++                print(json.dumps(row), flush=True)
++        # Release the last training graph before validation to measure a useful peak.
++        del score, feature, loss, ce, wrt, pca, gpd
++        for block in base.base.blocks:
++            block.attn.collect_qg_stats = False
++        model.eval()
++        if world > 1:
++            for buffer in base.buffers():
++                dist.broadcast(buffer, src=0)
++        evaluated = []
++        with torch.no_grad():
++            for mode, val_loader in enumerate(eval_loaders, 1):
++                if (mode-1) % world != rank:
++                    continue
++                batch = next(iter(val_loader))
++                result = base(batch[0].to(device), mode=mode, **mask_kwargs(batch, device))
++                if result.shape != (len(batch[0]), 768) or not torch.isfinite(result).all():
++                    raise AssertionError('Masked evaluation output is invalid')
++                evaluated.append(mode)
++        if world > 1:
++            dist.barrier()
++        if rank == 0:
++            report = dict(status='passed', world_size=world, torch_version=str(torch.__version__),
++                          cuda_version=torch.version.cuda, gpu=torch.cuda.get_device_name(device),
++                          steps=records, eval_modes_rank0=evaluated,
++                          peak_allocated_mib=torch.cuda.max_memory_allocated(device)/1024**2,
++                          qg_parameters={n:p.detach().item() for n,p in qg},
++                          config=config.dump(),
++                          scope='real train steps and one eval batch per modality; not complete retrieval evaluation')
++            destination = Path(args.report)
++            destination.parent.mkdir(parents=True, exist_ok=True)
++            destination.write_text(json.dumps(report, indent=2), encoding='utf-8')
++            print('PASS: real CUDA/AMP preflight; report {}'.format(destination), flush=True)
++    finally:
++        if config.MODEL.DIST_TRAIN and dist.is_initialized():
++            dist.destroy_process_group()
++
++
++if __name__ == '__main__':
++    main()
+--- /dev/null
++++ b/tools/verify_mask_equivalence.py
+@@ -0,0 +1,65 @@
++"""Compare production PNGs with frozen rule-comparison PNGs, without SAM/UAD."""
++import argparse
++import json
++from pathlib import Path
++
++import numpy as np
++from PIL import Image
++
++
++def compare(generated_root, reference_root, rule, selection=None):
++    generated_root, reference_root = Path(generated_root).resolve(), Path(reference_root).resolve()
++    generated = json.loads((generated_root / 'provenance.json').read_text(encoding='utf-8'))
++    reference = json.loads((reference_root / 'provenance.json').read_text(encoding='utf-8'))
++    if generated.get('prompt_rule') != rule:
++        raise ValueError('Production provenance does not use {}'.format(rule))
++    for key in ('checkpoint_sha256', 'model_config', 'config_sha256', 'precision',
++                'sam2_commit', 'torch_version', 'cuda_version'):
++        if generated.get(key) != reference.get(key):
++            raise ValueError('Generation conditions differ: {}'.format(key))
++    names = reference['selection'] if selection is None else json.loads(
++        Path(selection).read_text(encoding='utf-8'))
++    if not names or len(set(names)) != len(names) or not set(names).issubset(reference['selection']):
++        raise ValueError('Verification requires a nonempty unique subset of reference selection')
++    mismatches = []
++    for name in names:
++        relative = Path(name)
++        if relative.is_absolute() or '..' in relative.parts:
++            raise ValueError('Expected relative image paths')
++        left = generated_root / relative.with_suffix('.png')
++        right = reference_root / 'masks' / (rule + '__iou') / relative.with_suffix('.png')
++        arrays = []
++        for path in (left, right):
++            with Image.open(path) as image:
++                image.verify()
++            with Image.open(path) as image:
++                array = np.array(image)
++            if array.ndim != 2 or not np.all((array == 0) | (array == 255)):
++                raise ValueError('Expected binary 0/255 PNG: {}'.format(path))
++            arrays.append(array)
++        if arrays[0].shape != arrays[1].shape or not np.array_equal(*arrays):
++            mismatches.append(name)
++    return {'rule': rule, 'checked': len(names), 'identical': len(names) - len(mismatches),
++            'mismatches': mismatches}
++
++
++def main():
++    parser = argparse.ArgumentParser(description=__doc__)
++    parser.add_argument('--generated-root', required=True)
++    parser.add_argument('--reference-root', required=True)
++    parser.add_argument('--rule', choices=['R00_v1', 'R07_box_only', 'R08_box_center'], default='R08_box_center')
++    parser.add_argument('--selection')
++    parser.add_argument('--report', required=True)
++    args = parser.parse_args()
++    report = compare(args.generated_root, args.reference_root, args.rule, args.selection)
++    destination = Path(args.report)
++    destination.parent.mkdir(parents=True, exist_ok=True)
++    destination.write_text(json.dumps(report, indent=2), encoding='utf-8')
++    print('Checked {}; identical {}; mismatches {}'.format(
++        report['checked'], report['identical'], len(report['mismatches'])))
++    if report['mismatches']:
++        raise SystemExit('Mask mismatch: inspect the report before full generation')
++
++
++if __name__ == '__main__':
++    main()
+--- /dev/null
++++ b/tools/verify_reference.py
+@@ -0,0 +1,93 @@
++"""Compare a preserved original WHU tree with this implementation on CPU.
++
++Run from WHU: python tools/verify_reference.py --original-root ../tmp/original/WHU
++"""
++import argparse
++import importlib.util
++import json
++from pathlib import Path
++import sys
++import tempfile
++
++import torch
++import torch.nn.functional as F
++
++ROOT = Path(__file__).resolve().parents[1]
++sys.path.insert(0, str(ROOT))
++from config import cfg
++from model.make_model import make_model
++from processor.processor import PCA, GPD, PrototypeBank
++from loss.wrt_loss import TripletLoss_WRT
++
++
++def load_module(name, path):
++    spec = importlib.util.spec_from_file_location(name, path)
++    module = importlib.util.module_from_spec(spec)
++    sys.modules[name] = module
++    spec.loader.exec_module(module)
++    return module
++
++
++def main():
++    parser = argparse.ArgumentParser(description=__doc__)
++    parser.add_argument('--original-root', required=True)
++    args = parser.parse_args()
++    original = Path(args.original_root)
++    legacy_model = load_module('reference_model', original / 'model/__init__.py')
++    legacy_processor = load_module('reference_processor', original / 'processor/processor.py')
++    legacy_wrt = load_module('reference_wrt', original / 'loss/wrt_loss.py')
++    configuration = cfg.clone()
++    configuration.merge_from_file(str(ROOT / 'configs/UAD.yml'))
++    configuration.MODEL.PRETRAIN_CHOICE = 'none'
++    configuration.MODEL.DROP_PATH = 0.
++    torch.manual_seed(1234)
++    baseline = legacy_model.make_model(configuration, 2, 7, 3).eval()
++    with tempfile.TemporaryDirectory() as directory:
++        manifest = Path(directory) / 'manifest.json'
++        manifest.write_text(json.dumps({'provenance': {'generator': 'synthetic-reference-v1'}}), encoding='utf-8')
++        configuration.DATASETS.MASK_MANIFEST = str(manifest)
++        torch.manual_seed(1234)
++        improved = make_model(configuration, 2, 7, 3).eval()
++    for name, tensor in baseline.state_dict().items():
++        torch.testing.assert_close(tensor, improved.state_dict()[name], rtol=0, atol=0)
++    print('PASS: same seed initializes all original parameters identically')
++    improved.load_state_dict(baseline.state_dict(), strict=False)
++    base_outputs, new_outputs = [], []
++    hooks = []
++    for left, right in zip(baseline.base.blocks, improved.base.blocks):
++        for lm, rm in ((left.attn, right.attn), (left, right)):
++            hooks += [lm.register_forward_hook(lambda m, i, o: base_outputs.append(o.detach())),
++                      rm.register_forward_hook(lambda m, i, o: new_outputs.append(o.detach()))]
++    images = [torch.randn(2, 3, 256, 128) for _ in range(3)]
++    coverage = [torch.rand(2, 128) for _ in range(3)]
++    valid = [torch.ones(2, dtype=torch.bool) for _ in range(3)]
++    with torch.no_grad():
++        expected = baseline(images)
++        actual = improved(images, coverage=coverage, valid_flags=valid)
++    for handle in hooks:
++        handle.remove()
++    for left, right in zip(base_outputs + list(expected), new_outputs + list(actual)):
++        torch.testing.assert_close(left, right, rtol=0, atol=0)
++    print('PASS: actual original vs QG-zero: all 12 attention outputs, all blocks, CLS, BNNeck, classifier (exact FP32 equality)')
++    feature = actual[1]
++    targets = torch.tensor([0, 1])
++    pca, ids, centers = PCA(feature, targets, 3, group_size=1)
++    old_pca, old_ids, old_centers = legacy_processor.PCA(feature, targets, 3, group_size=1)
++    bank = PrototypeBank(2, 768, device='cpu')
++    old_bank = legacy_processor.PrototypeBank(2, 768, device='cpu')
++    for current, reference in (
++        (F.cross_entropy(actual[0], targets.repeat(3)), F.cross_entropy(expected[0], targets.repeat(3))),
++        (TripletLoss_WRT()(feature, targets.repeat(3))[0], legacy_wrt.TripletLoss_WRT()(feature, targets.repeat(3))[0]),
++        (pca, old_pca), (centers, old_centers), (ids, old_ids),
++        (GPD(feature, targets, bank, ids, centers, 3),
++         legacy_processor.GPD(feature, targets, old_bank, old_ids, old_centers, 3))):
++        torch.testing.assert_close(current, reference, rtol=0, atol=0)
++    bank.update(ids, centers, ddp=False)
++    old_bank.update(old_ids, old_centers, ddp=False)
++    torch.testing.assert_close(bank.prototypes, old_bank.prototypes, rtol=0, atol=0)
++    print('PASS: original CE/WRT/ProCA/GPD, detached centers and prototype updates agree exactly')
++
++
++if __name__ == '__main__':
++    torch.set_num_threads(2)
++    main()

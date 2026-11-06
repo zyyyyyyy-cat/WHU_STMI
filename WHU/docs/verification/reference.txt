@@ -1,0 +1,13 @@
+COMMAND: D:\PROGRAM\Anaconda\python.exe WHU/tools/verify_reference.py --original-root tmp/original/WHU
+EXIT: 0
+ELAPSED_SECONDS: 7.26
+
+using Transformer_type: vit_base_in as a backbone
+using stride: [16, 16], and patch number is num_y16 * num_x8
+===========building transformer===========
+using Transformer_type: vit_base_in as a backbone
+using stride: [16, 16], and patch number is num_y16 * num_x8
+===========building transformer===========
+PASS: same seed initializes all original parameters identically
+PASS: actual original vs QG-zero: all 12 attention outputs, all blocks, CLS, BNNeck, classifier (exact FP32 equality)
+PASS: original CE/WRT/ProCA/GPD, detached centers and prototype updates agree exactly

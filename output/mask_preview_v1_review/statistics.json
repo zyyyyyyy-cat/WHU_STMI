@@ -1,0 +1,58 @@
+{
+  "archive_sha256": "18793628536867520fdfc90e9c7377fd617d3b0f84b4971596fba2826129da15",
+  "groups": [
+    {
+      "group": "IR_A",
+      "count": 12,
+      "mean_foreground_fraction": 0.7701810895397992,
+      "foreground_ge_90pct": 5,
+      "foreground_ge_95pct": 4,
+      "mean_predicted_iou": 0.8994140625
+    },
+    {
+      "group": "IR_G",
+      "count": 12,
+      "mean_foreground_fraction": 0.5462584660775888,
+      "foreground_ge_90pct": 2,
+      "foreground_ge_95pct": 1,
+      "mean_predicted_iou": 0.8108723958333334
+    },
+    {
+      "group": "RGB_A",
+      "count": 12,
+      "mean_foreground_fraction": 0.5957506220112572,
+      "foreground_ge_90pct": 1,
+      "foreground_ge_95pct": 1,
+      "mean_predicted_iou": 0.704345703125
+    },
+    {
+      "group": "RGB_G",
+      "count": 12,
+      "mean_foreground_fraction": 0.5231080221981828,
+      "foreground_ge_90pct": 0,
+      "foreground_ge_95pct": 0,
+      "mean_predicted_iou": 0.8063151041666666
+    },
+    {
+      "group": "Thermal_A",
+      "count": 12,
+      "mean_foreground_fraction": 0.5390905299397969,
+      "foreground_ge_90pct": 0,
+      "foreground_ge_95pct": 0,
+      "mean_predicted_iou": 0.8317057291666666
+    },
+    {
+      "group": "Thermal_G",
+      "count": 12,
+      "mean_foreground_fraction": 0.8221993936913746,
+      "foreground_ge_90pct": 5,
+      "foreground_ge_95pct": 5,
+      "mean_predicted_iou": 0.9010416666666666
+    }
+  ],
+  "total": 72,
+  "empty": 0,
+  "foreground_ge_90pct": 13,
+  "foreground_ge_95pct": 11,
+  "notes": "Foreground area and predicted IoU are from generation.jsonl; they are not manually annotated segmentation accuracy."
+}

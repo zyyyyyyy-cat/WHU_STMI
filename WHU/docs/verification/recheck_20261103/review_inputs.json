@@ -1,0 +1,44 @@
+{
+  "images": 30,
+  "model": "actual ViT-B structure, random weights; no ImageNet file locally",
+  "status": "passed",
+  "checks": "real original/R08 PNG -> strict mapping -> joint transform -> 128 coverage -> ViT -> 768 CLS; zero-init exact equivalence; nonzero modulation changes output",
+  "batches": [
+    {
+      "batch": 0,
+      "images": 5,
+      "empty": 0,
+      "max_feature_delta": 0.042016446590423584
+    },
+    {
+      "batch": 1,
+      "images": 5,
+      "empty": 0,
+      "max_feature_delta": 0.05323612689971924
+    },
+    {
+      "batch": 2,
+      "images": 5,
+      "empty": 0,
+      "max_feature_delta": 0.03501376137137413
+    },
+    {
+      "batch": 3,
+      "images": 5,
+      "empty": 0,
+      "max_feature_delta": 0.029974818229675293
+    },
+    {
+      "batch": 4,
+      "images": 5,
+      "empty": 0,
+      "max_feature_delta": 0.01581662893295288
+    },
+    {
+      "batch": 5,
+      "images": 5,
+      "empty": 0,
+      "max_feature_delta": 0.011596977710723877
+    }
+  ]
+}

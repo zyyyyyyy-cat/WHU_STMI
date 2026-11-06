@@ -1,0 +1,170 @@
+[
+  {
+    "image": "train/IR/0541_c6_m2_f005096.jpg",
+    "group": "IR_A",
+    "a": "R07_box_only__iou",
+    "b": "R08_box_center__iou",
+    "agreement_iou": "0.041148608644168146"
+  },
+  {
+    "image": "train/RGB/3266_c3_m1_f000686.jpg",
+    "group": "RGB_G",
+    "a": "R07_box_only__iou",
+    "b": "R08_box_center__iou",
+    "agreement_iou": "0.1657922350472193"
+  },
+  {
+    "image": "train/RGB/0229_c6_m1_f004077.jpg",
+    "group": "RGB_A",
+    "a": "R07_box_only__iou",
+    "b": "R08_box_center__iou",
+    "agreement_iou": "0.1953727506426735"
+  },
+  {
+    "image": "train/RGB/1506_c5_m1_f005520.jpg",
+    "group": "RGB_G",
+    "a": "R07_box_only__iou",
+    "b": "R08_box_center__iou",
+    "agreement_iou": "0.23666237751163022"
+  },
+  {
+    "image": "train/RGB/3091_c3_m1_f003802.jpg",
+    "group": "RGB_G",
+    "a": "R07_box_only__iou",
+    "b": "R08_box_center__iou",
+    "agreement_iou": "0.25773195876288657"
+  },
+  {
+    "image": "train/RGB/0382_c1_m1_f008414.jpg",
+    "group": "RGB_G",
+    "a": "R07_box_only__iou",
+    "b": "R08_box_center__iou",
+    "agreement_iou": "0.36922833649588865"
+  },
+  {
+    "image": "train/IR/2452_c2_m2_f007481.jpg",
+    "group": "IR_G",
+    "a": "R07_box_only__iou",
+    "b": "R08_box_center__iou",
+    "agreement_iou": "0.41736202605767825"
+  },
+  {
+    "image": "train/Thermal/0074_c6_m3_f000927.jpg",
+    "group": "Thermal_A",
+    "a": "R07_box_only__iou",
+    "b": "R08_box_center__iou",
+    "agreement_iou": "0.45685279187817257"
+  },
+  {
+    "image": "train/Thermal/2577_c1_m3_f002085.jpg",
+    "group": "Thermal_G",
+    "a": "R07_box_only__iou",
+    "b": "R08_box_center__iou",
+    "agreement_iou": "0.5383107975700568"
+  },
+  {
+    "image": "train/Thermal/0246_c1_m3_f004427.jpg",
+    "group": "Thermal_G",
+    "a": "R07_box_only__iou",
+    "b": "R08_box_center__iou",
+    "agreement_iou": "0.5476575411367393"
+  },
+  {
+    "image": "train/IR/1442_c4_m2_f004349.jpg",
+    "group": "IR_G",
+    "a": "R07_box_only__iou",
+    "b": "R08_box_center__iou",
+    "agreement_iou": "0.585706257025103"
+  },
+  {
+    "image": "train/Thermal/3144_c1_m3_f001809.jpg",
+    "group": "Thermal_G",
+    "a": "R07_box_only__iou",
+    "b": "R08_box_center__iou",
+    "agreement_iou": "0.616657159155733"
+  },
+  {
+    "image": "train/Thermal/1053_c4_m3_f002435.jpg",
+    "group": "Thermal_G",
+    "a": "R07_box_only__iou",
+    "b": "R08_box_center__iou",
+    "agreement_iou": "0.6322778345250255"
+  },
+  {
+    "image": "train/Thermal/3266_c2_m3_f006466.jpg",
+    "group": "Thermal_G",
+    "a": "R07_box_only__iou",
+    "b": "R08_box_center__iou",
+    "agreement_iou": "0.6456375838926175"
+  },
+  {
+    "image": "train/IR/0523_c6_m2_f004750.jpg",
+    "group": "IR_A",
+    "a": "R07_box_only__iou",
+    "b": "R08_box_center__iou",
+    "agreement_iou": "0.6477946017116524"
+  },
+  {
+    "image": "train/IR/0391_c6_m2_f002096.jpg",
+    "group": "IR_A",
+    "a": "R07_box_only__iou",
+    "b": "R08_box_center__iou",
+    "agreement_iou": "0.670076726342711"
+  },
+  {
+    "image": "train/IR/3570_c2_m2_f003064.jpg",
+    "group": "IR_G",
+    "a": "R07_box_only__iou",
+    "b": "R08_box_center__iou",
+    "agreement_iou": "0.6715810879511948"
+  },
+  {
+    "image": "train/Thermal/1159_c5_m3_f002620.jpg",
+    "group": "Thermal_G",
+    "a": "R07_box_only__iou",
+    "b": "R08_box_center__iou",
+    "agreement_iou": "0.6810742761225346"
+  },
+  {
+    "image": "train/Thermal/1040_c7_m3_f001645.jpg",
+    "group": "Thermal_A",
+    "a": "R07_box_only__iou",
+    "b": "R08_box_center__iou",
+    "agreement_iou": "0.6989247311827957"
+  },
+  {
+    "image": "train/Thermal/1135_c7_m3_f001493.jpg",
+    "group": "Thermal_A",
+    "a": "R07_box_only__iou",
+    "b": "R08_box_center__iou",
+    "agreement_iou": "0.7017543859649122"
+  },
+  {
+    "image": "train/IR/1103_c7_m2_f000431.jpg",
+    "group": "IR_A",
+    "a": "R07_box_only__iou",
+    "b": "R08_box_center__iou",
+    "agreement_iou": "0.7788911155644622"
+  },
+  {
+    "image": "train/Thermal/0123_c6_m3_f002194.jpg",
+    "group": "Thermal_A",
+    "a": "R07_box_only__iou",
+    "b": "R08_box_center__iou",
+    "agreement_iou": "0.7890243902439025"
+  },
+  {
+    "image": "train/Thermal/1007_c7_m3_f000282.jpg",
+    "group": "Thermal_A",
+    "a": "R07_box_only__iou",
+    "b": "R08_box_center__iou",
+    "agreement_iou": "0.7894736842105263"
+  },
+  {
+    "image": "train/IR/0477_c2_m2_f010240.jpg",
+    "group": "IR_G",
+    "a": "R07_box_only__iou",
+    "b": "R08_box_center__iou",
+    "agreement_iou": "0.7969653179190751"
+  }
+]

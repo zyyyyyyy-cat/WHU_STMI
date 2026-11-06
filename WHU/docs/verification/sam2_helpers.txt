@@ -1,0 +1,8 @@
+EXIT: 0
+test_prompts_and_selection (test_sam2_masks.OfflineMaskTests) ... ok
+test_stratified_train_only_and_native_size (test_sam2_masks.OfflineMaskTests) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.086s
+
+OK

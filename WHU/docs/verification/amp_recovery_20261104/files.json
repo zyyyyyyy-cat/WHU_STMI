@@ -1,0 +1,38 @@
+[
+  {
+    "path": "solver/amp_step.py",
+    "sha256": "8cc90e114585d05b8e0c0533c020aa5a18866643f4f23d42d2ab6e28502af98a"
+  },
+  {
+    "path": "processor/processor.py",
+    "sha256": "0f0b326071dc5216a5ec91b7fc7da9d1ed103d7bed31c46e57728befcc3aa791"
+  },
+  {
+    "path": "tools/preflight_qg.py",
+    "sha256": "6d75ed4583375c57face3244ee23c73d344f61e86aeecc9231cc26dfb14652e4"
+  },
+  {
+    "path": "tests/test_amp_step.py",
+    "sha256": "e2bf1b89200cf5ea79ca937ad98f25b06407d467a836af14a61488f911c08651"
+  },
+  {
+    "path": "tests/ddp_amp_smoke.py",
+    "sha256": "b6066ba917515ffc7d7d213856b7646463f619cdc34f08aef73e1c26f31f4b77"
+  },
+  {
+    "path": "docs/AMP\u6062\u590d\u4fee\u590d\u4e0e\u8fd0\u884c_20261104.md",
+    "sha256": "714d761e7e571113a96f75eea06c8defacb273497ac779138914fed88756ed39"
+  },
+  {
+    "path": "docs/\u8bad\u7ec3\u524d\u590d\u6838\u4e0e\u8fd0\u884c\u6b65\u9aa4.md",
+    "sha256": "215e99e59404e3c78bdc1380b15079133eaf1d1cffe4d53aba21d22fc7acb72a"
+  },
+  {
+    "path": "docs/verification/amp_recovery_20261104/ddp_amp.txt",
+    "sha256": "c7b2326d75b66a9b5f61e23b9e83efad7a71b4d47eb13b51cdcb3e3e66dffbe6"
+  },
+  {
+    "path": "docs/verification/amp_recovery_20261104/unit.txt",
+    "sha256": "4f321d0345327f85400ed219ddf3c472cf4d156e6983d75a03e43a76ecf2f927"
+  }
+]

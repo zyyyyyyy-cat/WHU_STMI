@@ -1,0 +1,664 @@
+{
+  "files": [
+    {
+      "name": "train_log_20261105_0937.txt",
+      "bytes": 178193,
+      "lines": 1451,
+      "sha256": "920bba0404c6c48edc139094bddb48d8fe430e60c050cbf2a309731592af4b37",
+      "first": "2026-11-05 09:37:29,746",
+      "last": "2026-11-05 10:56:47,696",
+      "warnings": [
+        {
+          "line": 105,
+          "text": "2026-11-05 09:38:30,102 transreid.train WARNING: AMP skipped optimizer/prototype update: epoch=1 iteration=1 scale=65536.0 -> 32768.0"
+        },
+        {
+          "line": 106,
+          "text": "2026-11-05 09:38:33,430 transreid.train WARNING: AMP skipped optimizer/prototype update: epoch=1 iteration=6 scale=32768.0 -> 16384.0"
+        },
+        {
+          "line": 107,
+          "text": "2026-11-05 09:38:38,810 transreid.train WARNING: AMP skipped optimizer/prototype update: epoch=1 iteration=14 scale=16384.0 -> 8192.0"
+        }
+      ]
+    },
+    {
+      "name": "train_log_20261105_1106.txt",
+      "bytes": 354548,
+      "lines": 2798,
+      "sha256": "f1296a79d81956e8002ffd38cf7a5265ece2918009dc362b9237dfb185c056fd",
+      "first": "2026-11-05 11:06:32,928",
+      "last": "2026-11-05 13:44:17,116",
+      "warnings": [
+        {
+          "line": 150,
+          "text": "2026-11-05 11:10:05,150 transreid.train WARNING: AMP skipped optimizer/prototype update: epoch=42 iteration=80 scale=32768.0 -> 16384.0"
+        },
+        {
+          "line": 779,
+          "text": "2026-11-05 11:46:57,133 transreid.train WARNING: AMP skipped optimizer/prototype update: epoch=61 iteration=35 scale=32768.0 -> 16384.0"
+        },
+        {
+          "line": 1452,
+          "text": "2026-11-05 12:26:14,875 transreid.train WARNING: AMP skipped optimizer/prototype update: epoch=81 iteration=31 scale=32768.0 -> 16384.0"
+        },
+        {
+          "line": 2029,
+          "text": "2026-11-05 12:58:23,204 transreid.train WARNING: AMP skipped optimizer/prototype update: epoch=99 iteration=44 scale=32768.0 -> 16384.0"
+        },
+        {
+          "line": 2476,
+          "text": "2026-11-05 13:25:30,784 transreid.train WARNING: AMP skipped optimizer/prototype update: epoch=111 iteration=64 scale=16384.0 -> 8192.0"
+        }
+      ]
+    }
+  ],
+  "training_records": 240,
+  "qg_records": 2880,
+  "completed_epochs": 120,
+  "missing_qg_snapshots": [],
+  "resumes": [
+    {
+      "source": "train_log_20261105_1106.txt",
+      "line": 105,
+      "time": "2026-11-05 11:07:25,087",
+      "path": "/project/code/WHU_base/WHU_STMI/logs/UAD_QG_SFM_R08_4GPU_seed1234/checkpoint_last.pth",
+      "completed_epoch": 40,
+      "next_epoch": 41,
+      "scale": 32768.0
+    }
+  ],
+  "amp_overflows": [
+    {
+      "source": "train_log_20261105_0937.txt",
+      "line": 105,
+      "time": "2026-11-05 09:38:30,102",
+      "epoch": 1,
+      "iteration": 1,
+      "before": 65536.0,
+      "after": 32768.0
+    },
+    {
+      "source": "train_log_20261105_0937.txt",
+      "line": 106,
+      "time": "2026-11-05 09:38:33,430",
+      "epoch": 1,
+      "iteration": 6,
+      "before": 32768.0,
+      "after": 16384.0
+    },
+    {
+      "source": "train_log_20261105_0937.txt",
+      "line": 107,
+      "time": "2026-11-05 09:38:38,810",
+      "epoch": 1,
+      "iteration": 14,
+      "before": 16384.0,
+      "after": 8192.0
+    },
+    {
+      "source": "train_log_20261105_1106.txt",
+      "line": 150,
+      "time": "2026-11-05 11:10:05,150",
+      "epoch": 42,
+      "iteration": 80,
+      "before": 32768.0,
+      "after": 16384.0
+    },
+    {
+      "source": "train_log_20261105_1106.txt",
+      "line": 779,
+      "time": "2026-11-05 11:46:57,133",
+      "epoch": 61,
+      "iteration": 35,
+      "before": 32768.0,
+      "after": 16384.0
+    },
+    {
+      "source": "train_log_20261105_1106.txt",
+      "line": 1452,
+      "time": "2026-11-05 12:26:14,875",
+      "epoch": 81,
+      "iteration": 31,
+      "before": 32768.0,
+      "after": 16384.0
+    },
+    {
+      "source": "train_log_20261105_1106.txt",
+      "line": 2029,
+      "time": "2026-11-05 12:58:23,204",
+      "epoch": 99,
+      "iteration": 44,
+      "before": 32768.0,
+      "after": 16384.0
+    },
+    {
+      "source": "train_log_20261105_1106.txt",
+      "line": 2476,
+      "time": "2026-11-05 13:25:30,784",
+      "epoch": 111,
+      "iteration": 64,
+      "before": 16384.0,
+      "after": 8192.0
+    }
+  ],
+  "final_checkpoint": {
+    "source": "train_log_20261105_1106.txt",
+    "line": 2798,
+    "time": "2026-11-05 13:44:17,116",
+    "epoch": 120,
+    "successful_updates": 13696,
+    "amp_skips": 8,
+    "scale": 8192.0,
+    "actual_batches": 114
+  },
+  "skip_fraction": 0.0005837711617046118,
+  "final_evaluation": {
+    "source": "train_log_20261105_1106.txt",
+    "line": 2793,
+    "time": "2026-11-05 13:44:07,341",
+    "epoch": 120,
+    "pairs": {
+      "1_1": {
+        "rank1": 41.97,
+        "map": 26.51,
+        "minp": 5.11,
+        "line": 2766
+      },
+      "1_2": {
+        "rank1": 26.84,
+        "map": 15.99,
+        "minp": 2.27,
+        "line": 2767
+      },
+      "1_3": {
+        "rank1": 7.4,
+        "map": 5.53,
+        "minp": 1.04,
+        "line": 2768
+      },
+      "2_1": {
+        "rank1": 24.54,
+        "map": 15.69,
+        "minp": 2.9,
+        "line": 2769
+      },
+      "2_2": {
+        "rank1": 27.92,
+        "map": 16.85,
+        "minp": 2.4,
+        "line": 2770
+      },
+      "2_3": {
+        "rank1": 6.56,
+        "map": 5.19,
+        "minp": 1.02,
+        "line": 2771
+      },
+      "3_1": {
+        "rank1": 7.63,
+        "map": 5.79,
+        "minp": 1.27,
+        "line": 2772
+      },
+      "3_2": {
+        "rank1": 7.96,
+        "map": 5.23,
+        "minp": 0.94,
+        "line": 2773
+      },
+      "3_3": {
+        "rank1": 20.7,
+        "map": 13.59,
+        "minp": 2.25,
+        "line": 2774
+      }
+    },
+    "ag": {
+      "A->G": {
+        "map": 11.42,
+        "rank1": 32.44,
+        "rank10": 58.3
+      },
+      "G->A": {
+        "map": 13.13,
+        "rank1": 30.9,
+        "rank10": 54.92
+      }
+    },
+    "map": 11.0,
+    "rank1": 29.96,
+    "rank5": 46.54,
+    "rank10": 54.18
+  },
+  "final_training": {
+    "source": "train_log_20261105_1106.txt",
+    "line": 2747,
+    "time": "2026-11-05 13:39:36,278",
+    "epoch": 120,
+    "iteration": 100,
+    "estimated_batches": 114,
+    "loss": 0.287,
+    "accuracy": 0.979,
+    "lr": 6.4e-05,
+    "ce": 0.098,
+    "wrt": 0.11,
+    "pca": 0.196,
+    "gpd": 0.077,
+    "reconstructed_loss": 0.28696,
+    "loss_rounding_residual": 3.999999999998449e-05
+  },
+  "final_qg": [
+    {
+      "source": "train_log_20261105_1106.txt",
+      "line": 2749,
+      "time": "2026-11-05 13:39:36,279",
+      "epoch": 120,
+      "iteration": 100,
+      "layer": 1,
+      "raw_alpha": -0.348484,
+      "raw_beta": 0.282625,
+      "alpha": -0.188101,
+      "beta": 0.177631,
+      "ratio": 0.107646,
+      "alpha_derivative": 0.11545034497500017,
+      "beta_derivative": 0.211180695975
+    },
+    {
+      "source": "train_log_20261105_1106.txt",
+      "line": 2750,
+      "time": "2026-11-05 13:39:36,279",
+      "epoch": 120,
+      "iteration": 100,
+      "layer": 2,
+      "raw_alpha": -0.323236,
+      "raw_beta": 0.051195,
+      "alpha": -0.184814,
+      "beta": 0.050106,
+      "ratio": 0.111516,
+      "alpha_derivative": 0.1460946351000001,
+      "beta_derivative": 0.9372347191
+    },
+    {
+      "source": "train_log_20261105_1106.txt",
+      "line": 2751,
+      "time": "2026-11-05 13:39:36,279",
+      "epoch": 120,
+      "iteration": 100,
+      "layer": 3,
+      "raw_alpha": -0.108806,
+      "raw_beta": 0.096665,
+      "alpha": -0.099207,
+      "beta": 0.08978,
+      "ratio": 0.050155,
+      "alpha_derivative": 0.753949278775,
+      "beta_derivative": 0.7984887900000001
+    },
+    {
+      "source": "train_log_20261105_1106.txt",
+      "line": 2752,
+      "time": "2026-11-05 13:39:36,279",
+      "epoch": 120,
+      "iteration": 100,
+      "layer": 4,
+      "raw_alpha": -0.105555,
+      "raw_beta": 0.065078,
+      "alpha": -0.096736,
+      "beta": 0.062875,
+      "ratio": 0.043518,
+      "alpha_derivative": 0.7660536576,
+      "beta_derivative": 0.9011683593750001
+    },
+    {
+      "source": "train_log_20261105_1106.txt",
+      "line": 2753,
+      "time": "2026-11-05 13:39:36,279",
+      "epoch": 120,
+      "iteration": 100,
+      "layer": 5,
+      "raw_alpha": -0.22903,
+      "raw_beta": 0.142784,
+      "alpha": -0.163228,
+      "beta": 0.122626,
+      "ratio": 0.077588,
+      "alpha_derivative": 0.33391550040000006,
+      "beta_derivative": 0.6240716031
+    },
+    {
+      "source": "train_log_20261105_1106.txt",
+      "line": 2754,
+      "time": "2026-11-05 13:39:36,279",
+      "epoch": 120,
+      "iteration": 100,
+      "layer": 6,
+      "raw_alpha": -0.373597,
+      "raw_beta": -0.007368,
+      "alpha": -0.190682,
+      "beta": -0.007364,
+      "ratio": 0.12643,
+      "alpha_derivative": 0.09100937190000025,
+      "beta_derivative": 0.9986442876
+    },
+    {
+      "source": "train_log_20261105_1106.txt",
+      "line": 2755,
+      "time": "2026-11-05 13:39:36,279",
+      "epoch": 120,
+      "iteration": 100,
+      "layer": 7,
+      "raw_alpha": -0.308971,
+      "raw_beta": 0.060252,
+      "alpha": -0.182586,
+      "beta": 0.058493,
+      "ratio": 0.094404,
+      "alpha_derivative": 0.16655881510000015,
+      "beta_derivative": 0.914464223775
+    },
+    {
+      "source": "train_log_20261105_1106.txt",
+      "line": 2756,
+      "time": "2026-11-05 13:39:36,280",
+      "epoch": 120,
+      "iteration": 100,
+      "layer": 8,
+      "raw_alpha": -0.315263,
+      "raw_beta": 0.110326,
+      "alpha": -0.183605,
+      "beta": 0.100348,
+      "ratio": 0.091438,
+      "alpha_derivative": 0.1572300993750002,
+      "beta_derivative": 0.7482569724000001
+    },
+    {
+      "source": "train_log_20261105_1106.txt",
+      "line": 2757,
+      "time": "2026-11-05 13:39:36,280",
+      "epoch": 120,
+      "iteration": 100,
+      "layer": 9,
+      "raw_alpha": -0.244892,
+      "raw_beta": 0.123116,
+      "alpha": -0.168193,
+      "beta": 0.109609,
+      "ratio": 0.081461,
+      "alpha_derivative": 0.2927778687750001,
+      "beta_derivative": 0.699646677975
+    },
+    {
+      "source": "train_log_20261105_1106.txt",
+      "line": 2758,
+      "time": "2026-11-05 13:39:36,280",
+      "epoch": 120,
+      "iteration": 100,
+      "layer": 10,
+      "raw_alpha": -0.260734,
+      "raw_beta": 0.095803,
+      "alpha": -0.172533,
+      "beta": 0.089091,
+      "ratio": 0.094869,
+      "alpha_derivative": 0.25580909777500016,
+      "beta_derivative": 0.801569842975
+    },
+    {
+      "source": "train_log_20261105_1106.txt",
+      "line": 2759,
+      "time": "2026-11-05 13:39:36,280",
+      "epoch": 120,
+      "iteration": 100,
+      "layer": 11,
+      "raw_alpha": -0.031823,
+      "raw_beta": 0.017149,
+      "alpha": -0.031557,
+      "beta": 0.017108,
+      "ratio": 0.013185,
+      "alpha_derivative": 0.975103893775,
+      "beta_derivative": 0.9926829084
+    },
+    {
+      "source": "train_log_20261105_1106.txt",
+      "line": 2760,
+      "time": "2026-11-05 13:39:36,280",
+      "epoch": 120,
+      "iteration": 100,
+      "layer": 12,
+      "raw_alpha": -0.015374,
+      "raw_beta": -0.045858,
+      "alpha": -0.015344,
+      "beta": -0.045071,
+      "ratio": 0.039518,
+      "alpha_derivative": 0.9941140416,
+      "beta_derivative": 0.949215123975
+    }
+  ],
+  "best_overall": {
+    "map": 120,
+    "rank1": 110,
+    "rank5": 120,
+    "rank10": 120
+  },
+  "training_seconds": 10108.100000000002,
+  "checkpoint_save_seconds": [
+    8.684,
+    8.041,
+    8.146,
+    8.432,
+    8.31,
+    6.237,
+    7.079,
+    7.014,
+    7.242,
+    8.694,
+    8.848,
+    9.265,
+    8.776,
+    7.432,
+    14.509,
+    7.488,
+    9.319,
+    11.329,
+    9.979,
+    7.854,
+    7.795,
+    7.918,
+    7.748,
+    7.227,
+    7.268,
+    9.818,
+    8.686,
+    12.463,
+    7.289,
+    7.907,
+    7.314,
+    8.55,
+    7.854,
+    8.827,
+    7.902,
+    7.934,
+    6.995,
+    7.209,
+    6.436,
+    10.513,
+    6.347,
+    9.364,
+    5.556,
+    7.151,
+    6.198,
+    6.972,
+    6.309,
+    6.404,
+    6.027,
+    7.178,
+    8.541,
+    6.515,
+    5.579,
+    5.506,
+    7.151,
+    6.379,
+    6.164,
+    6.221,
+    6.861,
+    5.518,
+    6.871,
+    6.937,
+    7.405,
+    11.531,
+    7.244,
+    7.547,
+    7.072,
+    6.888,
+    6.047,
+    7.274,
+    5.925,
+    13.091,
+    8.843,
+    7.37,
+    6.631,
+    10.569,
+    6.637,
+    8.851,
+    6.475,
+    7.119,
+    10.246,
+    8.998,
+    6.354,
+    6.681,
+    7.901,
+    6.794,
+    6.563,
+    6.178,
+    6.64,
+    5.809,
+    7.028,
+    6.936,
+    6.091,
+    6.984,
+    7.726,
+    6.556,
+    5.67,
+    7.283,
+    6.837,
+    7.981,
+    7.397,
+    8.978,
+    6.436,
+    6.887,
+    6.91,
+    7.508,
+    6.406,
+    5.723
+  ],
+  "loss_rounding_residual_max": 0.0016100000000001113,
+  "amp_growth_history_verified": true,
+  "lr_history_verified": true,
+  "paper_comparison": [
+    {
+      "direction": "1_1",
+      "rank1": 41.97,
+      "paper_rank1": 40.47,
+      "delta_rank1": 1.5,
+      "map": 26.51,
+      "paper_map": 26.83,
+      "delta_map": -0.32,
+      "minp": 5.11,
+      "paper_minp": 5.36,
+      "delta_minp": -0.25
+    },
+    {
+      "direction": "1_2",
+      "rank1": 26.84,
+      "paper_rank1": 26.56,
+      "delta_rank1": 0.28,
+      "map": 15.99,
+      "paper_map": 16.52,
+      "delta_map": -0.53,
+      "minp": 2.27,
+      "paper_minp": 2.43,
+      "delta_minp": -0.16
+    },
+    {
+      "direction": "1_3",
+      "rank1": 7.4,
+      "paper_rank1": 8.1,
+      "delta_rank1": -0.7,
+      "map": 5.53,
+      "paper_map": 6.0,
+      "delta_map": -0.47,
+      "minp": 1.04,
+      "paper_minp": 1.11,
+      "delta_minp": -0.07
+    },
+    {
+      "direction": "2_1",
+      "rank1": 24.54,
+      "paper_rank1": 25.53,
+      "delta_rank1": -0.99,
+      "map": 15.69,
+      "paper_map": 16.58,
+      "delta_map": -0.89,
+      "minp": 2.9,
+      "paper_minp": 3.1,
+      "delta_minp": -0.2
+    },
+    {
+      "direction": "2_2",
+      "rank1": 27.92,
+      "paper_rank1": 29.79,
+      "delta_rank1": -1.87,
+      "map": 16.85,
+      "paper_map": 17.93,
+      "delta_map": -1.08,
+      "minp": 2.4,
+      "paper_minp": 2.64,
+      "delta_minp": -0.24
+    },
+    {
+      "direction": "2_3",
+      "rank1": 6.56,
+      "paper_rank1": 7.78,
+      "delta_rank1": -1.22,
+      "map": 5.19,
+      "paper_map": 5.87,
+      "delta_map": -0.68,
+      "minp": 1.02,
+      "paper_minp": 1.11,
+      "delta_minp": -0.09
+    },
+    {
+      "direction": "3_1",
+      "rank1": 7.63,
+      "paper_rank1": 9.04,
+      "delta_rank1": -1.41,
+      "map": 5.79,
+      "paper_map": 6.32,
+      "delta_map": -0.53,
+      "minp": 1.27,
+      "paper_minp": 1.36,
+      "delta_minp": -0.09
+    },
+    {
+      "direction": "3_2",
+      "rank1": 7.96,
+      "paper_rank1": 8.57,
+      "delta_rank1": -0.61,
+      "map": 5.23,
+      "paper_map": 5.69,
+      "delta_map": -0.46,
+      "minp": 0.94,
+      "paper_minp": 1.02,
+      "delta_minp": -0.08
+    },
+    {
+      "direction": "3_3",
+      "rank1": 20.7,
+      "paper_rank1": 20.98,
+      "delta_rank1": -0.28,
+      "map": 13.59,
+      "paper_map": 14.0,
+      "delta_map": -0.41,
+      "minp": 2.25,
+      "paper_minp": 2.35,
+      "delta_minp": -0.1
+    }
+  ],
+  "nonfinite_qg_records": 0
+}

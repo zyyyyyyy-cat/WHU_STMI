@@ -1,0 +1,4 @@
+Command: python tools/verify_reference.py --original-root ../tmp/original/WHU
+PASS: same seed initializes all original parameters identically
+PASS: original vs QG-zero: 12 attention/block outputs, CLS, BNNeck, classifier exact FP32 equality
+PASS: original CE/WRT/ProCA/GPD, detached centers and prototype updates exact equality

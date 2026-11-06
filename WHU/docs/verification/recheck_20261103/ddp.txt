@@ -1,0 +1,12 @@
+EXIT: 0
+using stride: 16, and patch number is num_y2 * num_x2
+using stride: 16, and patch number is num_y2 * num_x2
+PASS: two CPU/Gloo ranks; 12 layers/24 scalars, empty-mask backward, PKM ordering, prototype equality, unequal evaluation forwards
+D:\PROGRAM\Anaconda\envs\DL\lib\site-packages\requests\__init__.py:86: RequestsDependencyWarning: Unable to find acceptable character detection dependency (chardet or charset_normalizer).
+  warnings.warn(
+D:\PROGRAM\Anaconda\envs\DL\lib\site-packages\requests\__init__.py:86: RequestsDependencyWarning: Unable to find acceptable character detection dependency (chardet or charset_normalizer).
+  warnings.warn(
+D:\PROGRAM\Anaconda\envs\DL\lib\site-packages\requests\__init__.py:86: RequestsDependencyWarning: Unable to find acceptable character detection dependency (chardet or charset_normalizer).
+  warnings.warn(
+[W1103 17:12:04.000000000 socket.cpp:752] [c10d] The client socket has failed to connect to [DESKTOP-NG9BBPA]:54867 (system error: 10049 - �����������У�������ĵ�ַ��Ч��).
+[W1103 17:12:04.000000000 socket.cpp:752] [c10d] The client socket has failed to connect to [DESKTOP-NG9BBPA]:54867 (system error: 10049 - �����������У�������ĵ�ַ��Ч��).

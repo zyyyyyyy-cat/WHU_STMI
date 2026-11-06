@@ -1,0 +1,17 @@
+{
+  "generator": "SAM2ImagePredictor",
+  "sam2_commit": "2b90b9f5ceec907a1c18123530e92e794ad901a4",
+  "checkpoint_name": "sam2_hiera_large.pt",
+  "checkpoint_sha256": "7442e4e9b732a508f80e141e7c2913437a3610ee0c77381a66658c3a445df87b",
+  "model_config": "configs/sam2/sam2_hiera_l.yaml",
+  "config_sha256": "0ee9f2037fd98489212bb0b78a56f33ac82eb177cf5e52c88be3714cb84eea26",
+  "script_sha256": "9e5022e077f87e4a9ff68e0d52c0ba447f61174e1490b2348a3943970d33d29e",
+  "torch_version": "2.5.1+cu124",
+  "cuda_version": "12.4",
+  "precision": "bf16",
+  "prompt_rule": "full-image XYXY box + one positive center point; coordinates use W-1,H-1",
+  "selection": "multimask_output=True; maximum predicted IoU; first index on ties",
+  "binarization": "predictor threshold=0 logits; binary original-resolution output; PNG 0/255",
+  "postprocessing": "build_sam2 apply_postprocessing=False; no hole/sprinkle filtering; no dilation",
+  "seed": 1234
+}

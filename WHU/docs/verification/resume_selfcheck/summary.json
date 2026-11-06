@@ -1,0 +1,57 @@
+{
+  "python": "3.9.13 (main, Aug 25 2022, 23:51:50) [MSC v.1916 64 bit (AMD64)]",
+  "syntax_python38_files": 54,
+  "original_byte_identical": [
+    "datasets/whu_mars.py",
+    "datasets/sampler.py",
+    "datasets/sampler_ddp.py",
+    "loss/make_loss.py",
+    "loss/wrt_loss.py",
+    "loss/triplet_loss.py",
+    "solver/scheduler.py",
+    "solver/cosine_lr.py",
+    "solver/scheduler_factory.py",
+    "utils/metrics.py",
+    "test.py"
+  ],
+  "unit_tests": {
+    "count": 32,
+    "seconds": 36.375,
+    "status": "passed"
+  },
+  "checkpoint_single": {
+    "workers": [
+      0,
+      2
+    ],
+    "parity": "exact"
+  },
+  "checkpoint_ddp": {
+    "world_sizes": [
+      2,
+      4
+    ],
+    "backend": "CPU/Gloo",
+    "bn_restore": "exact",
+    "continuation_rtol": 1e-06,
+    "continuation_atol": 1e-07,
+    "rank_read_and_write_errors": "propagated",
+    "status": "passed"
+  },
+  "original_uad_reference": "passed: exact original initialization, 12 layer outputs and CE/WRT/ProCA/GPD/prototypes",
+  "amp_ddp": "passed: native skip/backoff protects parameters, momentum and prototypes",
+  "limits": "No local WHU-MARS/CUDA/NCCL run. Server torch1.12.1 CUDA11.3 compatibility checked by API and Python3.8 syntax, not execution.",
+  "files_sha256": {
+    "config/defaults.py": "05a4d566e6356d4ec032cbdb784f1338349e30fd9677e49aad122db305b35bcf",
+    "train.py": "0248bb8906da402963f5b4591c31c7edd70d21902c7c5a2ed7bd9e8bf0384059",
+    "model/make_model.py": "da60564be5b76869209a002f7648715fe9d131ec9422958150266335cf0ff8ed",
+    "processor/processor.py": "bc93dbdbe6e81ba71f09dd2b59ee7a16d8cee525eeb9c8f4ab4dc29d8c9b331f",
+    "tools/preflight_qg.py": "321f9fb264762f12c7c40305f05bb3724964d16872dc3a9490011f8017bb56d4",
+    "utils/checkpoint.py": "2ec809801b4478d866f26b77b0fe25b8796d5758b4474bff57a2e59e2c2be416",
+    "solver/amp_step.py": "8cc90e114585d05b8e0c0533c020aa5a18866643f4f23d42d2ab6e28502af98a",
+    "tests/test_checkpoint.py": "a95f1ae16f05e5d927aa42f333670fe87c20a4732c5711ea84b99ae0cbd6d694",
+    "tests/ddp_checkpoint_smoke.py": "dde54a2ea6172e22ab5152d193f1871ebc077b1ccbf7f92dc10089a3048ee384",
+    "docs/\u65ad\u70b9\u7eed\u8bad\u4e0e\u81ea\u68c0\u8bf4\u660e.md": "d0c92496e468b794e7e23723f6e227fd65c48a8257dfd2bcba40b6338bfdd89e",
+    "docs/\u8bad\u7ec3\u524d\u590d\u6838\u4e0e\u8fd0\u884c\u6b65\u9aa4.md": "a5a092c89b09202cdbda80ee2e21b50dc84fa713444eeaedefeb1fd78d9a49a3"
+  }
+}

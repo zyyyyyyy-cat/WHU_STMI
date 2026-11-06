@@ -1,0 +1,4 @@
+Environment: D:/PROGRAM/Anaconda/envs/DL/python.exe; torch 2.5.1 CPU/Gloo; USE_LIBUV=0
+Commands: python tests/ddp_checkpoint_smoke.py --world-size 2
+          python tests/ddp_checkpoint_smoke.py --world-size 4
+PASS: both world sizes. Exact per-rank BN restoration; PKM/RNG recovery; continuation parameters/momentum/scheduler/scaler/prototypes within rtol=1e-6 atol=1e-7; rank-local read and rank-0 write errors propagated to every rank.

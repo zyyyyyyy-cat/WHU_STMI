@@ -1,0 +1,9 @@
+{
+  "records": 2064,
+  "images": 72,
+  "variants": 30,
+  "geometry_changes": 57,
+  "distinct_candidate_count": 2808,
+  "archive_sha256": "6a6a7f634fdf30459c05cd0a8d7602ede1ae010d1e6439232be8cb7f99a61d04",
+  "checks": "unique keys; finite metrics; selected metrics match candidates; selections maximize corresponding rank"
+}

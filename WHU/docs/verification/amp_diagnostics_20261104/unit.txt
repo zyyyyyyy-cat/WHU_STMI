@@ -1,0 +1,61 @@
+EXIT: 0
+using Transformer_type: vit_base_in as a backbone
+using stride: [16, 16], and patch number is num_y16 * num_x8
+===========building transformer===========
+Loading pretrained model from C:\Users\GX\AppData\Local\Temp\tmpw4t_1r_j\model.pth
+=> WHU-MARS loaded
+Dataset statistics:
+  ----------------------------------------
+  subset   | # ids | # images | # cameras
+  ----------------------------------------
+  train    |     2 |        6 |         1
+  query    |     2 |        6 |         1
+  gallery  |     2 |        6 |         1
+  ----------------------------------------
+=> WHU-MARS loaded
+Dataset statistics:
+  ----------------------------------------
+  subset   | # ids | # images | # cameras
+  ----------------------------------------
+  train    |     2 |        6 |         1
+  query    |     2 |        6 |         1
+  gallery  |     2 |        6 |         1
+  ----------------------------------------
+using stride: 16, and patch number is num_y2 * num_x2
+using stride: 16, and patch number is num_y2 * num_x2
+using stride: 16, and patch number is num_y3 * num_x3
+using stride: 16, and patch number is num_y2 * num_x2
+Resized position embedding from size:torch.Size([1, 10, 24]) to size: torch.Size([1, 5, 24]) with height:2 width: 2
+Load 138 / 162 layers.
+Resized position embedding from size:torch.Size([1, 10, 24]) to size: torch.Size([1, 5, 24]) with height:2 width: 2
+using stride: 16, and patch number is num_y2 * num_x2
+using stride: 16, and patch number is num_y2 * num_x2
+test_disconnected_gradient_and_failed_report_are_preserved (test_preflight_qg.PreflightDiagnosticsTests) ... ok
+test_missing_nan_and_inf_are_distinct (test_preflight_qg.PreflightDiagnosticsTests) ... ok
+test_scaled_fp16_path_overflows_with_finite_fp32_parameter (test_preflight_qg.PreflightDiagnosticsTests) ... ok
+test_full_vit_checkpoint_optimizer_and_zero_equivalence (test_qg_sfm.PipelineTests) ... ok
+test_joint_geometry_and_image_rng_equivalence (test_qg_sfm.PipelineTests) ... D:\PROGRAM\Anaconda\lib\site-packages\torchvision\transforms\_functional_pil.py:59: DeprecationWarning: FLIP_LEFT_RIGHT is deprecated and will be removed in Pillow 10 (2023-07-01). Use Transpose.FLIP_LEFT_RIGHT instead.
+  return img.transpose(Image.FLIP_LEFT_RIGHT)
+ok
+test_loader_train_and_all_eval_paths (test_qg_sfm.PipelineTests) ... ok
+test_npy_encoding_corruption_and_manifest_audit (test_qg_sfm.PipelineTests) ... ok
+test_strict_read_and_mapping (test_qg_sfm.PipelineTests) ... ok
+test_ablations_and_low_precision (test_qg_sfm.QGMathTests) ... ok
+test_each_identity_loss_reaches_modulation_parameters (test_qg_sfm.QGMathTests) ... ok
+test_formula_and_extrema_gradient (test_qg_sfm.QGMathTests) ... ok
+test_pretrained_loading_interpolation_and_missing_weight_guard (test_qg_sfm.QGMathTests) ... ok
+test_spatial_mechanism_and_full_foreground_limit (test_qg_sfm.QGMathTests) ... ok
+test_twelve_layers_and_four_loss_gradients (test_qg_sfm.QGMathTests) ... ok
+test_zero_init_attention_and_empty_backward (test_qg_sfm.QGMathTests) ... ok
+test_frozen_selection_validation (test_sam2_masks.OfflineMaskTests) ... ok
+test_prompts_and_selection (test_sam2_masks.OfflineMaskTests) ... ok
+test_stratified_train_only_and_native_size (test_sam2_masks.OfflineMaskTests) ... ok
+test_coordinates_and_rank (test_sam2_rules.RuleTests) ... ok
+test_equivalence_check_rejects_pixel_and_condition_changes (test_sam2_rules.RuleTests) ... ok
+test_pipeline_embeddings_outputs_and_original_size (test_sam2_rules.RuleTests) ... ok
+test_production_prompts_and_mask_match_comparison (test_sam2_rules.RuleTests) ... ok
+
+----------------------------------------------------------------------
+Ran 22 tests in 10.555s
+
+OK

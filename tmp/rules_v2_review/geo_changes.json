@@ -1,0 +1,2567 @@
+[
+  {
+    "image": "train/IR/0437_c6_m2_f002951.jpg",
+    "size": [
+      68,
+      104
+    ],
+    "variant": "R00_v1__geometry",
+    "selected_candidate": 2,
+    "candidates": [
+      {
+        "predicted_iou": 0.734375,
+        "foreground_fraction": 0.352658371040724,
+        "border_coverage": 0.0,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.934375
+      },
+      {
+        "predicted_iou": 0.95703125,
+        "foreground_fraction": 0.9615384615384616,
+        "border_coverage": 0.9854651162790697,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.743589743589744,
+        "geometry_rank": 0.7861345594812164
+      },
+      {
+        "predicted_iou": 0.95703125,
+        "foreground_fraction": 0.6961255656108597,
+        "border_coverage": 0.938953488372093,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 1.016188226744186
+      }
+    ],
+    "predicted_iou": 0.95703125,
+    "foreground_fraction": 0.6961255656108597,
+    "border_coverage": 0.938953488372093,
+    "positive_hit": 1.0,
+    "negative_hit": 0.0,
+    "extreme_penalty": 0.0,
+    "geometry_rank": 1.016188226744186
+  },
+  {
+    "image": "train/IR/0476_c2_m2_f009629.jpg",
+    "size": [
+      49,
+      72
+    ],
+    "variant": "R00_v1__geometry",
+    "selected_candidate": 2,
+    "candidates": [
+      {
+        "predicted_iou": 0.5546875,
+        "foreground_fraction": 0.25170068027210885,
+        "border_coverage": 0.0,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.7546875
+      },
+      {
+        "predicted_iou": 0.91015625,
+        "foreground_fraction": 0.9730725623582767,
+        "border_coverage": 0.7933884297520661,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.820483749055178,
+        "geometry_rank": 0.7450028608206367
+      },
+      {
+        "predicted_iou": 0.84375,
+        "foreground_fraction": 0.6907596371882087,
+        "border_coverage": 0.2809917355371901,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 1.0016012396694214
+      }
+    ],
+    "predicted_iou": 0.84375,
+    "foreground_fraction": 0.6907596371882087,
+    "border_coverage": 0.2809917355371901,
+    "positive_hit": 1.0,
+    "negative_hit": 0.0,
+    "extreme_penalty": 0.0,
+    "geometry_rank": 1.0016012396694214
+  },
+  {
+    "image": "train/IR/1223_c7_m2_f004101.jpg",
+    "size": [
+      68,
+      86
+    ],
+    "variant": "R00_v1__geometry",
+    "selected_candidate": 0,
+    "candidates": [
+      {
+        "predicted_iou": 0.87109375,
+        "foreground_fraction": 0.28761969904240764,
+        "border_coverage": 0.34415584415584416,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 1.0194703733766233
+      },
+      {
+        "predicted_iou": 0.90234375,
+        "foreground_fraction": 0.7339261285909713,
+        "border_coverage": 0.9902597402597403,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.9538047889610389
+      },
+      {
+        "predicted_iou": 0.94140625,
+        "foreground_fraction": 0.6012311901504788,
+        "border_coverage": 0.9707792207792207,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.9957893668831168
+      }
+    ],
+    "predicted_iou": 0.87109375,
+    "foreground_fraction": 0.28761969904240764,
+    "border_coverage": 0.34415584415584416,
+    "positive_hit": 1.0,
+    "negative_hit": 0.0,
+    "extreme_penalty": 0.0,
+    "geometry_rank": 1.0194703733766233
+  },
+  {
+    "image": "train/IR/1286_c7_m2_f000197.jpg",
+    "size": [
+      50,
+      46
+    ],
+    "variant": "R00_v1__geometry",
+    "selected_candidate": 2,
+    "candidates": [
+      {
+        "predicted_iou": 0.51953125,
+        "foreground_fraction": 0.1608695652173913,
+        "border_coverage": 0.026041666666666668,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.715625
+      },
+      {
+        "predicted_iou": 0.8515625,
+        "foreground_fraction": 0.908695652173913,
+        "border_coverage": 0.484375,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.3913043478260869,
+        "geometry_rank": 0.8615149456521739
+      },
+      {
+        "predicted_iou": 0.8203125,
+        "foreground_fraction": 0.551304347826087,
+        "border_coverage": 0.16145833333333334,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.99609375
+      }
+    ],
+    "predicted_iou": 0.8203125,
+    "foreground_fraction": 0.551304347826087,
+    "border_coverage": 0.16145833333333334,
+    "positive_hit": 1.0,
+    "negative_hit": 0.0,
+    "extreme_penalty": 0.0,
+    "geometry_rank": 0.99609375
+  },
+  {
+    "image": "train/IR/1306_c7_m2_f000925.jpg",
+    "size": [
+      40,
+      50
+    ],
+    "variant": "R00_v1__geometry",
+    "selected_candidate": 2,
+    "candidates": [
+      {
+        "predicted_iou": 0.341796875,
+        "foreground_fraction": 0.1285,
+        "border_coverage": 0.0,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.541796875
+      },
+      {
+        "predicted_iou": 0.9140625,
+        "foreground_fraction": 0.998,
+        "border_coverage": 0.9888888888888889,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.9866666666666668,
+        "geometry_rank": 0.6697291666666666
+      },
+      {
+        "predicted_iou": 0.86328125,
+        "foreground_fraction": 0.836,
+        "border_coverage": 0.5388888888888889,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.9824479166666666
+      }
+    ],
+    "predicted_iou": 0.86328125,
+    "foreground_fraction": 0.836,
+    "border_coverage": 0.5388888888888889,
+    "positive_hit": 1.0,
+    "negative_hit": 0.0,
+    "extreme_penalty": 0.0,
+    "geometry_rank": 0.9824479166666666
+  },
+  {
+    "image": "train/IR/1458_c7_m2_f004600.jpg",
+    "size": [
+      66,
+      70
+    ],
+    "variant": "R00_v1__geometry",
+    "selected_candidate": 2,
+    "candidates": [
+      {
+        "predicted_iou": 0.6015625,
+        "foreground_fraction": 0.23030303030303031,
+        "border_coverage": 0.0,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.8015625
+      },
+      {
+        "predicted_iou": 0.9453125,
+        "foreground_fraction": 0.9924242424242424,
+        "border_coverage": 0.9926470588235294,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.9494949494949497,
+        "geometry_rank": 0.7115669563279856
+      },
+      {
+        "predicted_iou": 0.9140625,
+        "foreground_fraction": 0.8848484848484849,
+        "border_coverage": 0.8088235294117647,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.2323232323232327,
+        "geometry_rank": 0.9230420008912654
+      }
+    ],
+    "predicted_iou": 0.9140625,
+    "foreground_fraction": 0.8848484848484849,
+    "border_coverage": 0.8088235294117647,
+    "positive_hit": 1.0,
+    "negative_hit": 0.0,
+    "extreme_penalty": 0.2323232323232327,
+    "geometry_rank": 0.9230420008912654
+  },
+  {
+    "image": "train/IR/1485_c7_m2_f004952.jpg",
+    "size": [
+      70,
+      68
+    ],
+    "variant": "R00_v1__geometry",
+    "selected_candidate": 2,
+    "candidates": [
+      {
+        "predicted_iou": 0.765625,
+        "foreground_fraction": 0.39054621848739496,
+        "border_coverage": 0.11231884057971014,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.9487771739130434
+      },
+      {
+        "predicted_iou": 0.98046875,
+        "foreground_fraction": 0.9752100840336134,
+        "border_coverage": 1.0,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.834733893557423,
+        "geometry_rank": 0.7800485819327732
+      },
+      {
+        "predicted_iou": 0.9609375,
+        "foreground_fraction": 0.8233193277310924,
+        "border_coverage": 0.9492753623188406,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 1.018546195652174
+      }
+    ],
+    "predicted_iou": 0.9609375,
+    "foreground_fraction": 0.8233193277310924,
+    "border_coverage": 0.9492753623188406,
+    "positive_hit": 1.0,
+    "negative_hit": 0.0,
+    "extreme_penalty": 0.0,
+    "geometry_rank": 1.018546195652174
+  },
+  {
+    "image": "train/IR/2398_c1_m2_f005799.jpg",
+    "size": [
+      268,
+      708
+    ],
+    "variant": "R00_v1__geometry",
+    "selected_candidate": 0,
+    "candidates": [
+      {
+        "predicted_iou": 0.765625,
+        "foreground_fraction": 0.3919175309891222,
+        "border_coverage": 0.10399590163934426,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.9500256147540983
+      },
+      {
+        "predicted_iou": 0.734375,
+        "foreground_fraction": 0.596951682266633,
+        "border_coverage": 0.16598360655737704,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.9094774590163934
+      },
+      {
+        "predicted_iou": 0.76953125,
+        "foreground_fraction": 0.5029302639345644,
+        "border_coverage": 0.16598360655737704,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.9446337090163934
+      }
+    ],
+    "predicted_iou": 0.765625,
+    "foreground_fraction": 0.3919175309891222,
+    "border_coverage": 0.10399590163934426,
+    "positive_hit": 1.0,
+    "negative_hit": 0.0,
+    "extreme_penalty": 0.0,
+    "geometry_rank": 0.9500256147540983
+  },
+  {
+    "image": "train/IR/2430_c3_m2_f006209.jpg",
+    "size": [
+      84,
+      298
+    ],
+    "variant": "R00_v1__geometry",
+    "selected_candidate": 2,
+    "candidates": [
+      {
+        "predicted_iou": 0.59765625,
+        "foreground_fraction": 0.24161073825503357,
+        "border_coverage": 0.06544502617801047,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.7878394960732984
+      },
+      {
+        "predicted_iou": 0.9140625,
+        "foreground_fraction": 0.9160674336848833,
+        "border_coverage": 0.6531413612565445,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.4404495578992222,
+        "geometry_rank": 0.8839564284417516
+      },
+      {
+        "predicted_iou": 0.78515625,
+        "foreground_fraction": 0.6954697986577181,
+        "border_coverage": 0.39267015706806285,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.9262557264397905
+      }
+    ],
+    "predicted_iou": 0.78515625,
+    "foreground_fraction": 0.6954697986577181,
+    "border_coverage": 0.39267015706806285,
+    "positive_hit": 1.0,
+    "negative_hit": 0.0,
+    "extreme_penalty": 0.0,
+    "geometry_rank": 0.9262557264397905
+  },
+  {
+    "image": "train/RGB/0508_c6_m1_f004541.jpg",
+    "size": [
+      41,
+      65
+    ],
+    "variant": "R00_v1__geometry",
+    "selected_candidate": 2,
+    "candidates": [
+      {
+        "predicted_iou": 0.703125,
+        "foreground_fraction": 0.28930581613508444,
+        "border_coverage": 0.014150943396226415,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.901002358490566
+      },
+      {
+        "predicted_iou": 0.859375,
+        "foreground_fraction": 0.9624765478424016,
+        "border_coverage": 0.7075471698113207,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.7498436522826772,
+        "geometry_rank": 0.7282898288434987
+      },
+      {
+        "predicted_iou": 0.7578125,
+        "foreground_fraction": 0.5440900562851783,
+        "border_coverage": 0.07075471698113207,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.9471992924528302
+      }
+    ],
+    "predicted_iou": 0.7578125,
+    "foreground_fraction": 0.5440900562851783,
+    "border_coverage": 0.07075471698113207,
+    "positive_hit": 1.0,
+    "negative_hit": 0.0,
+    "extreme_penalty": 0.0,
+    "geometry_rank": 0.9471992924528302
+  },
+  {
+    "image": "train/RGB/1105_c4_m1_f000639.jpg",
+    "size": [
+      43,
+      143
+    ],
+    "variant": "R00_v1__geometry",
+    "selected_candidate": 0,
+    "candidates": [
+      {
+        "predicted_iou": 0.78515625,
+        "foreground_fraction": 0.16279069767441862,
+        "border_coverage": 0.09946236559139784,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.9702368951612903
+      },
+      {
+        "predicted_iou": 0.1376953125,
+        "foreground_fraction": 0.7918360709058383,
+        "border_coverage": 0.5456989247311828,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.2558404737903226
+      },
+      {
+        "predicted_iou": 0.81640625,
+        "foreground_fraction": 0.5324442998861604,
+        "border_coverage": 0.4112903225806452,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.9547127016129032
+      }
+    ],
+    "predicted_iou": 0.78515625,
+    "foreground_fraction": 0.16279069767441862,
+    "border_coverage": 0.09946236559139784,
+    "positive_hit": 1.0,
+    "negative_hit": 0.0,
+    "extreme_penalty": 0.0,
+    "geometry_rank": 0.9702368951612903
+  },
+  {
+    "image": "train/Thermal/0313_c1_m3_f006684.jpg",
+    "size": [
+      50,
+      143
+    ],
+    "variant": "R00_v1__geometry",
+    "selected_candidate": 2,
+    "candidates": [
+      {
+        "predicted_iou": 0.60546875,
+        "foreground_fraction": 0.4131468531468531,
+        "border_coverage": 0.344559585492228,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.7537848121761658
+      },
+      {
+        "predicted_iou": 0.98046875,
+        "foreground_fraction": 0.9991608391608392,
+        "border_coverage": 0.9974093264248705,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.9944055944055948,
+        "geometry_rank": 0.7325356727145909
+      },
+      {
+        "predicted_iou": 0.93359375,
+        "foreground_fraction": 0.8741258741258742,
+        "border_coverage": 0.6709844559585493,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.16083916083916128,
+        "geometry_rank": 0.9846943333544691
+      }
+    ],
+    "predicted_iou": 0.93359375,
+    "foreground_fraction": 0.8741258741258742,
+    "border_coverage": 0.6709844559585493,
+    "positive_hit": 1.0,
+    "negative_hit": 0.0,
+    "extreme_penalty": 0.16083916083916128,
+    "geometry_rank": 0.9846943333544691
+  },
+  {
+    "image": "train/Thermal/0460_c6_m3_f003399.jpg",
+    "size": [
+      29,
+      40
+    ],
+    "variant": "R00_v1__geometry",
+    "selected_candidate": 0,
+    "candidates": [
+      {
+        "predicted_iou": 0.8203125,
+        "foreground_fraction": 0.36724137931034484,
+        "border_coverage": 0.0,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 1.0203125
+      },
+      {
+        "predicted_iou": 0.486328125,
+        "foreground_fraction": 0.9112068965517242,
+        "border_coverage": 0.6159420289855072,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.40804597701149453,
+        "geometry_rank": 0.47152302754872555
+      },
+      {
+        "predicted_iou": 0.8515625,
+        "foreground_fraction": 0.6146551724137931,
+        "border_coverage": 0.32608695652173914,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 1.002649456521739
+      }
+    ],
+    "predicted_iou": 0.8203125,
+    "foreground_fraction": 0.36724137931034484,
+    "border_coverage": 0.0,
+    "positive_hit": 1.0,
+    "negative_hit": 0.0,
+    "extreme_penalty": 0.0,
+    "geometry_rank": 1.0203125
+  },
+  {
+    "image": "train/Thermal/0513_c2_m3_f011219.jpg",
+    "size": [
+      36,
+      122
+    ],
+    "variant": "R00_v1__geometry",
+    "selected_candidate": 2,
+    "candidates": [
+      {
+        "predicted_iou": 0.1923828125,
+        "foreground_fraction": 0.017987249544626594,
+        "border_coverage": 0.0,
+        "positive_hit": 0.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.4004250151791135,
+        "geometry_rank": 0.07225530794626596
+      },
+      {
+        "predicted_iou": 0.96484375,
+        "foreground_fraction": 0.994535519125683,
+        "border_coverage": 0.9430379746835443,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.9635701275045538,
+        "geometry_rank": 0.7343170155461021
+      },
+      {
+        "predicted_iou": 0.859375,
+        "foreground_fraction": 0.8640710382513661,
+        "border_coverage": 0.620253164556962,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0938069216757742,
+        "geometry_rank": 0.9381949488137233
+      }
+    ],
+    "predicted_iou": 0.859375,
+    "foreground_fraction": 0.8640710382513661,
+    "border_coverage": 0.620253164556962,
+    "positive_hit": 1.0,
+    "negative_hit": 0.0,
+    "extreme_penalty": 0.0938069216757742,
+    "geometry_rank": 0.9381949488137233
+  },
+  {
+    "image": "train/Thermal/3200_c1_m3_f005251.jpg",
+    "size": [
+      65,
+      153
+    ],
+    "variant": "R00_v1__geometry",
+    "selected_candidate": 2,
+    "candidates": [
+      {
+        "predicted_iou": 0.376953125,
+        "foreground_fraction": 0.19627953745600804,
+        "border_coverage": 0.013761467889908258,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.5748889048165137
+      },
+      {
+        "predicted_iou": 0.98828125,
+        "foreground_fraction": 0.9990950226244344,
+        "border_coverage": 1.0,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.9939668174962295,
+        "geometry_rank": 0.7400912047511312
+      },
+      {
+        "predicted_iou": 0.92578125,
+        "foreground_fraction": 0.8697838109602816,
+        "border_coverage": 0.9036697247706422,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.13189207306854395,
+        "geometry_rank": 0.9506631693638404
+      }
+    ],
+    "predicted_iou": 0.92578125,
+    "foreground_fraction": 0.8697838109602816,
+    "border_coverage": 0.9036697247706422,
+    "positive_hit": 1.0,
+    "negative_hit": 0.0,
+    "extreme_penalty": 0.13189207306854395,
+    "geometry_rank": 0.9506631693638404
+  },
+  {
+    "image": "train/Thermal/3303_c3_m3_f002032.jpg",
+    "size": [
+      35,
+      78
+    ],
+    "variant": "R00_v1__geometry",
+    "selected_candidate": 2,
+    "candidates": [
+      {
+        "predicted_iou": 0.4140625,
+        "foreground_fraction": 0.29926739926739926,
+        "border_coverage": 0.0,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.6140625
+      },
+      {
+        "predicted_iou": 0.90234375,
+        "foreground_fraction": 0.9952380952380953,
+        "border_coverage": 0.9601769911504425,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.9682539682539686,
+        "geometry_rank": 0.667841010851243
+      },
+      {
+        "predicted_iou": 0.8046875,
+        "foreground_fraction": 0.7787545787545788,
+        "border_coverage": 0.6017699115044248,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.9144220132743363
+      }
+    ],
+    "predicted_iou": 0.8046875,
+    "foreground_fraction": 0.7787545787545788,
+    "border_coverage": 0.6017699115044248,
+    "positive_hit": 1.0,
+    "negative_hit": 0.0,
+    "extreme_penalty": 0.0,
+    "geometry_rank": 0.9144220132743363
+  },
+  {
+    "image": "train/Thermal/3307_c2_m3_f008020.jpg",
+    "size": [
+      62,
+      146
+    ],
+    "variant": "R00_v1__geometry",
+    "selected_candidate": 2,
+    "candidates": [
+      {
+        "predicted_iou": 0.419921875,
+        "foreground_fraction": 0.2575121520106054,
+        "border_coverage": 0.014423076923076924,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.6177584134615384
+      },
+      {
+        "predicted_iou": 0.9609375,
+        "foreground_fraction": 0.9997790543526293,
+        "border_coverage": 0.9951923076923077,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.9985270290175285,
+        "geometry_rank": 0.7121005451408953
+      },
+      {
+        "predicted_iou": 0.859375,
+        "foreground_fraction": 0.7719840919133893,
+        "border_coverage": 0.625,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.965625
+      }
+    ],
+    "predicted_iou": 0.859375,
+    "foreground_fraction": 0.7719840919133893,
+    "border_coverage": 0.625,
+    "positive_hit": 1.0,
+    "negative_hit": 0.0,
+    "extreme_penalty": 0.0,
+    "geometry_rank": 0.965625
+  },
+  {
+    "image": "train/IR/2040_c3_m2_f000033.jpg",
+    "size": [
+      172,
+      316
+    ],
+    "variant": "R01_center__geometry",
+    "selected_candidate": 2,
+    "candidates": [
+      {
+        "predicted_iou": 0.353515625,
+        "foreground_fraction": 0.023513394171327643,
+        "border_coverage": 0.0,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.21622019428907854,
+        "geometry_rank": 0.4886495667132764
+      },
+      {
+        "predicted_iou": 0.203125,
+        "foreground_fraction": 0.20643214601118634,
+        "border_coverage": 0.0,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.403125
+      },
+      {
+        "predicted_iou": 0.30078125,
+        "foreground_fraction": 0.04684280247277009,
+        "border_coverage": 0.0,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.50078125
+      }
+    ],
+    "predicted_iou": 0.30078125,
+    "foreground_fraction": 0.04684280247277009,
+    "border_coverage": 0.0,
+    "positive_hit": 1.0,
+    "negative_hit": 0.0,
+    "extreme_penalty": 0.0,
+    "geometry_rank": 0.50078125
+  },
+  {
+    "image": "train/Thermal/1091_c4_m3_f000813.jpg",
+    "size": [
+      48,
+      122
+    ],
+    "variant": "R01_center__geometry",
+    "selected_candidate": 2,
+    "candidates": [
+      {
+        "predicted_iou": 0.3515625,
+        "foreground_fraction": 0.15829918032786885,
+        "border_coverage": 0.0,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.5515625
+      },
+      {
+        "predicted_iou": 0.7890625,
+        "foreground_fraction": 0.6765710382513661,
+        "border_coverage": 0.4323529411764706,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.9242095588235294
+      },
+      {
+        "predicted_iou": 0.7734375,
+        "foreground_fraction": 0.4953893442622951,
+        "border_coverage": 0.0,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.9734375
+      }
+    ],
+    "predicted_iou": 0.7734375,
+    "foreground_fraction": 0.4953893442622951,
+    "border_coverage": 0.0,
+    "positive_hit": 1.0,
+    "negative_hit": 0.0,
+    "extreme_penalty": 0.0,
+    "geometry_rank": 0.9734375
+  },
+  {
+    "image": "train/Thermal/2400_c3_m3_f007466.jpg",
+    "size": [
+      28,
+      87
+    ],
+    "variant": "R01_center__geometry",
+    "selected_candidate": 2,
+    "candidates": [
+      {
+        "predicted_iou": 0.232421875,
+        "foreground_fraction": 0.009852216748768473,
+        "border_coverage": 0.0,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.6715927750410509,
+        "geometry_rank": 0.23094404248768477
+      },
+      {
+        "predicted_iou": 0.103515625,
+        "foreground_fraction": 0.3694581280788177,
+        "border_coverage": 0.06956521739130435,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.2930808423913044
+      },
+      {
+        "predicted_iou": 0.2197265625,
+        "foreground_fraction": 0.06527093596059114,
+        "border_coverage": 0.0,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.4197265625
+      }
+    ],
+    "predicted_iou": 0.2197265625,
+    "foreground_fraction": 0.06527093596059114,
+    "border_coverage": 0.0,
+    "positive_hit": 1.0,
+    "negative_hit": 0.0,
+    "extreme_penalty": 0.0,
+    "geometry_rank": 0.4197265625
+  },
+  {
+    "image": "train/RGB/1102_c7_m1_f000440.jpg",
+    "size": [
+      34,
+      35
+    ],
+    "variant": "R02_upper__geometry",
+    "selected_candidate": 1,
+    "candidates": [
+      {
+        "predicted_iou": 0.103515625,
+        "foreground_fraction": 0.0058823529411764705,
+        "border_coverage": 0.0,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.803921568627451,
+        "geometry_rank": 0.06233915441176471
+      },
+      {
+        "predicted_iou": 0.1025390625,
+        "foreground_fraction": 0.16050420168067228,
+        "border_coverage": 0.0,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.3025390625
+      },
+      {
+        "predicted_iou": 0.08056640625,
+        "foreground_fraction": 0.018487394957983194,
+        "border_coverage": 0.0,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.3837535014005602,
+        "geometry_rank": 0.16544035582983196
+      }
+    ],
+    "predicted_iou": 0.1025390625,
+    "foreground_fraction": 0.16050420168067228,
+    "border_coverage": 0.0,
+    "positive_hit": 1.0,
+    "negative_hit": 0.0,
+    "extreme_penalty": 0.0,
+    "geometry_rank": 0.3025390625
+  },
+  {
+    "image": "train/Thermal/0482_c6_m3_f004021.jpg",
+    "size": [
+      24,
+      36
+    ],
+    "variant": "R02_upper__geometry",
+    "selected_candidate": 2,
+    "candidates": [
+      {
+        "predicted_iou": 0.07373046875,
+        "foreground_fraction": 0.003472222222222222,
+        "border_coverage": 0.0,
+        "positive_hit": 0.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.8842592592592592,
+        "geometry_rank": -0.19154730902777772
+      },
+      {
+        "predicted_iou": 0.07275390625,
+        "foreground_fraction": 0.4224537037037037,
+        "border_coverage": 0.4583333333333333,
+        "positive_hit": 0.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.004003906250000008
+      },
+      {
+        "predicted_iou": 0.07373046875,
+        "foreground_fraction": 0.03819444444444445,
+        "border_coverage": 0.041666666666666664,
+        "positive_hit": 0.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.06748046875
+      }
+    ],
+    "predicted_iou": 0.07373046875,
+    "foreground_fraction": 0.03819444444444445,
+    "border_coverage": 0.041666666666666664,
+    "positive_hit": 0.0,
+    "negative_hit": 0.0,
+    "extreme_penalty": 0.0,
+    "geometry_rank": 0.06748046875
+  },
+  {
+    "image": "train/Thermal/1105_c7_m3_f000943.jpg",
+    "size": [
+      18,
+      24
+    ],
+    "variant": "R02_upper__geometry",
+    "selected_candidate": 0,
+    "candidates": [
+      {
+        "predicted_iou": 0.06298828125,
+        "foreground_fraction": 0.02546296296296296,
+        "border_coverage": 0.023809523809523808,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.15123456790123457,
+        "geometry_rank": 0.21404648230820109
+      },
+      {
+        "predicted_iou": 0.1982421875,
+        "foreground_fraction": 0.9976851851851852,
+        "border_coverage": 0.9761904761904762,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.9845679012345684,
+        "geometry_rank": -0.0435567542989419
+      },
+      {
+        "predicted_iou": 0.1298828125,
+        "foreground_fraction": 0.009259259259259259,
+        "border_coverage": 0.0,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.691358024691358,
+        "geometry_rank": 0.12247540509259261
+      }
+    ],
+    "predicted_iou": 0.06298828125,
+    "foreground_fraction": 0.02546296296296296,
+    "border_coverage": 0.023809523809523808,
+    "positive_hit": 1.0,
+    "negative_hit": 0.0,
+    "extreme_penalty": 0.15123456790123457,
+    "geometry_rank": 0.21404648230820109
+  },
+  {
+    "image": "train/Thermal/1289_c7_m3_f000256.jpg",
+    "size": [
+      16,
+      20
+    ],
+    "variant": "R02_upper__geometry",
+    "selected_candidate": 1,
+    "candidates": [
+      {
+        "predicted_iou": 0.271484375,
+        "foreground_fraction": 0.071875,
+        "border_coverage": 0.0,
+        "positive_hit": 0.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.271484375
+      },
+      {
+        "predicted_iou": 0.79296875,
+        "foreground_fraction": 0.3375,
+        "border_coverage": 0.0,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.99296875
+      },
+      {
+        "predicted_iou": 0.80078125,
+        "foreground_fraction": 0.225,
+        "border_coverage": 0.0,
+        "positive_hit": 0.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.80078125
+      }
+    ],
+    "predicted_iou": 0.79296875,
+    "foreground_fraction": 0.3375,
+    "border_coverage": 0.0,
+    "positive_hit": 1.0,
+    "negative_hit": 0.0,
+    "extreme_penalty": 0.0,
+    "geometry_rank": 0.99296875
+  },
+  {
+    "image": "train/IR/1306_c7_m2_f000925.jpg",
+    "size": [
+      40,
+      50
+    ],
+    "variant": "R03_vertical__geometry",
+    "selected_candidate": 2,
+    "candidates": [
+      {
+        "predicted_iou": 0.2041015625,
+        "foreground_fraction": 0.044,
+        "border_coverage": 0.0,
+        "positive_hit": 0.3333333333333333,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.27076822916666665
+      },
+      {
+        "predicted_iou": 0.734375,
+        "foreground_fraction": 0.4005,
+        "border_coverage": 0.08333333333333333,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.921875
+      },
+      {
+        "predicted_iou": 0.72265625,
+        "foreground_fraction": 0.2865,
+        "border_coverage": 0.0,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.92265625
+      }
+    ],
+    "predicted_iou": 0.72265625,
+    "foreground_fraction": 0.2865,
+    "border_coverage": 0.0,
+    "positive_hit": 1.0,
+    "negative_hit": 0.0,
+    "extreme_penalty": 0.0,
+    "geometry_rank": 0.92265625
+  },
+  {
+    "image": "train/RGB/1295_c7_m1_f000555.jpg",
+    "size": [
+      21,
+      21
+    ],
+    "variant": "R03_vertical__geometry",
+    "selected_candidate": 2,
+    "candidates": [
+      {
+        "predicted_iou": 0.171875,
+        "foreground_fraction": 0.05215419501133787,
+        "border_coverage": 0.0,
+        "positive_hit": 0.6666666666666666,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.3052083333333333
+      },
+      {
+        "predicted_iou": 0.8203125,
+        "foreground_fraction": 0.6848072562358276,
+        "border_coverage": 0.25,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.9828125
+      },
+      {
+        "predicted_iou": 0.8125,
+        "foreground_fraction": 0.5147392290249433,
+        "border_coverage": 0.08333333333333333,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 1.0
+      }
+    ],
+    "predicted_iou": 0.8125,
+    "foreground_fraction": 0.5147392290249433,
+    "border_coverage": 0.08333333333333333,
+    "positive_hit": 1.0,
+    "negative_hit": 0.0,
+    "extreme_penalty": 0.0,
+    "geometry_rank": 1.0
+  },
+  {
+    "image": "train/Thermal/0021_c1_m3_f000045.jpg",
+    "size": [
+      46,
+      112
+    ],
+    "variant": "R03_vertical__geometry",
+    "selected_candidate": 1,
+    "candidates": [
+      {
+        "predicted_iou": 0.2216796875,
+        "foreground_fraction": 0.0673524844720497,
+        "border_coverage": 0.0,
+        "positive_hit": 0.6666666666666666,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.3550130208333333
+      },
+      {
+        "predicted_iou": 0.8125,
+        "foreground_fraction": 0.6500388198757764,
+        "border_coverage": 0.3259493670886076,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.9636075949367088
+      },
+      {
+        "predicted_iou": 0.81640625,
+        "foreground_fraction": 0.47903726708074534,
+        "border_coverage": 0.012658227848101266,
+        "positive_hit": 0.6666666666666666,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.9478408491561181
+      }
+    ],
+    "predicted_iou": 0.8125,
+    "foreground_fraction": 0.6500388198757764,
+    "border_coverage": 0.3259493670886076,
+    "positive_hit": 1.0,
+    "negative_hit": 0.0,
+    "extreme_penalty": 0.0,
+    "geometry_rank": 0.9636075949367088
+  },
+  {
+    "image": "train/Thermal/1091_c4_m3_f000813.jpg",
+    "size": [
+      48,
+      122
+    ],
+    "variant": "R03_vertical__geometry",
+    "selected_candidate": 2,
+    "candidates": [
+      {
+        "predicted_iou": 0.578125,
+        "foreground_fraction": 0.2969603825136612,
+        "border_coverage": 0.0,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.778125
+      },
+      {
+        "predicted_iou": 0.8515625,
+        "foreground_fraction": 0.6630806010928961,
+        "border_coverage": 0.38529411764705884,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.9937683823529412
+      },
+      {
+        "predicted_iou": 0.828125,
+        "foreground_fraction": 0.49760928961748635,
+        "border_coverage": 0.0,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 1.028125
+      }
+    ],
+    "predicted_iou": 0.828125,
+    "foreground_fraction": 0.49760928961748635,
+    "border_coverage": 0.0,
+    "positive_hit": 1.0,
+    "negative_hit": 0.0,
+    "extreme_penalty": 0.0,
+    "geometry_rank": 1.028125
+  },
+  {
+    "image": "train/Thermal/1105_c7_m3_f000943.jpg",
+    "size": [
+      18,
+      24
+    ],
+    "variant": "R03_vertical__geometry",
+    "selected_candidate": 2,
+    "candidates": [
+      {
+        "predicted_iou": 0.01068115234375,
+        "foreground_fraction": 0.06944444444444445,
+        "border_coverage": 0.0,
+        "positive_hit": 0.6666666666666666,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.14401448567708333
+      },
+      {
+        "predicted_iou": 0.0771484375,
+        "foreground_fraction": 0.9606481481481481,
+        "border_coverage": 0.8214285714285714,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.7376543209876545,
+        "geometry_rank": -0.06736214451058206
+      },
+      {
+        "predicted_iou": 0.03955078125,
+        "foreground_fraction": 0.2800925925925926,
+        "border_coverage": 0.03571428571428571,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.23419363839285715
+      }
+    ],
+    "predicted_iou": 0.03955078125,
+    "foreground_fraction": 0.2800925925925926,
+    "border_coverage": 0.03571428571428571,
+    "positive_hit": 1.0,
+    "negative_hit": 0.0,
+    "extreme_penalty": 0.0,
+    "geometry_rank": 0.23419363839285715
+  },
+  {
+    "image": "train/Thermal/3864_c3_m3_f003645.jpg",
+    "size": [
+      34,
+      81
+    ],
+    "variant": "R03_vertical__geometry",
+    "selected_candidate": 2,
+    "candidates": [
+      {
+        "predicted_iou": 0.119140625,
+        "foreground_fraction": 0.08859840232389252,
+        "border_coverage": 0.0,
+        "positive_hit": 0.6666666666666666,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.2524739583333333
+      },
+      {
+        "predicted_iou": 0.40625,
+        "foreground_fraction": 0.8972403776325345,
+        "border_coverage": 0.7652173913043478,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.3149358508835635,
+        "geometry_rank": 0.39698663603927875
+      },
+      {
+        "predicted_iou": 0.33984375,
+        "foreground_fraction": 0.38925199709513436,
+        "border_coverage": 0.19130434782608696,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.511148097826087
+      }
+    ],
+    "predicted_iou": 0.33984375,
+    "foreground_fraction": 0.38925199709513436,
+    "border_coverage": 0.19130434782608696,
+    "positive_hit": 1.0,
+    "negative_hit": 0.0,
+    "extreme_penalty": 0.0,
+    "geometry_rank": 0.511148097826087
+  },
+  {
+    "image": "train/Thermal/0234_c6_m3_f004223.jpg",
+    "size": [
+      23,
+      44
+    ],
+    "variant": "R04_compact__geometry",
+    "selected_candidate": 2,
+    "candidates": [
+      {
+        "predicted_iou": 0.166015625,
+        "foreground_fraction": 0.06027667984189723,
+        "border_coverage": 0.0,
+        "positive_hit": 0.6666666666666666,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.2993489583333333
+      },
+      {
+        "predicted_iou": 0.46875,
+        "foreground_fraction": 0.6936758893280632,
+        "border_coverage": 0.3880597014925373,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.6105410447761194
+      },
+      {
+        "predicted_iou": 0.427734375,
+        "foreground_fraction": 0.18774703557312253,
+        "border_coverage": 0.0,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.627734375
+      }
+    ],
+    "predicted_iou": 0.427734375,
+    "foreground_fraction": 0.18774703557312253,
+    "border_coverage": 0.0,
+    "positive_hit": 1.0,
+    "negative_hit": 0.0,
+    "extreme_penalty": 0.0,
+    "geometry_rank": 0.627734375
+  },
+  {
+    "image": "train/Thermal/0513_c2_m3_f011219.jpg",
+    "size": [
+      36,
+      122
+    ],
+    "variant": "R04_compact__geometry",
+    "selected_candidate": 2,
+    "candidates": [
+      {
+        "predicted_iou": 0.07373046875,
+        "foreground_fraction": 0.014571948998178506,
+        "border_coverage": 0.0,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.5142683667273831,
+        "geometry_rank": 0.1194499587317851
+      },
+      {
+        "predicted_iou": 0.2158203125,
+        "foreground_fraction": 0.7420309653916212,
+        "border_coverage": 0.41455696202531644,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.35363676819620254
+      },
+      {
+        "predicted_iou": 0.189453125,
+        "foreground_fraction": 0.28324225865209474,
+        "border_coverage": 0.08544303797468354,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.37663666930379747
+      }
+    ],
+    "predicted_iou": 0.189453125,
+    "foreground_fraction": 0.28324225865209474,
+    "border_coverage": 0.08544303797468354,
+    "positive_hit": 1.0,
+    "negative_hit": 0.0,
+    "extreme_penalty": 0.0,
+    "geometry_rank": 0.37663666930379747
+  },
+  {
+    "image": "train/Thermal/1091_c4_m3_f000813.jpg",
+    "size": [
+      48,
+      122
+    ],
+    "variant": "R04_compact__geometry",
+    "selected_candidate": 2,
+    "candidates": [
+      {
+        "predicted_iou": 0.3359375,
+        "foreground_fraction": 0.14702868852459017,
+        "border_coverage": 0.0,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.5359375
+      },
+      {
+        "predicted_iou": 0.84765625,
+        "foreground_fraction": 0.6646174863387978,
+        "border_coverage": 0.38235294117647056,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.9903033088235293
+      },
+      {
+        "predicted_iou": 0.82421875,
+        "foreground_fraction": 0.48924180327868855,
+        "border_coverage": 0.0,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 1.02421875
+      }
+    ],
+    "predicted_iou": 0.82421875,
+    "foreground_fraction": 0.48924180327868855,
+    "border_coverage": 0.0,
+    "positive_hit": 1.0,
+    "negative_hit": 0.0,
+    "extreme_penalty": 0.0,
+    "geometry_rank": 1.02421875
+  },
+  {
+    "image": "train/Thermal/2400_c3_m3_f007466.jpg",
+    "size": [
+      28,
+      87
+    ],
+    "variant": "R04_compact__geometry",
+    "selected_candidate": 2,
+    "candidates": [
+      {
+        "predicted_iou": 0.3125,
+        "foreground_fraction": 0.011494252873563218,
+        "border_coverage": 0.0,
+        "positive_hit": 0.6666666666666666,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.6168582375478927,
+        "geometry_rank": 0.2607758620689655
+      },
+      {
+        "predicted_iou": 0.111328125,
+        "foreground_fraction": 0.3550903119868637,
+        "border_coverage": 0.034782608695652174,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.30611073369565217
+      },
+      {
+        "predicted_iou": 0.26953125,
+        "foreground_fraction": 0.08784893267651889,
+        "border_coverage": 0.0,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.46953125
+      }
+    ],
+    "predicted_iou": 0.26953125,
+    "foreground_fraction": 0.08784893267651889,
+    "border_coverage": 0.0,
+    "positive_hit": 1.0,
+    "negative_hit": 0.0,
+    "extreme_penalty": 0.0,
+    "geometry_rank": 0.46953125
+  },
+  {
+    "image": "train/Thermal/3303_c3_m3_f002032.jpg",
+    "size": [
+      35,
+      78
+    ],
+    "variant": "R04_compact__geometry",
+    "selected_candidate": 2,
+    "candidates": [
+      {
+        "predicted_iou": 0.126953125,
+        "foreground_fraction": 0.02600732600732601,
+        "border_coverage": 0.0,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.133089133089133,
+        "geometry_rank": 0.2870263850732601
+      },
+      {
+        "predicted_iou": 0.546875,
+        "foreground_fraction": 0.6472527472527473,
+        "border_coverage": 0.2743362831858407,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.7057245575221238
+      },
+      {
+        "predicted_iou": 0.53125,
+        "foreground_fraction": 0.2934065934065934,
+        "border_coverage": 0.0,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.73125
+      }
+    ],
+    "predicted_iou": 0.53125,
+    "foreground_fraction": 0.2934065934065934,
+    "border_coverage": 0.0,
+    "positive_hit": 1.0,
+    "negative_hit": 0.0,
+    "extreme_penalty": 0.0,
+    "geometry_rank": 0.73125
+  },
+  {
+    "image": "train/Thermal/0277_c6_m3_f004876.jpg",
+    "size": [
+      19,
+      38
+    ],
+    "variant": "R05_center_neg__geometry",
+    "selected_candidate": 2,
+    "candidates": [
+      {
+        "predicted_iou": 0.392578125,
+        "foreground_fraction": 0.0110803324099723,
+        "border_coverage": 0.0,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.6306555863342568,
+        "geometry_rank": 0.40338144909972296
+      },
+      {
+        "predicted_iou": 0.016357421875,
+        "foreground_fraction": 0.009695290858725761,
+        "border_coverage": 0.0,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.6768236380424747,
+        "geometry_rank": 0.013310330462257602
+      },
+      {
+        "predicted_iou": 0.2890625,
+        "foreground_fraction": 0.3171745152354571,
+        "border_coverage": 0.0,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.4890625
+      }
+    ],
+    "predicted_iou": 0.2890625,
+    "foreground_fraction": 0.3171745152354571,
+    "border_coverage": 0.0,
+    "positive_hit": 1.0,
+    "negative_hit": 0.0,
+    "extreme_penalty": 0.0,
+    "geometry_rank": 0.4890625
+  },
+  {
+    "image": "train/Thermal/0482_c6_m3_f004021.jpg",
+    "size": [
+      24,
+      36
+    ],
+    "variant": "R05_center_neg__geometry",
+    "selected_candidate": 2,
+    "candidates": [
+      {
+        "predicted_iou": 0.341796875,
+        "foreground_fraction": 0.004629629629629629,
+        "border_coverage": 0.0,
+        "positive_hit": 0.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.845679012345679,
+        "geometry_rank": 0.08809317129629629
+      },
+      {
+        "predicted_iou": 0.0216064453125,
+        "foreground_fraction": 0.006944444444444444,
+        "border_coverage": 0.0,
+        "positive_hit": 0.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.7685185185185185,
+        "geometry_rank": -0.20894911024305554
+      },
+      {
+        "predicted_iou": 0.296875,
+        "foreground_fraction": 0.034722222222222224,
+        "border_coverage": 0.0,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.496875
+      }
+    ],
+    "predicted_iou": 0.296875,
+    "foreground_fraction": 0.034722222222222224,
+    "border_coverage": 0.0,
+    "positive_hit": 1.0,
+    "negative_hit": 0.0,
+    "extreme_penalty": 0.0,
+    "geometry_rank": 0.496875
+  },
+  {
+    "image": "train/Thermal/0511_c6_m3_f004563.jpg",
+    "size": [
+      22,
+      44
+    ],
+    "variant": "R05_center_neg__geometry",
+    "selected_candidate": 2,
+    "candidates": [
+      {
+        "predicted_iou": 0.34375,
+        "foreground_fraction": 0.025826446280991736,
+        "border_coverage": 0.0,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.13911845730027542,
+        "geometry_rank": 0.5020144628099174
+      },
+      {
+        "predicted_iou": 0.0233154296875,
+        "foreground_fraction": 0.01859504132231405,
+        "border_coverage": 0.0,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.3801652892561983,
+        "geometry_rank": 0.10926584291064052
+      },
+      {
+        "predicted_iou": 0.326171875,
+        "foreground_fraction": 0.18801652892561985,
+        "border_coverage": 0.0,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.526171875
+      }
+    ],
+    "predicted_iou": 0.326171875,
+    "foreground_fraction": 0.18801652892561985,
+    "border_coverage": 0.0,
+    "positive_hit": 1.0,
+    "negative_hit": 0.0,
+    "extreme_penalty": 0.0,
+    "geometry_rank": 0.526171875
+  },
+  {
+    "image": "train/Thermal/1289_c7_m3_f000256.jpg",
+    "size": [
+      16,
+      20
+    ],
+    "variant": "R05_center_neg__geometry",
+    "selected_candidate": 2,
+    "candidates": [
+      {
+        "predicted_iou": 0.0771484375,
+        "foreground_fraction": 0.00625,
+        "border_coverage": 0.0,
+        "positive_hit": 0.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.7916666666666667,
+        "geometry_rank": -0.16035156250000002
+      },
+      {
+        "predicted_iou": 0.0002460479736328125,
+        "foreground_fraction": 0.0,
+        "border_coverage": 0.0,
+        "positive_hit": 0.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 1.0,
+        "geometry_rank": -0.2997539520263672
+      },
+      {
+        "predicted_iou": 0.033203125,
+        "foreground_fraction": 0.328125,
+        "border_coverage": 0.0,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.233203125
+      }
+    ],
+    "predicted_iou": 0.033203125,
+    "foreground_fraction": 0.328125,
+    "border_coverage": 0.0,
+    "positive_hit": 1.0,
+    "negative_hit": 0.0,
+    "extreme_penalty": 0.0,
+    "geometry_rank": 0.233203125
+  },
+  {
+    "image": "train/RGB/1105_c4_m1_f000639.jpg",
+    "size": [
+      43,
+      143
+    ],
+    "variant": "R06_vertical_neg__geometry",
+    "selected_candidate": 0,
+    "candidates": [
+      {
+        "predicted_iou": 0.1640625,
+        "foreground_fraction": 0.03951862091396975,
+        "border_coverage": 0.0,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.3640625
+      },
+      {
+        "predicted_iou": 0.1279296875,
+        "foreground_fraction": 0.6064400715563506,
+        "border_coverage": 0.43548387096774194,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.26260710685483873
+      },
+      {
+        "predicted_iou": 0.1923828125,
+        "foreground_fraction": 0.44429988616035127,
+        "border_coverage": 0.27419354838709675,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.3512537802419355
+      }
+    ],
+    "predicted_iou": 0.1640625,
+    "foreground_fraction": 0.03951862091396975,
+    "border_coverage": 0.0,
+    "positive_hit": 1.0,
+    "negative_hit": 0.0,
+    "extreme_penalty": 0.0,
+    "geometry_rank": 0.3640625
+  },
+  {
+    "image": "train/Thermal/0482_c6_m3_f004021.jpg",
+    "size": [
+      24,
+      36
+    ],
+    "variant": "R09_compact_box__geometry",
+    "selected_candidate": 2,
+    "candidates": [
+      {
+        "predicted_iou": 0.5546875,
+        "foreground_fraction": 0.07407407407407407,
+        "border_coverage": 0.0,
+        "positive_hit": 0.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.5546875
+      },
+      {
+        "predicted_iou": 0.140625,
+        "foreground_fraction": 0.29050925925925924,
+        "border_coverage": 0.0,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.340625
+      },
+      {
+        "predicted_iou": 0.54296875,
+        "foreground_fraction": 0.1886574074074074,
+        "border_coverage": 0.0,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.74296875
+      }
+    ],
+    "predicted_iou": 0.54296875,
+    "foreground_fraction": 0.1886574074074074,
+    "border_coverage": 0.0,
+    "positive_hit": 1.0,
+    "negative_hit": 0.0,
+    "extreme_penalty": 0.0,
+    "geometry_rank": 0.74296875
+  },
+  {
+    "image": "train/IR/2040_c3_m2_f000033.jpg",
+    "size": [
+      172,
+      316
+    ],
+    "variant": "R12_padding_center__geometry",
+    "selected_candidate": 2,
+    "candidates": [
+      {
+        "predicted_iou": 0.353515625,
+        "foreground_fraction": 0.024893288195466587,
+        "border_coverage": 0.0,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.17022372681778042,
+        "geometry_rank": 0.5024485069546658
+      },
+      {
+        "predicted_iou": 0.1796875,
+        "foreground_fraction": 0.25999043273476596,
+        "border_coverage": 0.0,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.3796875
+      },
+      {
+        "predicted_iou": 0.345703125,
+        "foreground_fraction": 0.0508536944362673,
+        "border_coverage": 0.0,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.545703125
+      }
+    ],
+    "predicted_iou": 0.345703125,
+    "foreground_fraction": 0.0508536944362673,
+    "border_coverage": 0.0,
+    "positive_hit": 1.0,
+    "negative_hit": 0.0,
+    "extreme_penalty": 0.0,
+    "geometry_rank": 0.545703125
+  },
+  {
+    "image": "train/RGB/0508_c6_m1_f004541.jpg",
+    "size": [
+      41,
+      65
+    ],
+    "variant": "R12_padding_center__geometry",
+    "selected_candidate": 2,
+    "candidates": [
+      {
+        "predicted_iou": 0.337890625,
+        "foreground_fraction": 0.05103189493433396,
+        "border_coverage": 0.0,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.537890625
+      },
+      {
+        "predicted_iou": 0.859375,
+        "foreground_fraction": 0.3943714821763602,
+        "border_coverage": 0.09433962264150944,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 1.0452240566037736
+      },
+      {
+        "predicted_iou": 0.859375,
+        "foreground_fraction": 0.3125703564727955,
+        "border_coverage": 0.0330188679245283,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 1.0544221698113208
+      }
+    ],
+    "predicted_iou": 0.859375,
+    "foreground_fraction": 0.3125703564727955,
+    "border_coverage": 0.0330188679245283,
+    "positive_hit": 1.0,
+    "negative_hit": 0.0,
+    "extreme_penalty": 0.0,
+    "geometry_rank": 1.0544221698113208
+  },
+  {
+    "image": "train/Thermal/0234_c6_m3_f004223.jpg",
+    "size": [
+      23,
+      44
+    ],
+    "variant": "R12_padding_center__geometry",
+    "selected_candidate": 2,
+    "candidates": [
+      {
+        "predicted_iou": 0.1025390625,
+        "foreground_fraction": 0.10770750988142293,
+        "border_coverage": 0.0,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.3025390625
+      },
+      {
+        "predicted_iou": 0.73828125,
+        "foreground_fraction": 0.9970355731225297,
+        "border_coverage": 0.9626865671641791,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.980237154150198,
+        "geometry_rank": 0.4998071186803137
+      },
+      {
+        "predicted_iou": 0.6640625,
+        "foreground_fraction": 0.7371541501976284,
+        "border_coverage": 0.48507462686567165,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.7913013059701492
+      }
+    ],
+    "predicted_iou": 0.6640625,
+    "foreground_fraction": 0.7371541501976284,
+    "border_coverage": 0.48507462686567165,
+    "positive_hit": 1.0,
+    "negative_hit": 0.0,
+    "extreme_penalty": 0.0,
+    "geometry_rank": 0.7913013059701492
+  },
+  {
+    "image": "train/Thermal/0312_c6_m3_f000221.jpg",
+    "size": [
+      26,
+      38
+    ],
+    "variant": "R12_padding_center__geometry",
+    "selected_candidate": 2,
+    "candidates": [
+      {
+        "predicted_iou": 0.01202392578125,
+        "foreground_fraction": 0.005060728744939271,
+        "border_coverage": 0.0,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.8313090418353577,
+        "geometry_rank": -0.03736878676935729
+      },
+      {
+        "predicted_iou": 0.8203125,
+        "foreground_fraction": 0.9888663967611336,
+        "border_coverage": 0.9140625,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.9257759784075578,
+        "geometry_rank": 0.6054703314777327
+      },
+      {
+        "predicted_iou": 0.68359375,
+        "foreground_fraction": 0.5151821862348178,
+        "border_coverage": 0.125,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.8648437499999999
+      }
+    ],
+    "predicted_iou": 0.68359375,
+    "foreground_fraction": 0.5151821862348178,
+    "border_coverage": 0.125,
+    "positive_hit": 1.0,
+    "negative_hit": 0.0,
+    "extreme_penalty": 0.0,
+    "geometry_rank": 0.8648437499999999
+  },
+  {
+    "image": "train/Thermal/0313_c1_m3_f006684.jpg",
+    "size": [
+      50,
+      143
+    ],
+    "variant": "R12_padding_center__geometry",
+    "selected_candidate": 2,
+    "candidates": [
+      {
+        "predicted_iou": 0.0791015625,
+        "foreground_fraction": 0.07314685314685315,
+        "border_coverage": 0.0,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.2791015625
+      },
+      {
+        "predicted_iou": 0.9609375,
+        "foreground_fraction": 0.9973426573426574,
+        "border_coverage": 0.9481865284974094,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.9822843822843826,
+        "geometry_rank": 0.7240242060400737
+      },
+      {
+        "predicted_iou": 0.796875,
+        "foreground_fraction": 0.8813986013986014,
+        "border_coverage": 0.3082901554404145,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.20932400932400935,
+        "geometry_rank": 0.887834273886735
+      }
+    ],
+    "predicted_iou": 0.796875,
+    "foreground_fraction": 0.8813986013986014,
+    "border_coverage": 0.3082901554404145,
+    "positive_hit": 1.0,
+    "negative_hit": 0.0,
+    "extreme_penalty": 0.20932400932400935,
+    "geometry_rank": 0.887834273886735
+  },
+  {
+    "image": "train/Thermal/0513_c2_m3_f011219.jpg",
+    "size": [
+      36,
+      122
+    ],
+    "variant": "R12_padding_center__geometry",
+    "selected_candidate": 2,
+    "candidates": [
+      {
+        "predicted_iou": 0.1318359375,
+        "foreground_fraction": 0.2046903460837887,
+        "border_coverage": 0.0031645569620253164,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.3313612539556962
+      },
+      {
+        "predicted_iou": 0.83203125,
+        "foreground_fraction": 0.9724499089253188,
+        "border_coverage": 0.7626582278481012,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.8163327261687922,
+        "geometry_rank": 0.6727326979721472
+      },
+      {
+        "predicted_iou": 0.74609375,
+        "foreground_fraction": 0.6775956284153005,
+        "border_coverage": 0.370253164556962,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.8905557753164557
+      }
+    ],
+    "predicted_iou": 0.74609375,
+    "foreground_fraction": 0.6775956284153005,
+    "border_coverage": 0.370253164556962,
+    "positive_hit": 1.0,
+    "negative_hit": 0.0,
+    "extreme_penalty": 0.0,
+    "geometry_rank": 0.8905557753164557
+  },
+  {
+    "image": "train/Thermal/1289_c7_m3_f000256.jpg",
+    "size": [
+      16,
+      20
+    ],
+    "variant": "R12_padding_center__geometry",
+    "selected_candidate": 1,
+    "candidates": [
+      {
+        "predicted_iou": 0.0634765625,
+        "foreground_fraction": 0.009375,
+        "border_coverage": 0.0,
+        "positive_hit": 0.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.6874999999999999,
+        "geometry_rank": -0.14277343749999996
+      },
+      {
+        "predicted_iou": 0.048828125,
+        "foreground_fraction": 0.790625,
+        "border_coverage": 0.4305555555555556,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.18424479166666669
+      },
+      {
+        "predicted_iou": 0.08154296875,
+        "foreground_fraction": 0.321875,
+        "border_coverage": 0.0,
+        "positive_hit": 0.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.08154296875
+      }
+    ],
+    "predicted_iou": 0.048828125,
+    "foreground_fraction": 0.790625,
+    "border_coverage": 0.4305555555555556,
+    "positive_hit": 1.0,
+    "negative_hit": 0.0,
+    "extreme_penalty": 0.0,
+    "geometry_rank": 0.18424479166666669
+  },
+  {
+    "image": "train/Thermal/3200_c1_m3_f005251.jpg",
+    "size": [
+      65,
+      153
+    ],
+    "variant": "R12_padding_center__geometry",
+    "selected_candidate": 2,
+    "candidates": [
+      {
+        "predicted_iou": 0.0673828125,
+        "foreground_fraction": 0.03911513323278029,
+        "border_coverage": 0.0,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.2673828125
+      },
+      {
+        "predicted_iou": 0.515625,
+        "foreground_fraction": 0.9149321266968325,
+        "border_coverage": 0.518348623853211,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.4328808446455505,
+        "geometry_rank": 0.5080084530283532
+      },
+      {
+        "predicted_iou": 0.3359375,
+        "foreground_fraction": 0.38019105077928605,
+        "border_coverage": 0.020642201834862386,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.5328411697247706
+      }
+    ],
+    "predicted_iou": 0.3359375,
+    "foreground_fraction": 0.38019105077928605,
+    "border_coverage": 0.020642201834862386,
+    "positive_hit": 1.0,
+    "negative_hit": 0.0,
+    "extreme_penalty": 0.0,
+    "geometry_rank": 0.5328411697247706
+  },
+  {
+    "image": "train/Thermal/3303_c3_m3_f002032.jpg",
+    "size": [
+      35,
+      78
+    ],
+    "variant": "R12_padding_center__geometry",
+    "selected_candidate": 2,
+    "candidates": [
+      {
+        "predicted_iou": 0.228515625,
+        "foreground_fraction": 0.13846153846153847,
+        "border_coverage": 0.0,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.428515625
+      },
+      {
+        "predicted_iou": 0.73828125,
+        "foreground_fraction": 0.9978021978021978,
+        "border_coverage": 0.9646017699115044,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.9853479853479856,
+        "geometry_rank": 0.4979865889088786
+      },
+      {
+        "predicted_iou": 0.51171875,
+        "foreground_fraction": 0.5069597069597069,
+        "border_coverage": 0.10176991150442478,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.6964532632743362
+      }
+    ],
+    "predicted_iou": 0.51171875,
+    "foreground_fraction": 0.5069597069597069,
+    "border_coverage": 0.10176991150442478,
+    "positive_hit": 1.0,
+    "negative_hit": 0.0,
+    "extreme_penalty": 0.0,
+    "geometry_rank": 0.6964532632743362
+  },
+  {
+    "image": "train/Thermal/3307_c2_m3_f008020.jpg",
+    "size": [
+      62,
+      146
+    ],
+    "variant": "R12_padding_center__geometry",
+    "selected_candidate": 2,
+    "candidates": [
+      {
+        "predicted_iou": 0.036865234375,
+        "foreground_fraction": 0.020658418029164825,
+        "border_coverage": 0.0,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.31138606569450583,
+        "geometry_rank": 0.14344941466664826
+      },
+      {
+        "predicted_iou": 0.384765625,
+        "foreground_fraction": 0.9703932832523199,
+        "border_coverage": 0.6466346153846154,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.8026218883487994,
+        "geometry_rank": 0.24698386618766782
+      },
+      {
+        "predicted_iou": 0.275390625,
+        "foreground_fraction": 0.3716305788775961,
+        "border_coverage": 0.11057692307692307,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.45880408653846155
+      }
+    ],
+    "predicted_iou": 0.275390625,
+    "foreground_fraction": 0.3716305788775961,
+    "border_coverage": 0.11057692307692307,
+    "positive_hit": 1.0,
+    "negative_hit": 0.0,
+    "extreme_penalty": 0.0,
+    "geometry_rank": 0.45880408653846155
+  },
+  {
+    "image": "train/IR/0356_c6_m2_f001396.jpg",
+    "size": [
+      68,
+      102
+    ],
+    "variant": "R13_padding_box__geometry",
+    "selected_candidate": 2,
+    "candidates": [
+      {
+        "predicted_iou": 0.7109375,
+        "foreground_fraction": 0.35899653979238755,
+        "border_coverage": 0.011764705882352941,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.9091727941176471
+      },
+      {
+        "predicted_iou": 0.7890625,
+        "foreground_fraction": 0.7665801614763552,
+        "border_coverage": 0.3264705882352941,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.9400919117647059
+      },
+      {
+        "predicted_iou": 0.78125,
+        "foreground_fraction": 0.5480103806228374,
+        "border_coverage": 0.10882352941176471,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.9649264705882352
+      }
+    ],
+    "predicted_iou": 0.78125,
+    "foreground_fraction": 0.5480103806228374,
+    "border_coverage": 0.10882352941176471,
+    "positive_hit": 1.0,
+    "negative_hit": 0.0,
+    "extreme_penalty": 0.0,
+    "geometry_rank": 0.9649264705882352
+  },
+  {
+    "image": "train/RGB/1105_c4_m1_f000639.jpg",
+    "size": [
+      43,
+      143
+    ],
+    "variant": "R13_padding_box__geometry",
+    "selected_candidate": 0,
+    "candidates": [
+      {
+        "predicted_iou": 0.66796875,
+        "foreground_fraction": 0.14571475036591316,
+        "border_coverage": 0.06989247311827956,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.857484879032258
+      },
+      {
+        "predicted_iou": 0.447265625,
+        "foreground_fraction": 0.9068141161164417,
+        "border_coverage": 0.706989247311828,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.37876077410961145,
+        "geometry_rank": 0.4275890056703423
+      },
+      {
+        "predicted_iou": 0.69140625,
+        "foreground_fraction": 0.46983249308830705,
+        "border_coverage": 0.34946236559139787,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.8389868951612903
+      }
+    ],
+    "predicted_iou": 0.66796875,
+    "foreground_fraction": 0.14571475036591316,
+    "border_coverage": 0.06989247311827956,
+    "positive_hit": 1.0,
+    "negative_hit": 0.0,
+    "extreme_penalty": 0.0,
+    "geometry_rank": 0.857484879032258
+  },
+  {
+    "image": "train/Thermal/0313_c1_m3_f006684.jpg",
+    "size": [
+      50,
+      143
+    ],
+    "variant": "R13_padding_box__geometry",
+    "selected_candidate": 0,
+    "candidates": [
+      {
+        "predicted_iou": 0.828125,
+        "foreground_fraction": 0.8413986013986015,
+        "border_coverage": 0.0,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 1.028125
+      },
+      {
+        "predicted_iou": 0.953125,
+        "foreground_fraction": 0.9958041958041958,
+        "border_coverage": 0.917098445595855,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.972027972027972,
+        "geometry_rank": 0.7239518415522301
+      },
+      {
+        "predicted_iou": 0.96484375,
+        "foreground_fraction": 0.953006993006993,
+        "border_coverage": 0.5621761658031088,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.6867132867132868,
+        "geometry_rank": 0.8745033391155477
+      }
+    ],
+    "predicted_iou": 0.828125,
+    "foreground_fraction": 0.8413986013986015,
+    "border_coverage": 0.0,
+    "positive_hit": 1.0,
+    "negative_hit": 0.0,
+    "extreme_penalty": 0.0,
+    "geometry_rank": 1.028125
+  },
+  {
+    "image": "train/Thermal/0482_c6_m3_f004021.jpg",
+    "size": [
+      24,
+      36
+    ],
+    "variant": "R13_padding_box__geometry",
+    "selected_candidate": 0,
+    "candidates": [
+      {
+        "predicted_iou": 0.63671875,
+        "foreground_fraction": 0.26851851851851855,
+        "border_coverage": 0.03333333333333333,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.83171875
+      },
+      {
+        "predicted_iou": 0.69140625,
+        "foreground_fraction": 0.9745370370370371,
+        "border_coverage": 0.8,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.8302469135802475,
+        "geometry_rank": 0.5223321759259257
+      },
+      {
+        "predicted_iou": 0.61328125,
+        "foreground_fraction": 0.5428240740740741,
+        "border_coverage": 0.2916666666666667,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.76953125
+      }
+    ],
+    "predicted_iou": 0.63671875,
+    "foreground_fraction": 0.26851851851851855,
+    "border_coverage": 0.03333333333333333,
+    "positive_hit": 1.0,
+    "negative_hit": 0.0,
+    "extreme_penalty": 0.0,
+    "geometry_rank": 0.83171875
+  },
+  {
+    "image": "train/Thermal/3303_c3_m3_f002032.jpg",
+    "size": [
+      35,
+      78
+    ],
+    "variant": "R13_padding_box__geometry",
+    "selected_candidate": 2,
+    "candidates": [
+      {
+        "predicted_iou": 0.7578125,
+        "foreground_fraction": 0.5036630036630036,
+        "border_coverage": 0.16371681415929204,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.9332549778761061
+      },
+      {
+        "predicted_iou": 0.8671875,
+        "foreground_fraction": 0.9963369963369964,
+        "border_coverage": 0.9380530973451328,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.9755799755799759,
+        "geometry_rank": 0.6338055427242373
+      },
+      {
+        "predicted_iou": 0.86328125,
+        "foreground_fraction": 0.8575091575091575,
+        "border_coverage": 0.6371681415929203,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.05006105006104988,
+        "geometry_rank": 0.952687713742747
+      }
+    ],
+    "predicted_iou": 0.86328125,
+    "foreground_fraction": 0.8575091575091575,
+    "border_coverage": 0.6371681415929203,
+    "positive_hit": 1.0,
+    "negative_hit": 0.0,
+    "extreme_penalty": 0.05006105006104988,
+    "geometry_rank": 0.952687713742747
+  },
+  {
+    "image": "train/Thermal/3864_c3_m3_f003645.jpg",
+    "size": [
+      34,
+      81
+    ],
+    "variant": "R13_padding_box__geometry",
+    "selected_candidate": 2,
+    "candidates": [
+      {
+        "predicted_iou": 0.546875,
+        "foreground_fraction": 0.4549745824255628,
+        "border_coverage": 0.12608695652173912,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.0,
+        "geometry_rank": 0.7279619565217391
+      },
+      {
+        "predicted_iou": 0.96875,
+        "foreground_fraction": 0.971677559912854,
+        "border_coverage": 0.8260869565217391,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.8111837327523601,
+        "geometry_rank": 0.801481836696031
+      },
+      {
+        "predicted_iou": 0.9609375,
+        "foreground_fraction": 0.9517066085693536,
+        "border_coverage": 0.6521739130434783,
+        "positive_hit": 1.0,
+        "negative_hit": 0.0,
+        "extreme_penalty": 0.6780440571290244,
+        "geometry_rank": 0.8596981959047709
+      }
+    ],
+    "predicted_iou": 0.9609375,
+    "foreground_fraction": 0.9517066085693536,
+    "border_coverage": 0.6521739130434783,
+    "positive_hit": 1.0,
+    "negative_hit": 0.0,
+    "extreme_penalty": 0.6780440571290244,
+    "geometry_rank": 0.8596981959047709
+  }
+]

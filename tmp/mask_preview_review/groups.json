@@ -1,0 +1,662 @@
+{
+  "IR_G": [
+    {
+      "image": "train/IR/0006_c2_m2_f000134.jpg",
+      "size": [
+        391,
+        738
+      ],
+      "predicted_iou": 0.828125,
+      "foreground_fraction": 0.6367835928998676
+    },
+    {
+      "image": "train/IR/0206_c2_m2_f003573.jpg",
+      "size": [
+        97,
+        187
+      ],
+      "predicted_iou": 0.90234375,
+      "foreground_fraction": 0.3784111582777441
+    },
+    {
+      "image": "train/IR/0476_c2_m2_f009629.jpg",
+      "size": [
+        49,
+        72
+      ],
+      "predicted_iou": 0.91015625,
+      "foreground_fraction": 0.9730725623582767
+    },
+    {
+      "image": "train/IR/0544_c1_m2_f011757.jpg",
+      "size": [
+        162,
+        355
+      ],
+      "predicted_iou": 0.7890625,
+      "foreground_fraction": 0.42276125891149363
+    },
+    {
+      "image": "train/IR/1024_c4_m2_f001024.jpg",
+      "size": [
+        56,
+        103
+      ],
+      "predicted_iou": 0.80859375,
+      "foreground_fraction": 0.4512829403606103
+    },
+    {
+      "image": "train/IR/1415_c5_m2_f003657.jpg",
+      "size": [
+        136,
+        324
+      ],
+      "predicted_iou": 0.9375,
+      "foreground_fraction": 0.49015068990559185
+    },
+    {
+      "image": "train/IR/2010_c2_m2_f000419.jpg",
+      "size": [
+        147,
+        423
+      ],
+      "predicted_iou": 0.62890625,
+      "foreground_fraction": 0.22949132371624772
+    },
+    {
+      "image": "train/IR/2040_c3_m2_f000033.jpg",
+      "size": [
+        172,
+        316
+      ],
+      "predicted_iou": 0.51953125,
+      "foreground_fraction": 0.14404253753311747
+    },
+    {
+      "image": "train/IR/2398_c1_m2_f005799.jpg",
+      "size": [
+        268,
+        708
+      ],
+      "predicted_iou": 0.76953125,
+      "foreground_fraction": 0.5029302639345644
+    },
+    {
+      "image": "train/IR/2430_c3_m2_f006209.jpg",
+      "size": [
+        84,
+        298
+      ],
+      "predicted_iou": 0.9140625,
+      "foreground_fraction": 0.9160674336848833
+    },
+    {
+      "image": "train/IR/2616_c2_m2_f003601.jpg",
+      "size": [
+        58,
+        140
+      ],
+      "predicted_iou": 0.90625,
+      "foreground_fraction": 0.6795566502463054
+    },
+    {
+      "image": "train/IR/3859_c2_m2_f009569.jpg",
+      "size": [
+        50,
+        127
+      ],
+      "predicted_iou": 0.81640625,
+      "foreground_fraction": 0.7305511811023622
+    }
+  ],
+  "IR_A": [
+    {
+      "image": "train/IR/0065_c6_m2_f000879.jpg",
+      "size": [
+        80,
+        128
+      ],
+      "predicted_iou": 0.8984375,
+      "foreground_fraction": 0.551953125
+    },
+    {
+      "image": "train/IR/0136_c6_m2_f002374.jpg",
+      "size": [
+        74,
+        114
+      ],
+      "predicted_iou": 0.83984375,
+      "foreground_fraction": 0.6729492650545282
+    },
+    {
+      "image": "train/IR/0159_c6_m2_f002703.jpg",
+      "size": [
+        66,
+        108
+      ],
+      "predicted_iou": 0.86328125,
+      "foreground_fraction": 0.5499438832772167
+    },
+    {
+      "image": "train/IR/0356_c6_m2_f001396.jpg",
+      "size": [
+        68,
+        102
+      ],
+      "predicted_iou": 0.89453125,
+      "foreground_fraction": 0.7148212226066898
+    },
+    {
+      "image": "train/IR/0437_c6_m2_f002951.jpg",
+      "size": [
+        68,
+        104
+      ],
+      "predicted_iou": 0.95703125,
+      "foreground_fraction": 0.9615384615384616
+    },
+    {
+      "image": "train/IR/0467_c6_m2_f003508.jpg",
+      "size": [
+        84,
+        104
+      ],
+      "predicted_iou": 0.79296875,
+      "foreground_fraction": 0.5779532967032966
+    },
+    {
+      "image": "train/IR/1223_c7_m2_f004101.jpg",
+      "size": [
+        68,
+        86
+      ],
+      "predicted_iou": 0.94140625,
+      "foreground_fraction": 0.6012311901504788
+    },
+    {
+      "image": "train/IR/1286_c7_m2_f000197.jpg",
+      "size": [
+        50,
+        46
+      ],
+      "predicted_iou": 0.8515625,
+      "foreground_fraction": 0.908695652173913
+    },
+    {
+      "image": "train/IR/1306_c7_m2_f000925.jpg",
+      "size": [
+        40,
+        50
+      ],
+      "predicted_iou": 0.9140625,
+      "foreground_fraction": 0.998
+    },
+    {
+      "image": "train/IR/1425_c7_m2_f003734.jpg",
+      "size": [
+        64,
+        66
+      ],
+      "predicted_iou": 0.9140625,
+      "foreground_fraction": 0.7374526515151515
+    },
+    {
+      "image": "train/IR/1458_c7_m2_f004600.jpg",
+      "size": [
+        66,
+        70
+      ],
+      "predicted_iou": 0.9453125,
+      "foreground_fraction": 0.9924242424242424
+    },
+    {
+      "image": "train/IR/1485_c7_m2_f004952.jpg",
+      "size": [
+        70,
+        68
+      ],
+      "predicted_iou": 0.98046875,
+      "foreground_fraction": 0.9752100840336134
+    }
+  ],
+  "RGB_A": [
+    {
+      "image": "train/RGB/0046_c6_m1_f000509.jpg",
+      "size": [
+        27,
+        50
+      ],
+      "predicted_iou": 0.83984375,
+      "foreground_fraction": 0.5355555555555556
+    },
+    {
+      "image": "train/RGB/0508_c6_m1_f004541.jpg",
+      "size": [
+        41,
+        65
+      ],
+      "predicted_iou": 0.859375,
+      "foreground_fraction": 0.9624765478424016
+    },
+    {
+      "image": "train/RGB/1071_c7_m1_f003178.jpg",
+      "size": [
+        38,
+        25
+      ],
+      "predicted_iou": 0.8125,
+      "foreground_fraction": 0.5189473684210526
+    },
+    {
+      "image": "train/RGB/1096_c7_m1_f000117.jpg",
+      "size": [
+        31,
+        40
+      ],
+      "predicted_iou": 0.84765625,
+      "foreground_fraction": 0.5209677419354839
+    },
+    {
+      "image": "train/RGB/1102_c7_m1_f000440.jpg",
+      "size": [
+        34,
+        35
+      ],
+      "predicted_iou": 0.703125,
+      "foreground_fraction": 0.5579831932773109
+    },
+    {
+      "image": "train/RGB/1120_c7_m1_f000989.jpg",
+      "size": [
+        32,
+        32
+      ],
+      "predicted_iou": 0.5546875,
+      "foreground_fraction": 0.2080078125
+    },
+    {
+      "image": "train/RGB/1160_c7_m1_f002553.jpg",
+      "size": [
+        31,
+        31
+      ],
+      "predicted_iou": 0.68359375,
+      "foreground_fraction": 0.5796045785639958
+    },
+    {
+      "image": "train/RGB/1162_c7_m1_f002512.jpg",
+      "size": [
+        30,
+        39
+      ],
+      "predicted_iou": 0.65234375,
+      "foreground_fraction": 0.6239316239316239
+    },
+    {
+      "image": "train/RGB/1295_c7_m1_f000547.jpg",
+      "size": [
+        19,
+        23
+      ],
+      "predicted_iou": 0.89453125,
+      "foreground_fraction": 0.6064073226544623
+    },
+    {
+      "image": "train/RGB/1295_c7_m1_f000555.jpg",
+      "size": [
+        21,
+        21
+      ],
+      "predicted_iou": 0.859375,
+      "foreground_fraction": 0.6439909297052154
+    },
+    {
+      "image": "train/RGB/1355_c7_m1_f002250.jpg",
+      "size": [
+        23,
+        21
+      ],
+      "predicted_iou": 0.1982421875,
+      "foreground_fraction": 0.7287784679089027
+    },
+    {
+      "image": "train/RGB/1443_c7_m1_f004161.jpg",
+      "size": [
+        24,
+        29
+      ],
+      "predicted_iou": 0.546875,
+      "foreground_fraction": 0.6623563218390804
+    }
+  ],
+  "RGB_G": [
+    {
+      "image": "train/RGB/0374_c1_m1_f008259.jpg",
+      "size": [
+        55,
+        119
+      ],
+      "predicted_iou": 0.86328125,
+      "foreground_fraction": 0.5181054239877769
+    },
+    {
+      "image": "train/RGB/0420_c1_m1_f008898.jpg",
+      "size": [
+        74,
+        205
+      ],
+      "predicted_iou": 0.6328125,
+      "foreground_fraction": 0.3706657877389585
+    },
+    {
+      "image": "train/RGB/0476_c2_m1_f009593.jpg",
+      "size": [
+        42,
+        77
+      ],
+      "predicted_iou": 0.8046875,
+      "foreground_fraction": 0.5222634508348795
+    },
+    {
+      "image": "train/RGB/0516_c2_m1_f011219.jpg",
+      "size": [
+        66,
+        187
+      ],
+      "predicted_iou": 0.8359375,
+      "foreground_fraction": 0.5916383082158483
+    },
+    {
+      "image": "train/RGB/1105_c4_m1_f000639.jpg",
+      "size": [
+        43,
+        143
+      ],
+      "predicted_iou": 0.81640625,
+      "foreground_fraction": 0.5324442998861604
+    },
+    {
+      "image": "train/RGB/1210_c4_m1_f004086.jpg",
+      "size": [
+        76,
+        179
+      ],
+      "predicted_iou": 0.83203125,
+      "foreground_fraction": 0.40657159658923847
+    },
+    {
+      "image": "train/RGB/1331_c5_m1_f001559.jpg",
+      "size": [
+        61,
+        144
+      ],
+      "predicted_iou": 0.7890625,
+      "foreground_fraction": 0.629667577413479
+    },
+    {
+      "image": "train/RGB/2400_c1_m1_f005837.jpg",
+      "size": [
+        456,
+        877
+      ],
+      "predicted_iou": 0.67578125,
+      "foreground_fraction": 0.61401508331833
+    },
+    {
+      "image": "train/RGB/3740_c2_m1_f005720.jpg",
+      "size": [
+        264,
+        689
+      ],
+      "predicted_iou": 0.91015625,
+      "foreground_fraction": 0.4417744205480055
+    },
+    {
+      "image": "train/RGB/3859_c2_m1_f009541.jpg",
+      "size": [
+        69,
+        168
+      ],
+      "predicted_iou": 0.8828125,
+      "foreground_fraction": 0.4061421670117322
+    },
+    {
+      "image": "train/RGB/3860_c1_m1_f009641.jpg",
+      "size": [
+        247,
+        625
+      ],
+      "predicted_iou": 0.92578125,
+      "foreground_fraction": 0.6540437246963563
+    },
+    {
+      "image": "train/RGB/3869_c3_m1_f003703.jpg",
+      "size": [
+        49,
+        109
+      ],
+      "predicted_iou": 0.70703125,
+      "foreground_fraction": 0.5899644261374275
+    }
+  ],
+  "Thermal_G": [
+    {
+      "image": "train/Thermal/0021_c1_m3_f000045.jpg",
+      "size": [
+        46,
+        112
+      ],
+      "predicted_iou": 0.8984375,
+      "foreground_fraction": 0.5093167701863354
+    },
+    {
+      "image": "train/Thermal/0313_c1_m3_f006684.jpg",
+      "size": [
+        50,
+        143
+      ],
+      "predicted_iou": 0.98046875,
+      "foreground_fraction": 0.9991608391608392
+    },
+    {
+      "image": "train/Thermal/0513_c2_m3_f011219.jpg",
+      "size": [
+        36,
+        122
+      ],
+      "predicted_iou": 0.96484375,
+      "foreground_fraction": 0.994535519125683
+    },
+    {
+      "image": "train/Thermal/1091_c4_m3_f000813.jpg",
+      "size": [
+        48,
+        122
+      ],
+      "predicted_iou": 0.87890625,
+      "foreground_fraction": 0.7549521857923497
+    },
+    {
+      "image": "train/Thermal/1306_c5_m3_f000794.jpg",
+      "size": [
+        33,
+        88
+      ],
+      "predicted_iou": 0.875,
+      "foreground_fraction": 0.7472451790633609
+    },
+    {
+      "image": "train/Thermal/2288_c2_m3_f007346.jpg",
+      "size": [
+        60,
+        118
+      ],
+      "predicted_iou": 0.8203125,
+      "foreground_fraction": 0.6194915254237288
+    },
+    {
+      "image": "train/Thermal/2400_c3_m3_f007466.jpg",
+      "size": [
+        28,
+        87
+      ],
+      "predicted_iou": 0.82421875,
+      "foreground_fraction": 0.7282430213464697
+    },
+    {
+      "image": "train/Thermal/3200_c1_m3_f005251.jpg",
+      "size": [
+        65,
+        153
+      ],
+      "predicted_iou": 0.98828125,
+      "foreground_fraction": 0.9990950226244344
+    },
+    {
+      "image": "train/Thermal/3275_c3_m3_f000897.jpg",
+      "size": [
+        34,
+        72
+      ],
+      "predicted_iou": 0.87890625,
+      "foreground_fraction": 0.7459150326797386
+    },
+    {
+      "image": "train/Thermal/3303_c3_m3_f002032.jpg",
+      "size": [
+        35,
+        78
+      ],
+      "predicted_iou": 0.90234375,
+      "foreground_fraction": 0.9952380952380953
+    },
+    {
+      "image": "train/Thermal/3307_c2_m3_f008020.jpg",
+      "size": [
+        62,
+        146
+      ],
+      "predicted_iou": 0.9609375,
+      "foreground_fraction": 0.9997790543526293
+    },
+    {
+      "image": "train/Thermal/3864_c3_m3_f003645.jpg",
+      "size": [
+        34,
+        81
+      ],
+      "predicted_iou": 0.83984375,
+      "foreground_fraction": 0.7734204793028322
+    }
+  ],
+  "Thermal_A": [
+    {
+      "image": "train/Thermal/0234_c6_m3_f004223.jpg",
+      "size": [
+        23,
+        44
+      ],
+      "predicted_iou": 0.9453125,
+      "foreground_fraction": 0.7025691699604744
+    },
+    {
+      "image": "train/Thermal/0277_c6_m3_f004876.jpg",
+      "size": [
+        19,
+        38
+      ],
+      "predicted_iou": 0.90234375,
+      "foreground_fraction": 0.5734072022160664
+    },
+    {
+      "image": "train/Thermal/0312_c6_m3_f000221.jpg",
+      "size": [
+        26,
+        38
+      ],
+      "predicted_iou": 0.90625,
+      "foreground_fraction": 0.4949392712550607
+    },
+    {
+      "image": "train/Thermal/0460_c6_m3_f003399.jpg",
+      "size": [
+        29,
+        40
+      ],
+      "predicted_iou": 0.8515625,
+      "foreground_fraction": 0.6146551724137931
+    },
+    {
+      "image": "train/Thermal/0482_c6_m3_f004021.jpg",
+      "size": [
+        24,
+        36
+      ],
+      "predicted_iou": 0.67578125,
+      "foreground_fraction": 0.1550925925925926
+    },
+    {
+      "image": "train/Thermal/0511_c6_m3_f004563.jpg",
+      "size": [
+        22,
+        44
+      ],
+      "predicted_iou": 0.8984375,
+      "foreground_fraction": 0.7520661157024794
+    },
+    {
+      "image": "train/Thermal/1105_c7_m3_f000943.jpg",
+      "size": [
+        18,
+        24
+      ],
+      "predicted_iou": 0.91796875,
+      "foreground_fraction": 0.5925925925925926
+    },
+    {
+      "image": "train/Thermal/1160_c7_m3_f002521.jpg",
+      "size": [
+        24,
+        22
+      ],
+      "predicted_iou": 0.75,
+      "foreground_fraction": 0.6647727272727273
+    },
+    {
+      "image": "train/Thermal/1163_c7_m3_f002638.jpg",
+      "size": [
+        23,
+        29
+      ],
+      "predicted_iou": 0.84765625,
+      "foreground_fraction": 0.3748125937031484
+    },
+    {
+      "image": "train/Thermal/1198_c7_m3_f003537.jpg",
+      "size": [
+        25,
+        24
+      ],
+      "predicted_iou": 0.84765625,
+      "foreground_fraction": 0.7333333333333333
+    },
+    {
+      "image": "train/Thermal/1227_c7_m3_f004346.jpg",
+      "size": [
+        28,
+        34
+      ],
+      "predicted_iou": 0.7734375,
+      "foreground_fraction": 0.3014705882352941
+    },
+    {
+      "image": "train/Thermal/1289_c7_m3_f000256.jpg",
+      "size": [
+        16,
+        20
+      ],
+      "predicted_iou": 0.6640625,
+      "foreground_fraction": 0.509375
+    }
+  ]
+}

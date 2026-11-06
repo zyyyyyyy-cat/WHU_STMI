@@ -1,0 +1,47 @@
+{
+  "date": "2026-11-03",
+  "unit_tests": {
+    "status": "passed",
+    "count": 9
+  },
+  "reference_comparison": "passed; original parameters, all blocks, CLS, neck, classifier, CE/WRT/ProCA/GPD and prototype update agree exactly in FP32",
+  "ddp": "passed; two CPU/Gloo ranks in existing DL environment with USE_LIBUV=0",
+  "syntax": "compileall passed; all 41 Python sources additionally parsed with Python 3.8 syntax rules",
+  "protected_source_files_unchanged": [
+    "train.py",
+    "test.py",
+    "datasets/whu_mars.py",
+    "datasets/sampler.py",
+    "datasets/sampler_ddp.py",
+    "solver/scheduler_factory.py",
+    "loss/wrt_loss.py",
+    "loss/make_loss.py",
+    "utils/metrics.py"
+  ],
+  "modified_original_files": 9,
+  "new_code_config_test_files": 10,
+  "deleted_source_files": 0,
+  "materials_sha256": {
+    "guide.md": "c0489ea58e64923ebb77f5897cf48344d33ca2057e96bf2bff0bae5402890789",
+    "WHU.pdf": "c2fe00f0a969bb490a9d3361de5824b6f5420ce458b614d329f23883262c0637",
+    "STMI.pdf": "c73e3143f93561e2df0d64c957b2c42238571040ae70b9737596e0d1f4efa2a6"
+  },
+  "not_validated": [
+    "real CUDA FP16 AMP",
+    "multi-GPU NCCL",
+    "actual ImageNet checkpoint file",
+    "actual WHU images and masks",
+    "peak GPU memory",
+    "120 epoch training",
+    "retrieval performance"
+  ],
+  "offline_sam2_helpers": {
+    "tests_passed": 2,
+    "real_sam2_inference": "not run locally; server preview required"
+  },
+  "sam2_rule_comparison": {
+    "helper_tests_passed": 2,
+    "rules": 15,
+    "real_sam2_inference": "not run locally; server comparison required"
+  }
+}
